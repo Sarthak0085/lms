@@ -19,6 +19,7 @@ import { Button } from '@repo/ui/components/ui/button';
 import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 import { IoEyeOffOutline, IoEyeOutline } from '@repo/ui/icon';
+import { cn } from '@repo/ui/lib/utils';
 
 interface LoginFormProps {
     setRoute: (route: string) => void;
@@ -63,9 +64,10 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
 
     return (
         <CardWrapper
-            headerLabel="Welcome Back to E-Learning"
+            headerLabel="Welcome Back"
             backButtonLabel="Don't have an account? signup"
             backButtonHref="register"
+            setRoute={setRoute}
             showSocial
         >
             <Form {...form}>
@@ -138,9 +140,8 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
                                         <Button
                                             size={"sm"}
                                             variant={"link"}
-                                            asChild
                                             className="px-0 font-normal !underline"
-                                            onClick={() => setRoute("reset")}
+                                            onClick={() => setRoute("forgot")}
                                         >
                                             forgot password?
                                         </Button>
@@ -151,7 +152,7 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
                     )}
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type="submit" variant={"primary"} disabled={isPending} className="!w-full ">
+                    <Button type="submit" variant={"primary"} disabled={isPending} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
                         {showTwoFactor ? "Confirm" : "Login"}
                     </Button>
                 </form>

@@ -5,11 +5,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { NavItems } from "@/components/nav-items";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "@repo/ui/icon";
-import LoginButton from "./auth/login-button";
-import { ThemeSwitcher } from "./theme-switcher";
+import { LoginModal } from "@/components/auth/login-modal";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@repo/ui/components/ui/button";
-// import image from "../../public/assets/image_urlgenerator_img1.png"
-
+import { RegisterModal } from "@/components/auth/register-modal";
+import { PasswordResetModal } from "@/components/auth/reset-modal";
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
@@ -133,27 +133,10 @@ export const Header = () => {
                     <>
                         {
                             open && (
-                                <LoginButton
+                                <LoginModal
                                     open={open}
                                     setOpen={setOpen}
                                     setRoute={setRoute}
-                                />
-                            )
-                        }
-                    </>
-                )
-            }
-            {/* {
-                route === "sign-up" && (
-                    <>
-                        {
-                            open && (
-                                <CustomModal
-                                    open={open}
-                                    setOpen={setOpen}
-                                    setRoute={setRoute}
-                                    activeItem={activeItem}
-                                    component={SignUp}
                                 />
                             )
                         }
@@ -161,22 +144,35 @@ export const Header = () => {
                 )
             }
             {
-                route === "Verification" && (
+                route === "register" && (
                     <>
                         {
                             open && (
-                                <CustomModal
+                                <RegisterModal
                                     open={open}
                                     setOpen={setOpen}
                                     setRoute={setRoute}
-                                    activeItem={activeItem}
-                                    component={Verification}
                                 />
                             )
                         }
                     </>
                 )
-            } */}
+            }
+            {
+                route === "forgot" && (
+                    <>
+                        {
+                            open && (
+                                <PasswordResetModal
+                                    open={open}
+                                    setOpen={setOpen}
+                                    setRoute={setRoute}
+                                />
+                            )
+                        }
+                    </>
+                )
+            }
         </div>
     );
 };

@@ -1,10 +1,15 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Header } from "@/components/auth/header";
 import { Social } from "@/components/auth/social";
 import { ChangeOption } from "@/components/auth/change-option";
-import { Card, CardContent, CardFooter, CardHeader } from "@repo/ui/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader
+} from "@repo/ui";
 
 interface CardWrapperProps {
     children: ReactNode;
@@ -12,6 +17,7 @@ interface CardWrapperProps {
     backButtonLabel: string;
     backButtonHref: string;
     showSocial?: boolean;
+    setRoute: (route: string) => void;
 }
 
 export const CardWrapper = ({
@@ -20,13 +26,16 @@ export const CardWrapper = ({
     backButtonLabel,
     backButtonHref,
     showSocial,
+    setRoute,
 }: CardWrapperProps) => {
     return (
         <Card className="w-[400px] !bg-transparent border-none">
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
-            <CardContent className="!bg-transparent">{children}</CardContent>
+            <CardContent className="!bg-transparent">
+                {children}
+            </CardContent>
             {showSocial && (
                 <>
                     <div className="flex items-center mb-5 px-3">
@@ -40,7 +49,7 @@ export const CardWrapper = ({
                 </>
             )}
             <CardFooter>
-                <ChangeOption label={backButtonLabel} href={backButtonHref} />
+                <ChangeOption setRoute={setRoute} label={backButtonLabel} href={backButtonHref} />
             </CardFooter>
         </Card>
     );
