@@ -74,3 +74,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.logo-style{
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-blue-400 to-green-400 dark:from-blue-500 dark:to-green-600
+}

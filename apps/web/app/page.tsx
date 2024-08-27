@@ -1,9 +1,9 @@
-import { Button } from "@repo/ui/components/ui/button";
+import { Header } from "@/components/header";
 
 export default function Page() {
   return (
     <main>
-      <Button>Click me</Button>
+      <Header />
     </main>
   );
 }
