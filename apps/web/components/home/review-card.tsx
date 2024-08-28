@@ -35,12 +35,14 @@ export const ReviewCard = ({ item }: ReviewCardProps) => {
                             <FaUser size={23} color='white' />
                         </AvatarFallback>
                     </Avatar>
-                    <div className='825:flex w-full justify-between hidden'>
+                    <div className='flex w-full justify-between'>
                         <div className='pl-4'>
                             <CardTitle className='text-black dark:text-white'>{item?.name}</CardTitle>
                             <CardDescription className='text-muted-foreground font-medium'>{item?.profession}</CardDescription>
                         </div>
-                        <Ratings rating={item?.ratings} />
+                        <div className='1000:block hidden'>
+                            <Ratings rating={item?.ratings} />
+                        </div>
                     </div>
                 </div>
             </CardHeader>
