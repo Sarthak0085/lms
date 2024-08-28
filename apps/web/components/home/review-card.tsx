@@ -40,7 +40,7 @@ export const ReviewCard = ({ item }: ReviewCardProps) => {
                             <CardTitle className='text-black dark:text-white'>{item?.name}</CardTitle>
                             <CardDescription className='text-muted-foreground font-medium'>{item?.profession}</CardDescription>
                         </div>
-                        <div className='1000:block hidden'>
+                        <div className='hidden lg:block'>
                             <Ratings rating={item?.ratings} />
                         </div>
                     </div>

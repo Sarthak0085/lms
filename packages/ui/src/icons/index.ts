@@ -10,7 +10,8 @@ import {
     AiOutlineCamera,
     AiOutlineUser,
     AiOutlineStar,
-    AiFillStar
+    AiFillStar,
+    AiOutlineUnorderedList
 } from "react-icons/ai";
 import { BsStarHalf } from "react-icons/bs";
 import { SiCoursera } from "react-icons/si";
@@ -37,5 +38,6 @@ export {
     AiOutlineUser,
     AiOutlineStar,
     AiFillStar,
-    BsStarHalf
+    BsStarHalf,
+    AiOutlineUnorderedList,
 }

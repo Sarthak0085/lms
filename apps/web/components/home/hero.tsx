@@ -10,7 +10,7 @@ const data = {
 export const Hero = () => {
     return (
         <div className='w-full min-h-[80vh] flex flex-col lg:flex-row items-center space-y-20 mb-20'>
-            <div className='lg:!w-[45%] lg:my-auto my-[50px] 825:w-[85%] w-full mb-[100px] lg:top-[unset] 1500:h-[700px] 1500:w-[700px] 1100:h-[600px] 1100:w-[600px] h-[50vh]'>
+            <div className='lg:!w-[45%] min-h-[80vh] lg:my-auto flex items-center justify-center my-[50px] 825:w-[85%] w-full mb-[100px] lg:top-[unset] 1500:h-[700px] 1500:w-[700px] 1100:h-[600px] 1100:w-[600px] h-[50vh]'>
                 <div className='lg:w-[90%] flex items-center justify-center  lg:pt-0 z-10 hero_animation rounded-md mx-2'>
                     <Image
                         src={"/hero.png"}

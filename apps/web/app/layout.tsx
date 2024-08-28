@@ -1,9 +1,20 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import "@repo/ui/globals.css";
+import { cn } from "@repo/ui/lib/utils";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Josefin_Sans, Poppins } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-Poppins",
+});
+
+const josefin = Josefin_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-Josefin",
+});
 
 export const metadata: Metadata = {
   title: "Docs",
@@ -17,7 +28,11 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={
+        cn("!bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300",
+          poppins.className,
+          josefin.className
+        )}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
