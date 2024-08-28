@@ -2,8 +2,19 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaUser } from "react-icons/fa";
 import { ExclamationTriangleIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
-import { Sun, Moon, Search } from "lucide-react";
+import {
+    HiOutlineMenuAlt3,
+    HiOutlineUserCircle,
+    HiMinus,
+    HiPlus
+} from "react-icons/hi";
+import {
+    Sun,
+    Moon,
+    Search,
+    PlusIcon,
+    MinusIcon
+} from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
     AiOutlineLogout,
@@ -40,4 +51,8 @@ export {
     AiFillStar,
     BsStarHalf,
     AiOutlineUnorderedList,
+    HiMinus,
+    HiPlus,
+    PlusIcon,
+    MinusIcon
 }

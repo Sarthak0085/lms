@@ -333,4 +333,83 @@ export const courses = [
         "createdAt": "2023-11-29T11:00:27.272Z",
         "updatedAt": "2023-11-29T12:39:57.017Z",
     }
-]
+];
+
+// export const data = 
+
+export const allCategories = [
+    {
+        "title": "Programming",
+        "id": "6564e785a585ff605734bd47"
+    },
+    {
+        "title": "Digital Marketing",
+        "id": "6564e785a585ff605734bd48"
+    },
+    {
+        "title": "Designing",
+        "id": "6564e785a585ff605734bd49"
+    },
+    {
+        "title": "Frontend",
+        "id": "6564e785a585ff605734bd4a"
+    },
+    {
+        "title": "Backend",
+        "id": "6564e785a585ff605734bd4b"
+    },
+    {
+        "title": "Web Development",
+        "id": "6564e785a585ff605734bd4c"
+    }
+];
+
+export const data = {
+    layout: {
+        faq: [
+            {
+                "question": "Will I receive a certificate for this course?",
+                "answer": "Yes, each student who completes this course will receive a certificate of completion to acknowledge their proficiency",
+                "id": "6564e704a585ff605734bd1f"
+            },
+            {
+                "question": "Can I get a source code of each course?",
+                "answer": "Yes, you will get source code alomg with the videos when you buy this course",
+                "id": "6564e704a585ff605734bd20"
+            },
+            {
+                "question": "Can I get one to one mentor for any of this course?",
+                "answer": "No, you will not get one to one mentorship but you ask any question related to your problems in the comment section.",
+                "id": "6564e704a585ff605734bd21"
+            },
+            {
+                "question": "Will i able to download the videos?",
+                "answer": "For Security reasons, downloading the videos are not allowed but you will get lifetime access of that video on our platform.",
+                "id": "6564e704a585ff605734bd22"
+            }
+        ]
+    }
+}
+
+export const questions = [
+    {
+        "question": "Will I receive a certificate for this course?",
+        "answer": "Yes, each student who completes this course will receive a certificate of completion to acknowledge their proficiency",
+        "id": "6564e704a585ff605734bd1f"
+    },
+    {
+        "question": "Can I get a source code of each course?",
+        "answer": "Yes, you will get source code alomg with the videos when you buy this course",
+        "id": "6564e704a585ff605734bd20"
+    },
+    {
+        "question": "Can I get one to one mentor for any of this course?",
+        "answer": "No, you will not get one to one mentorship but you ask any question related to your problems in the comment section.",
+        "id": "6564e704a585ff605734bd21"
+    },
+    {
+        "question": "Will i able to download the videos?",
+        "answer": "For Security reasons, downloading the videos are not allowed but you will get lifetime access of that video on our platform.",
+        "id": "6564e704a585ff605734bd22"
+    }
+];

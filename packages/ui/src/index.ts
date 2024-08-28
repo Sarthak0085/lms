@@ -56,6 +56,12 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger
 } from "./components/ui/dropdown-menu";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionContent,
+    AccordionTrigger
+} from "./components/ui/accordion";
 
 export {
     Button,
@@ -102,5 +108,9 @@ export {
     InputOTP,
     InputOTPGroup,
     InputOTPSeparator,
-    InputOTPSlot
+    InputOTPSlot,
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger
 }
