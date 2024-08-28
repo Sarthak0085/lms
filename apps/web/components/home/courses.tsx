@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react'
-import CourseCard from '@/components/course/CourseCard';
+import CourseCard from '@/components/course/course-card';
 import { courses } from '@/utils/data';
 
 export const Courses = () => {

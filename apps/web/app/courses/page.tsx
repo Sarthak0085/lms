@@ -1,6 +1,6 @@
 "use client"
 
-import CourseCard from '@/components/course/CourseCard';
+import CourseCard from '@/components/course/course-card';
 import { Header } from '@/components/header';
 import { allCategories, courses } from '@/utils/data';
 import { useSearchParams } from 'next/navigation'
