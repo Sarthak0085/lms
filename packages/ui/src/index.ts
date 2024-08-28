@@ -31,6 +31,12 @@ import {
     DialogPortal
 } from "./components/ui/dialog";
 import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage
+} from "./components/ui/avatar";
+
+import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
@@ -83,5 +89,8 @@ export {
     DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
+    Avatar,
+    AvatarFallback,
+    AvatarImage
 }

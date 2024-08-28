@@ -1,13 +1,12 @@
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { CheckCircledIcon } from "@radix-ui/react-icons";
-import { IoEyeOffOutline } from "react-icons/io5";
-import { IoEyeOutline } from "react-icons/io5";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
-import { HiOutlineUserCircle } from "react-icons/hi";
-import { Sun } from "lucide-react";
-import { Moon } from "lucide-react";
+import { FaGithub, FaUser } from "react-icons/fa";
+import { ExclamationTriangleIcon, CheckCircledIcon } from "@radix-ui/react-icons";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
+import { Sun, Moon } from "lucide-react";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { AiOutlineLogout } from "react-icons/ai";
+import { SiCoursera } from "react-icons/si";
 
 export {
     FaGithub,
@@ -19,5 +18,9 @@ export {
     HiOutlineMenuAlt3,
     HiOutlineUserCircle,
     Sun,
-    Moon
+    Moon,
+    AiOutlineLogout,
+    SiCoursera,
+    RiLockPasswordLine,
+    FaUser
 }
