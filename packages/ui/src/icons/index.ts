@@ -5,7 +5,14 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import { Sun, Moon } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { AiOutlineLogout, AiOutlineCamera, AiOutlineUser } from "react-icons/ai";
+import {
+    AiOutlineLogout,
+    AiOutlineCamera,
+    AiOutlineUser,
+    AiOutlineStar,
+    AiFillStar
+} from "react-icons/ai";
+import { BsStarHalf } from "react-icons/bs";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail } from "react-icons/md";
 
@@ -26,5 +33,8 @@ export {
     FaUser,
     AiOutlineCamera,
     MdOutlineEmail,
-    AiOutlineUser
+    AiOutlineUser,
+    AiOutlineStar,
+    AiFillStar,
+    BsStarHalf
 }
