@@ -1,7 +1,6 @@
 "use client"
-import Image from 'next/image';
-import React, { useEffect, useState, useTransition } from 'react'
-import image from "../../../public/assets/image_urlgenerator_img1.png";
+
+import React, { useTransition } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 import { ProfileInfoSchema } from '@/schemas';
@@ -44,7 +43,7 @@ export const ProfileInfo = ({ user }: ProfileInfoProps) => {
     return (
         <div className='w-full pl-6 825:pl-8'>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
                     <div className='w-full flex justify-center mb-7'>
                         <div className='relative justify-center'>
                             <Avatar

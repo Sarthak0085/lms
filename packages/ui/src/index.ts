@@ -1,5 +1,11 @@
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot
+} from "./components/ui/input-otp";
 import { Label } from "./components/ui/label";
 import {
     FormControl,
@@ -7,8 +13,8 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-    Form,
-    FormField
+    FormField,
+    Form
 } from "./components/ui/form";
 import {
     Card,
@@ -92,5 +98,9 @@ export {
     DropdownMenuTrigger,
     Avatar,
     AvatarFallback,
-    AvatarImage
+    AvatarImage,
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot
 }

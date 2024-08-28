@@ -20,6 +20,12 @@ import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 import { IoEyeOffOutline, IoEyeOutline } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot
+} from '@repo/ui';
 
 interface LoginFormProps {
     setRoute: (route: string) => void;
@@ -37,6 +43,7 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
         defaultValues: {
             email: "",
             password: "",
+            code: "",
         },
     });
 
@@ -81,11 +88,25 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
                                     <FormItem>
                                         <FormLabel>Two Factor Code</FormLabel>
                                         <FormControl>
-                                            <Input
+                                            <InputOTP
+                                                maxLength={6}
                                                 {...field}
-                                                disabled={isPending}
-                                                placeholder="123456"
-                                            />
+                                            >
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={0} />
+                                                    <InputOTPSlot index={1} />
+                                                </InputOTPGroup>
+                                                <InputOTPSeparator />
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={2} />
+                                                    <InputOTPSlot index={3} />
+                                                </InputOTPGroup>
+                                                <InputOTPSeparator />
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={4} />
+                                                    <InputOTPSlot index={5} />
+                                                </InputOTPGroup>
+                                            </InputOTP>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
