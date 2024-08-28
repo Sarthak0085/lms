@@ -26,4 +26,16 @@ export const ProfileInfoSchema = z.object({
     email: z.string()
         .email({ message: "Please Enter a valid Email" }),
     image: z.string().min(2, { message: "Avatar is Required" }),
-})
+});
+
+export const ChangePasswordSchema = z.object({
+    oldPassword: z.string()
+        .min(8, { message: "Old Password must contains 8 characters" }),
+    newPassword: z.string()
+        .min(8, { message: "New Password must contains 8 characters" }),
+    confirmPassword: z.string()
+        .min(8, { message: "Confirm Password must contains 8 characters" }),
+}).refine(data => data.newPassword === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+});;
