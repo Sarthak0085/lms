@@ -39,3 +39,41 @@ export const ChangePasswordSchema = z.object({
     message: 'Passwords do not match',
     path: ['confirmPassword'],
 });
+
+const titleSchema = z.object({
+    title: z.string().min(1, "Title cannot be empty")
+});
+
+const linksSchema = z.object({
+    title: z.string().min(2, { message: "Title is required" }),
+    url: z.string().min(2, { message: "URL is required" }),
+})
+
+const courseData = z.object({
+    videoUrl: z.string().min(2, { message: "Video Url is required" }),
+    title: z.string().min(2, { message: "Video Title is required" }),
+    description: z.string().min(15, { message: "Video description is required" }),
+    videoSection: z.string().min(2, { message: "Video Section is required" }),
+    suggestion: z.string().min(2, { message: "Suggestion is required" }),
+    links: z.array(linksSchema),
+})
+
+const BenefitsSchema = z.array(titleSchema);
+const PrerequisitesSchema = z.array(titleSchema);
+const CourseDataSchema = z.array(courseData);
+
+export const CreateCourseSchema = z.object({
+    benefits: BenefitsSchema,
+    prerequisites: PrerequisitesSchema,
+    name: z.string().min(2, { message: "Course Name is required" }),
+    description: z.string().min(50, { message: "Course description must be of 50 characters" }),
+    price: z.string(),
+    estimatedPrice: z.optional(z.string()),
+    tags: z.string().min(2, { message: "Tags are required" }),
+    level: z.string().min(2, { message: "Level is required" }),
+    category: z.string().min(2, { message: "Category is required" }),
+    demoUrl: z.string().min(2, { message: "Demo URL is required" }),
+    thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
+    courseContentData: CourseDataSchema,
+    totalVideos: z.number(),
+});

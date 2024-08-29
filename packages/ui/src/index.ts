@@ -62,6 +62,17 @@ import {
     AccordionContent,
     AccordionTrigger
 } from "./components/ui/accordion";
+import { Textarea } from "./components/ui/textarea";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectSeparator,
+    SelectTrigger,
+    SelectValue
+} from "./components/ui/select"
 
 export {
     Button,
@@ -112,5 +123,14 @@ export {
     Accordion,
     AccordionContent,
     AccordionItem,
-    AccordionTrigger
+    AccordionTrigger,
+    Textarea,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectSeparator,
+    SelectTrigger,
+    SelectValue
 }

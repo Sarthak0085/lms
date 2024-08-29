@@ -387,6 +387,32 @@ export const data = {
                 "answer": "For Security reasons, downloading the videos are not allowed but you will get lifetime access of that video on our platform.",
                 "id": "6564e704a585ff605734bd22"
             }
+        ],
+        categories: [
+            {
+                "title": "Programming",
+                "id": "6564e785a585ff605734bd47"
+            },
+            {
+                "title": "Digital Marketing",
+                "id": "6564e785a585ff605734bd48"
+            },
+            {
+                "title": "Designing",
+                "id": "6564e785a585ff605734bd49"
+            },
+            {
+                "title": "Frontend",
+                "id": "6564e785a585ff605734bd4a"
+            },
+            {
+                "title": "Backend",
+                "id": "6564e785a585ff605734bd4b"
+            },
+            {
+                "title": "Web Development",
+                "id": "6564e785a585ff605734bd4c"
+            }
         ]
     }
 }

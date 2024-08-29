@@ -27,6 +27,8 @@ import {
 import { BsStarHalf } from "react-icons/bs";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail } from "react-icons/md";
+import { IoMdNotificationsOutline } from "react-icons/io"
+import { RxArrowRight, RxArrowLeft } from "react-icons/rx";
 
 export {
     FaGithub,
@@ -54,5 +56,8 @@ export {
     HiMinus,
     HiPlus,
     PlusIcon,
-    MinusIcon
+    MinusIcon,
+    IoMdNotificationsOutline,
+    RxArrowRight,
+    RxArrowLeft
 }

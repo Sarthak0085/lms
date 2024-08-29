@@ -36,7 +36,6 @@ export const CustomPasswordInput = ({
             <FormLabel>{label}</FormLabel>
             <FormControl>
                 <div className="relative">
-
                     <Input
                         name={name}
                         value={value}
