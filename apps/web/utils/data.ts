@@ -9,35 +9,28 @@ export const courses = [
             "url": "https://res.cloudinary.com/dkzfopuco/image/upload/v1701256423/Courses/ixa9agcnkqnrmzjxsmu9.jpg"
         },
         "tags": "Mern, Lms, Next13, Mongodb",
-        "categories": "Web development, MERN",
+        "category": "Web development",
         "level": "Intermediate",
         "demoUrl": "sghakswkowlwlslldssskka",
         "benefits": [
             {
                 "title": "You will be able to full learning Management system",
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f7872a"
-                }
+                "id": "65671ceaf1a42606e9f7872a"
+
             },
             {
                 "title": "You will get knowledge about Next13",
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f7872b"
-                }
+                "id": "65671ceaf1a42606e9f7872b"
             }
         ],
         "prerequisites": [
             {
                 "title": "Must have an knowledge of MERN stack",
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f78728"
-                }
+                "id": "65671ceaf1a42606e9f78728"
             },
             {
                 "title": "Must have little knowledge ogf next13",
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f78729"
-                }
+                "id": "65671ceaf1a42606e9f78729"
             }
         ],
         "courseData": [
@@ -50,14 +43,10 @@ export const courses = [
                     {
                         "title": "Source Code",
                         "url": "https://github.com",
-                        "_id": {
-                            "$oid": "65671ceaf1a42606e9f78727"
-                        }
+                        "id": "65671ceaf1a42606e9f78727"
                     }
                 ],
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f78726"
-                },
+                "id": "65671ceaf1a42606e9f78726",
                 "questions": [
                     {
                         "user": {
@@ -177,7 +166,6 @@ export const courses = [
         "updatedAt": {
             "$date": "2023-11-29T12:39:57.017Z"
         },
-        "__v": 4
     },
     {
         "name": "Mern stack LMS",
@@ -189,7 +177,7 @@ export const courses = [
             "url": "https://res.cloudinary.com/dkzfopuco/image/upload/v1701256423/Courses/ixa9agcnkqnrmzjxsmu9.jpg"
         },
         "tags": "Mern, Lms, Next13, Mongodb",
-        "categories": "Web development, MERN",
+        "category": "Web Development",
         "level": "Intermediate",
         "demoUrl": "sghakswkowlwlslldssskka",
         "benefits": [
@@ -208,13 +196,11 @@ export const courses = [
                 "id": "65671ceaf1a42606e9f78728",
             },
             {
-                "title": "Must have little knowledge ogf next13",
-                "_id": {
-                    "$oid": "65671ceaf1a42606e9f78729"
-                }
+                "title": "Must have little knowledge of next13",
+                "id": "65671ceaf1a42606e9f78729"
             }
         ],
-        "courseData": [
+        "courseContentData": [
             {
                 "title": "Project Folder Structure",
                 "description": "Welcome to the mern stack Learning Management System in this section you will learn about the project setup an structure.",

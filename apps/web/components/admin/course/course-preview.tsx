@@ -1,7 +1,7 @@
 "use client";
 
 import { Ratings } from "@/components/ratings";
-import { CreateCourseSchema } from "@/schemas";
+import { CreateCourseSchema, EditCourseSchema } from "@/schemas";
 import { Button, Input } from "@repo/ui";
 import { IoIosCheckmarkCircleOutline, RxArrowLeft } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
@@ -9,11 +9,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+
 interface CoursePreviewProps {
     active: number;
     setActive: (active: number) => void;
     handleCourseCreate: any;
-    form: ReturnType<typeof useForm<z.infer<typeof CreateCourseSchema>>>
+    form: ReturnType<typeof useForm<z.infer<formSchema>>>
     isEdit?: boolean;
     isPending: boolean;
 };
@@ -40,7 +42,7 @@ export const CoursePreview = ({
     }
 
     return (
-        <div className="w-[90%] m-auto py-5 mb-5">
+        <div className="w-[90%] mx-auto mt-16 md:mt-24">
             <div className="w-full relative">
                 <div className="w-full mt-10">
                     {/* <CoursePlayer
@@ -58,11 +60,6 @@ export const CoursePreview = ({
                     <h4 className="pt-5 pl-4 text-[22px]">{discountPercentage}% Off</h4>
                 </div>
                 <div className="flex items-center">
-                    {/* <div
-                        className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-not-allowed !bg-[crimson]`}
-                    >
-                        Buy Now {getValues("price")}$
-                    </div> */}
                     <Button
                         variant={"destructive"}
                         className="!w-[180px] font-Poppins"
@@ -71,11 +68,6 @@ export const CoursePreview = ({
                     </Button>
                 </div>
                 <div className="flex items-center my-3 justify-between">
-                    {/* <input
-                        type="text"
-                        className={`${styles.input} 1500px:!w-[50%] 1100px:!w-[60%] ml-3 !mt-0`}
-                        placeholder="Discount Coupon Code..."
-                    /> */}
                     <Input
                         type="text"
                         placeholder="Discount Coupon Code..."
@@ -87,11 +79,6 @@ export const CoursePreview = ({
                     >
                         Apply
                     </Button>
-                    {/* <div
-                        className={`${styles.button} !w-[120px] !ml-3 my-4 font-Poppins cursor-pointer`}
-                    >
-                        Apply
-                    </div> */}
                 </div>
                 <p className="pb-1">Source Code Included</p>
                 <p className="pb-1">Life Time Access</p>
@@ -145,10 +132,10 @@ export const CoursePreview = ({
                         </div>
                         <br />
                         <br />
-                        <div className="w-full flex justify-between">
+                        <div className="w-full flex justify-between gap-2">
                             <Button
                                 variant={"primary"}
-                                className={cn("!w-full 825:!w-[180px]", isPending && "cursor-not-allowed")}
+                                className={cn(isPending && "cursor-not-allowed")}
                                 disabled={isPending}
                                 onClick={() => setActive(active - 1)}
                             >
@@ -156,7 +143,7 @@ export const CoursePreview = ({
                             </Button>
                             <Button
                                 variant={"primary"}
-                                className={cn("!w-full 825:!w-[180px]", isPending && "cursor-not-allowed")}
+                                className={cn(isPending && "cursor-not-allowed")}
                                 disabled={isPending}
                                 onClick={createCourse}
                             >

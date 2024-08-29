@@ -3,17 +3,19 @@
 import React, { MouseEvent, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
-import { CreateCourseSchema } from "@/schemas";
+import { CreateCourseSchema, EditCourseSchema } from "@/schemas";
 import { Button, Form, FormField } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
 import { CustomInput } from "@/components/custom-input";
 import { AiOutlineDelete, BiPencil, ChevronDown, RiAddCircleLine, RxArrowLeft, RxArrowRight } from "@repo/ui/icon";
 import { CourseContentLinks } from "./course-content-links";
 
+type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+
 interface CourseContentProps {
     active: number;
     setActive: (active: number) => void;
-    form: ReturnType<typeof useForm<z.infer<typeof CreateCourseSchema>>>;
+    form: ReturnType<typeof useForm<z.infer<formSchema>>>;
     isPending: boolean;
 };
 
@@ -133,7 +135,7 @@ export const CourseContent = ({
     };
 
     return (
-        <div className="w-[80%] m-auto mt-24 p-3">
+        <div className="w-[90%] mx-auto mt-16 md:mt-24">
             <Form {...form}>
                 <form>
                     {contentFields.map((item: any, index: number) => {
@@ -143,7 +145,7 @@ export const CourseContent = ({
                         return (
                             <div
                                 key={index || item?.id}
-                                className={cn("w-full p-4", showSectionInput ? "mt-10" : "mb-0")}
+                                className={cn("w-full", showSectionInput ? "mt-10" : "mb-0")}
                             >
                                 {showSectionInput && (
                                     <div className="w-full relative flex items-center">
@@ -346,15 +348,17 @@ export const CourseContent = ({
             <div className="w-full my-5 flex justify-between">
                 <Button
                     variant={"primary"}
-                    className='w-[45%] 825:w-[180px] '
-                    onClick={(e) => prevButton(e)}
+                    className={cn(isPending && "cursor-not-allowed")}
+                    disabled={isPending}
+                    onClick={prevButton}
                 >
                     <RxArrowLeft size={20} className="me-1" /> Prev
                 </Button>
                 <Button
                     variant={"primary"}
-                    className='w-[45%] 825:w-[180px]'
-                    onClick={(e) => handleOptions(e)}
+                    className={cn(isPending && "cursor-not-allowed")}
+                    disabled={isPending}
+                    onClick={handleOptions}
                 >
                     Next <RxArrowRight size={20} className="ms-1" />
                 </Button>

@@ -33,6 +33,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { IoMdNotificationsOutline, IoMdCheckmark, IoIosCheckmarkCircleOutline } from "react-icons/io"
 import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
 import { RiAddCircleLine } from "react-icons/ri";
+import { TiTick } from "react-icons/ti";
 
 export {
     FaGithub,
@@ -71,5 +72,6 @@ export {
     ChevronDown,
     BsLink45Deg,
     IoMdCheckmark,
-    IoIosCheckmarkCircleOutline
+    IoIosCheckmarkCircleOutline,
+    TiTick
 }

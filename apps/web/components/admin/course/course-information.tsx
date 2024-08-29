@@ -1,7 +1,7 @@
 "use client"
 
 import { CustomInput } from '@/components/custom-input';
-import { CreateCourseSchema } from '@/schemas';
+import { CreateCourseSchema, EditCourseSchema } from '@/schemas';
 import { data } from '@/utils/data';
 import {
     Button,
@@ -27,8 +27,10 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
+type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+
 interface CourseInformationProps {
-    form: ReturnType<typeof useForm<z.infer<typeof CreateCourseSchema>>>;
+    form: ReturnType<typeof useForm<z.infer<formSchema>>>;
     active: number;
     setActive: (active: number) => void;
     isPending: boolean;
@@ -43,7 +45,7 @@ export const CourseInformation = ({
     const { toast } = useToast();
     const [dragging, setDragging] = useState(false);
     const [categories, setCategories] = useState<any>([]);
-    const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(null);
+    const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(form.getValues("thumbnail"));
 
     useEffect(() => {
         if (data) {
@@ -110,7 +112,7 @@ export const CourseInformation = ({
     }
 
     return (
-        <div className='w-[80%] m-auto mt-24'>
+        <div className='w-[90%] mx-auto mt-16 md:mt-24'>
             <Form {...form}>
                 <form className='space-y-6'>
                     <div className='mb-5 space-y-4'>

@@ -1,6 +1,6 @@
 "use client"
 
-import { CreateCourseSchema } from '@/schemas';
+import { CreateCourseSchema, EditCourseSchema } from '@/schemas';
 import React, { MouseEvent } from 'react'
 import * as z from "zod";
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
@@ -8,8 +8,10 @@ import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 import { cn } from '@repo/ui/lib/utils';
 import { RiAddCircleLine, RxArrowLeft, RxArrowRight, RxCross1 } from '@repo/ui/icon';
 
+type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+
 interface CourseDataProps {
-    form: ReturnType<typeof useForm<z.infer<typeof CreateCourseSchema>>>
+    form: ReturnType<typeof useForm<z.infer<formSchema>>>
     active: number;
     setActive: (active: number) => void;
     isPending: boolean;
@@ -59,7 +61,7 @@ export const CourseData = ({ form, active, setActive, isPending }: CourseDataPro
     }
 
     return (
-        <div className='w-[80%] m-auto mt-24 block'>
+        <div className='w-[90%] mx-auto mt-16 md:mt-24'>
             <Form {...form}>
                 <form>
                     <div className='mb-5'>
@@ -175,14 +177,14 @@ export const CourseData = ({ form, active, setActive, isPending }: CourseDataPro
                     <div className='w-full flex justify-between' >
                         <Button
                             variant={"primary"}
-                            className={cn('!w-[45%] 825:!w-[180px]', isPending && "cursor-not-allowed")}
+                            className={cn(isPending && "cursor-not-allowed")}
                             onClick={() => setActive(active - 1)}
                         >
                             <RxArrowLeft size={20} className="me-1" /> Prev
                         </Button>
                         <Button
                             variant={"primary"}
-                            className={cn('!w-[45%] 825:!w-[180px]', isPending && "cursor-not-allowed")}
+                            className={cn(isPending && "cursor-not-allowed")}
                             onClick={handleSubmit}
                         >
                             Next <RxArrowRight size={20} className="ml-2" />

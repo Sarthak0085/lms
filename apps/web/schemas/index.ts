@@ -78,3 +78,20 @@ export const CreateCourseSchema = z.object({
     courseContentData: CourseDataSchema,
     totalVideos: z.number(),
 });
+
+export const EditCourseSchema = z.object({
+    id: z.string().min(2, { message: "Id is required" }),
+    benefits: BenefitsSchema,
+    prerequisites: PrerequisitesSchema,
+    name: z.string().min(2, { message: "Course Name is required" }),
+    description: z.string().min(50, { message: "Course description must be of 50 characters" }),
+    price: z.string(),
+    estimatedPrice: z.optional(z.string()),
+    tags: z.string().min(2, { message: "Tags are required" }),
+    level: z.string().min(2, { message: "Level is required" }),
+    category: z.string().min(2, { message: "Category is required" }),
+    demoUrl: z.string().min(2, { message: "Demo URL is required" }),
+    thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
+    courseContentData: CourseDataSchema,
+    totalVideos: z.number(),
+});
