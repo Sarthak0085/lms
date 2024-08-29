@@ -3,7 +3,22 @@
 import { CustomInput } from '@/components/custom-input';
 import { CreateCourseSchema } from '@/schemas';
 import { data } from '@/utils/data';
-import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import {
+    Button,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    Input,
+    Label,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@repo/ui';
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
 import Image from 'next/image';
@@ -130,22 +145,6 @@ export const CourseInformation = ({
                                 />
                             )}
                         />
-                        {/* <label htmlFor='description' className={`${styles.label}`}>
-                            Course Description
-                        </label>
-                        <textarea
-                            name='description'
-                            id='description'
-                            cols={30}
-                            rows={8}
-                            required
-                            value={courseInfo?.description}
-                            onChange={(e: any) =>
-                                setCourseInfo({ ...courseInfo, description: e.target.value })
-                            }
-                            placeholder='Give an awesome Description....'
-                            className={`${styles.input} !h-min !py-2`}
-                        /> */}
                     </div>
                     <div className='w-full 825:mb-5 825:flex justify-between'>
                         <div className='825:w-[45%] w-full mb-5'>
@@ -276,76 +275,6 @@ export const CourseInformation = ({
                             />
                         </div>
                     </div>
-                    {/* <div className='w-full 800px:mb-5 800px:flex justify-between'> */}
-                    {/* <div className='800px:w-[45%] w-full mb-5'>
-                            <label htmlFor='tags' className={`${styles.label}`}>
-                                Course Tags
-                            </label>
-                            <input
-                                type='text'
-                                name='tags'
-                                id='tags'
-                                required
-                                value={courseInfo?.tags}
-                                onChange={(e: any) =>
-                                    setCourseInfo({ ...courseInfo, tags: e.target.value })
-                                }
-                                placeholder='MERN/SocketIO/tailwindcss'
-                                className={`${styles.input}`}
-                            />
-                        </div>
-                        <div className='800px:w-[45%] w-full mb-5'>
-                            <label htmlFor='categories' className={`${styles.label}`}>
-                                Course Categories
-                            </label>
-                            <select name='categories' id='categories' value={courseInfo.categories} onChange={(e: any) =>
-                                setCourseInfo({ ...courseInfo, categories: e.target.value })
-                            } className={`${styles.input}`}>
-                                <option value=''>Choose Category</option>
-                                {
-                                    categories.map((item: any) => (
-                                        <option value={item.title} key={item._id}>
-                                            {item?.title}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div className='w-full 800px:mb-5 800px:flex justify-between'>
-                            <div className='800px:w-[45%] w-full mb-5'>
-                                <label htmlFor='level' className={`${styles.label}`}>
-                                    Course Level
-                                </label>
-                                <input
-                                    type='text'
-                                    name='level'
-                                    id='level'
-                                    required
-                                    value={courseInfo?.level}
-                                    onChange={(e: any) =>
-                                        setCourseInfo({ ...courseInfo, level: e.target.value })
-                                    }
-                                    placeholder='BEginner/Intermediate/Expert'
-                                    className={`${styles.input}`}
-                                />
-                            </div>
-                            <div className='800px:w-[45%] w-full mb-5'>
-                                <label htmlFor='url' className={`${styles.label}`}>
-                                    Demo url
-                                </label>
-                                <input
-                                    type='text'
-                                    name='url'
-                                    id='url'
-                                    value={courseInfo?.demoUrl}
-                                    onChange={(e: any) =>
-                                        setCourseInfo({ ...courseInfo, demoUrl: e.target.value })
-                                    }
-                                    placeholder='fhhswu32gjjw22'
-                                    className={`${styles.input}`}
-                                />
-                            </div>
-                        </div> */}
                     <div className='w-full'>
                         <Input
                             type='file'

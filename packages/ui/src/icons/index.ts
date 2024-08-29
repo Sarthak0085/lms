@@ -28,7 +28,8 @@ import { BsStarHalf } from "react-icons/bs";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io"
-import { RxArrowRight, RxArrowLeft } from "react-icons/rx";
+import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
+import { RiAddCircleLine } from "react-icons/ri";
 
 export {
     FaGithub,
@@ -59,5 +60,7 @@ export {
     MinusIcon,
     IoMdNotificationsOutline,
     RxArrowRight,
-    RxArrowLeft
+    RxArrowLeft,
+    RxCross1,
+    RiAddCircleLine
 }
