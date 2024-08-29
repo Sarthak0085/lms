@@ -30,7 +30,7 @@ import { BsStarHalf, BsLink45Deg } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io"
+import { IoMdNotificationsOutline, IoMdCheckmark, IoIosCheckmarkCircleOutline } from "react-icons/io"
 import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
 import { RiAddCircleLine } from "react-icons/ri";
 
@@ -69,5 +69,7 @@ export {
     BiPencil,
     AiOutlineDelete,
     ChevronDown,
-    BsLink45Deg
+    BsLink45Deg,
+    IoMdCheckmark,
+    IoIosCheckmarkCircleOutline
 }

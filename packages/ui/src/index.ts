@@ -41,7 +41,8 @@ import {
     AvatarFallback,
     AvatarImage
 } from "./components/ui/avatar";
-
+import { toast, useToast } from "./components/ui/use-toast";
+import { Toaster } from "./components/ui/toaster";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -132,5 +133,8 @@ export {
     SelectLabel,
     SelectSeparator,
     SelectTrigger,
-    SelectValue
+    SelectValue,
+    toast,
+    Toaster,
+    useToast
 }

@@ -9,6 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
 import { CourseContent } from './course-content';
+import { CourseOptions } from './course-options';
+import { CoursePreview } from './course-preview';
 
 export const CreateCourse = () => {
     // useEffect(() => {
@@ -24,7 +26,7 @@ export const CreateCourse = () => {
     //     }
     // }, [isLoading, isSuccess, error])
 
-    const [active, setActive] = useState(2);
+    const [active, setActive] = useState(0);
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<z.infer<typeof CreateCourseSchema>>({
@@ -126,6 +128,7 @@ export const CreateCourse = () => {
     // }
 
     const handleCourseCreate = async (e: any) => {
+        console.log(form.getValues())
         // const data = courseData;
         // if (!isLoading) {
         //     await createCourse(data);
@@ -165,19 +168,17 @@ export const CreateCourse = () => {
                         />
                     )
                 }
-                {/*{
+                {
                     active === 3 && (
                         <CoursePreview
-                            courseData={courseData}
+                            form={form}
+                            isPending={isPending}
                             active={active}
                             setActive={setActive}
                             handleCourseCreate={handleCourseCreate}
                         />
                     )
-                } */}
-            </div>
-            <div className='w-[20%] mt-[100px] h-screen fixed z-[-1] top-18 right-2'>
-                {/* <CourseOptions active={active} setActive={setActive} /> */}
+                }
             </div>
         </div>
     )

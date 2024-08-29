@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from "react";
+import React, { MouseEvent, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 import { CreateCourseSchema } from "@/schemas";
@@ -42,7 +42,8 @@ export const CourseContent = ({
         }
     };
 
-    const handleAddNewContent = () => {
+    const handleAddNewContent = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         const lastContent = form.watch("courseContentData").at(-1);
         if (
             lastContent?.title === "" ||
@@ -71,12 +72,8 @@ export const CourseContent = ({
     };
 
     const handleCollapseToggle = (index: number) => {
-        console.log(index);
-
         const updatedCollapse = [...isCollapsed];
         updatedCollapse[index] = !updatedCollapse[index];
-        console.log(updatedCollapse[index]);
-
         setIsCollapsed(updatedCollapse);
     };
 
@@ -112,11 +109,13 @@ export const CourseContent = ({
         }
     };
 
-    const prevButton = () => {
+    const prevButton = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setActive(active - 1);
     };
 
-    const handleOptions = () => {
+    const handleOptions = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         const lastContent = form.watch("courseContentData").at(-1);
         if (
             lastContent?.title === "" ||
@@ -337,7 +336,7 @@ export const CourseContent = ({
                     })}
                     <Button
                         variant={"outline"}
-                        onClick={() => handleAddNewContent()}
+                        onClick={(e) => handleAddNewContent(e)}
                     >
                         <RiAddCircleLine size={16} className="me-1" />
                         Add New Section
@@ -348,14 +347,14 @@ export const CourseContent = ({
                 <Button
                     variant={"primary"}
                     className='w-[45%] 825:w-[180px] '
-                    onClick={() => prevButton()}
+                    onClick={(e) => prevButton(e)}
                 >
                     <RxArrowLeft size={20} className="me-1" /> Prev
                 </Button>
                 <Button
                     variant={"primary"}
                     className='w-[45%] 825:w-[180px]'
-                    onClick={() => handleOptions()}
+                    onClick={(e) => handleOptions(e)}
                 >
                     Next <RxArrowRight size={20} className="ms-1" />
                 </Button>

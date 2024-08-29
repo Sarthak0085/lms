@@ -17,12 +17,13 @@ import {
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue
+    SelectValue,
+    useToast
 } from '@repo/ui';
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, MouseEvent } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
@@ -39,6 +40,7 @@ export const CourseInformation = ({
     setActive,
     isPending
 }: CourseInformationProps) => {
+    const { toast } = useToast();
     const [dragging, setDragging] = useState(false);
     const [categories, setCategories] = useState<any>([]);
     const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(null);
@@ -92,13 +94,17 @@ export const CourseInformation = ({
         }
     }
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         if (form.getValues("name") === "" || form.getValues("description") === "" || form.getValues("price") === "" || form.getValues("tags") === "" || form.getValues("category") === "" || form.getValues("level") === "" || form.getValues("demoUrl") === "" || form.getValues("thumbnail") === "") {
-            // toast.error("Please fill all the fields");
-            e.preventDefault();
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "Please fill all the required fields"
+            })
+            console.error("Please fill all the fields");
         }
         else {
-            e.preventDefault();
             setActive(active + 1);
         }
     }
@@ -106,7 +112,7 @@ export const CourseInformation = ({
     return (
         <div className='w-[80%] m-auto mt-24'>
             <Form {...form}>
-                <form onSubmit={handleSubmit} className='space-y-6'>
+                <form className='space-y-6'>
                     <div className='mb-5 space-y-4'>
                         <FormField
                             control={form.control}
@@ -315,6 +321,7 @@ export const CourseInformation = ({
                             type='submit'
                             disabled={isPending}
                             className={cn(isPending && "cursor-not-allowed")}
+                            onClick={handleSubmit}
                         >
                             Next <RxArrowRight size={20} className="ms-1" />
                         </Button>

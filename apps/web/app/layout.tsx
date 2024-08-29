@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@repo/ui";
 import "@repo/ui/globals.css";
 import { cn } from "@repo/ui/lib/utils";
 import type { Metadata } from "next";
@@ -29,8 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={
-        cn("!bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300",
-          poppins.className,
+        cn("!bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 font-josefin dark:to-black duration-300",
+          poppins.variable,
           josefin.className
         )}>
         <ThemeProvider
@@ -40,6 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
