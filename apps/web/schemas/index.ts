@@ -54,9 +54,10 @@ const courseData = z.object({
     title: z.string().min(2, { message: "Video Title is required" }),
     description: z.string().min(15, { message: "Video description is required" }),
     videoSection: z.string().min(2, { message: "Video Section is required" }),
-    suggestion: z.string().min(2, { message: "Suggestion is required" }),
+    suggestion: z.optional(z.string()),
     links: z.array(linksSchema),
-})
+    videoLength: z.optional(z.number()),
+});
 
 const BenefitsSchema = z.array(titleSchema);
 const PrerequisitesSchema = z.array(titleSchema);

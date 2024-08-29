@@ -13,7 +13,8 @@ import {
     Moon,
     Search,
     PlusIcon,
-    MinusIcon
+    MinusIcon,
+    ChevronDown
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -22,9 +23,11 @@ import {
     AiOutlineUser,
     AiOutlineStar,
     AiFillStar,
-    AiOutlineUnorderedList
+    AiOutlineUnorderedList,
+    AiOutlineDelete
 } from "react-icons/ai";
-import { BsStarHalf } from "react-icons/bs";
+import { BsStarHalf, BsLink45Deg } from "react-icons/bs";
+import { BiPencil } from "react-icons/bi";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io"
@@ -62,5 +65,9 @@ export {
     RxArrowRight,
     RxArrowLeft,
     RxCross1,
-    RiAddCircleLine
+    RiAddCircleLine,
+    BiPencil,
+    AiOutlineDelete,
+    ChevronDown,
+    BsLink45Deg
 }

@@ -8,6 +8,7 @@ import { CreateCourseSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
+import { CourseContent } from './course-content';
 
 export const CreateCourse = () => {
     // useEffect(() => {
@@ -23,7 +24,7 @@ export const CreateCourse = () => {
     //     }
     // }, [isLoading, isSuccess, error])
 
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(2);
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<z.infer<typeof CreateCourseSchema>>({
@@ -154,18 +155,17 @@ export const CreateCourse = () => {
                         />
                     )
                 }
-                {/* {
+                {
                     active === 2 && (
                         <CourseContent
-                            courseContentData={courseContentData}
-                            setCourseContentData={setCourseContentData}
+                            form={form}
+                            isPending={isPending}
                             active={active}
                             setActive={setActive}
-                            handleSubmit={handleSubmit}
                         />
                     )
                 }
-                {
+                {/*{
                     active === 3 && (
                         <CoursePreview
                             courseData={courseData}
