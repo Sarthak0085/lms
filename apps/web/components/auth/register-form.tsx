@@ -20,6 +20,7 @@ import {
 } from "@repo/ui";
 import { IoEyeOffOutline, IoEyeOutline } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
+import { register } from "@/actions/auth/register";
 
 export const RegisterForm = () => {
     const [error, setError] = useState<string | undefined>("");
@@ -40,12 +41,13 @@ export const RegisterForm = () => {
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
         setError("");
         setSuccess("");
+        console.log(values);
 
         startTransition(() => {
-            // register(values).then((data) => {
-            //     setError(data.error);
-            //     setSuccess(data.success);
-            // });
+            register(values).then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            });
         });
     };
 

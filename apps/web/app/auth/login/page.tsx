@@ -1,4 +1,3 @@
-import { PageContainer } from "@/components/admin/layout/page-container"
 import { LoginForm } from "@/components/auth/login-form"
 
 const LoginPage = () => {
