@@ -17,7 +17,6 @@ interface CardWrapperProps {
     backButtonLabel: string;
     backButtonHref: string;
     showSocial?: boolean;
-    setRoute: (route: string) => void;
 }
 
 export const CardWrapper = ({
@@ -26,15 +25,14 @@ export const CardWrapper = ({
     backButtonLabel,
     backButtonHref,
     showSocial,
-    setRoute,
 }: CardWrapperProps) => {
     return (
-        <Card className="w-[400px] !bg-transparent border-none">
+        <Card className="w-[400px]">
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
-            <CardContent className="!bg-transparent">
-                {children}
+            <CardContent>
+                <div>{children}</div>
             </CardContent>
             {showSocial && (
                 <>
@@ -49,7 +47,7 @@ export const CardWrapper = ({
                 </>
             )}
             <CardFooter>
-                <ChangeOption setRoute={setRoute} label={backButtonLabel} href={backButtonHref} />
+                <ChangeOption label={backButtonLabel} href={backButtonHref} />
             </CardFooter>
         </Card>
     );

@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "web",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,12 +9,15 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.4.2",
     "@hookform/resolvers": "^3.9.0",
     "@repo/db": "workspace:*",
     "@repo/ui": "workspace:*",
     "@stripe/stripe-js": "^4.4.0",
     "@tanstack/react-table": "^8.20.5",
+    "bcryptjs": "^2.4.3",
     "next": "14.2.4",
+    "next-auth": "5.0.0-beta.19",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,6 +28,7 @@
     "@next/eslint-plugin-next": "14.2.4",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "^8.56.12",
     "@types/node": "^20.16.2",
     "@types/react": "^18.3.4",

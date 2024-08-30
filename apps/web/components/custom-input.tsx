@@ -1,6 +1,6 @@
 import { FormControl, FormItem, FormLabel, FormMessage, Input, Textarea } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
-import { ChangeEvent, ForwardedRef, forwardRef } from "react";
+import { ChangeEvent, forwardRef } from "react";
 
 interface CustomInputProps {
     isPending: boolean;

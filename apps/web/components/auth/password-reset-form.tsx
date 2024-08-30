@@ -20,11 +20,7 @@ import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
 import { cn } from "@repo/ui/lib/utils";
 
-interface PasswordResetFormProps {
-    setRoute: (route: string) => void;
-}
-
-export const PasswordResetForm = ({ setRoute }: PasswordResetFormProps) => {
+export const PasswordResetForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -50,10 +46,9 @@ export const PasswordResetForm = ({ setRoute }: PasswordResetFormProps) => {
 
     return (
         <CardWrapper
-            setRoute={setRoute}
             headerLabel="Forgot your password"
             backButtonLabel="Go back to login"
-            backButtonHref="login"
+            backButtonHref="/auth/login"
         >
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

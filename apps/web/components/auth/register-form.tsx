@@ -21,11 +21,7 @@ import {
 import { IoEyeOffOutline, IoEyeOutline } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
 
-interface RegisterFormProps {
-    setRoute: (route: string) => void;
-}
-
-export const RegisterForm = ({ setRoute }: RegisterFormProps) => {
+export const RegisterForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -74,8 +70,7 @@ export const RegisterForm = ({ setRoute }: RegisterFormProps) => {
         <CardWrapper
             headerLabel="Create an Account"
             backButtonLabel="Already have an Account? signin"
-            backButtonHref="login"
-            setRoute={setRoute}
+            backButtonHref="/auth/login"
             showSocial
         >
             <Form {...form}>

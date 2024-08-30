@@ -26,12 +26,9 @@ import {
     InputOTPSeparator,
     InputOTPSlot
 } from '@repo/ui';
+import Link from 'next/link';
 
-interface LoginFormProps {
-    setRoute: (route: string) => void;
-}
-
-export const LoginForm = ({ setRoute }: LoginFormProps) => {
+export const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -73,12 +70,11 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
         <CardWrapper
             headerLabel="Welcome Back"
             backButtonLabel="Don't have an account? signup"
-            backButtonHref="register"
-            setRoute={setRoute}
+            backButtonHref="/auth/register"
             showSocial
         >
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 !bg-transparent">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
                     {showTwoFactor && (
                         <div className="space-y-4">
                             <FormField
@@ -88,25 +84,27 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
                                     <FormItem>
                                         <FormLabel>Two Factor Code</FormLabel>
                                         <FormControl>
-                                            <InputOTP
-                                                maxLength={6}
-                                                {...field}
-                                            >
-                                                <InputOTPGroup>
-                                                    <InputOTPSlot index={0} />
-                                                    <InputOTPSlot index={1} />
-                                                </InputOTPGroup>
-                                                <InputOTPSeparator />
-                                                <InputOTPGroup>
-                                                    <InputOTPSlot index={2} />
-                                                    <InputOTPSlot index={3} />
-                                                </InputOTPGroup>
-                                                <InputOTPSeparator />
-                                                <InputOTPGroup>
-                                                    <InputOTPSlot index={4} />
-                                                    <InputOTPSlot index={5} />
-                                                </InputOTPGroup>
-                                            </InputOTP>
+                                            {//@ts-ignore
+                                                <InputOTP
+                                                    maxLength={6}
+                                                    {...field}
+                                                >
+                                                    <InputOTPGroup>
+                                                        <InputOTPSlot index={0} />
+                                                        <InputOTPSlot index={1} />
+                                                    </InputOTPGroup>
+                                                    <InputOTPSeparator />
+                                                    <InputOTPGroup>
+                                                        <InputOTPSlot index={2} />
+                                                        <InputOTPSlot index={3} />
+                                                    </InputOTPGroup>
+                                                    <InputOTPSeparator />
+                                                    <InputOTPGroup>
+                                                        <InputOTPSlot index={4} />
+                                                        <InputOTPSlot index={5} />
+                                                    </InputOTPGroup>
+                                                </InputOTP>
+                                            }
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -115,61 +113,64 @@ export const LoginForm = ({ setRoute }: LoginFormProps) => {
                         </div>
                     )}
                     {!showTwoFactor && (
-                        <div className="space-y-4">
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="johnDoe123@gmail.com"
-                                                type="email"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <div className="relative">
+                        <>
+                            <div className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email</FormLabel>
+                                            <FormControl>
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="********"
-                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="john.doe123@gmail.com"
+                                                    type="email"
+                                                    className='!text-[16px]'
                                                 />
-                                                <div
-                                                    className="absolute cursor-pointer !right-2 !bottom-2"
-                                                    onClick={() => setShowPassword((prev) => !prev)}
-                                                >
-                                                    {showPassword ? <IoEyeOffOutline size={20} /> : <IoEyeOutline size={20} />}
-                                                    <span className="sr-only">Show Password</span>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className='space-y-2'>
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        disabled={isPending}
+                                                        placeholder="********"
+                                                        type={showPassword ? "text" : "password"}
+                                                        className='!text-[16px]'
+                                                    />
+                                                    <div
+                                                        className="absolute cursor-pointer !right-2 !bottom-2"
+                                                        onClick={() => setShowPassword((prev) => !prev)}
+                                                    >
+                                                        {showPassword ? <IoEyeOffOutline size={20} /> : <IoEyeOutline size={20} />}
+                                                        <span className="sr-only">Show Password</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage />
-                                        <Button
-                                            size={"sm"}
-                                            variant={"link"}
-                                            className="px-0 font-normal !underline"
-                                            onClick={() => setRoute("forgot")}
-                                        >
-                                            forgot password?
-                                        </Button>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div>
+                                <Link className='hover:underline' href={"/forgot-password"}>
+                                    forgot password?
+                                </Link>
+                            </div>
+                        </>
                     )}
                     <FormError message={error} />
                     <FormSuccess message={success} />

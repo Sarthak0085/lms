@@ -5,20 +5,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { NavItems } from "@/components/layout/nav-items";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "@repo/ui/icon";
-import { LoginModal } from "@/components/auth/login-modal";
+import { LoginButton } from "@/components/auth/login-button";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { Button } from "@repo/ui/components/ui/button";
-import { RegisterModal } from "@/components/auth/register-modal";
-import { PasswordResetModal } from "@/components/auth/reset-modal";
+import { auth } from "@/auth";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
     const [activeItem, setActiveItem] = useState(0);
-    const [route, setRoute] = useState("Login");
     const [active, setActive] = useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
 
-    const user = false;
+    const user = useCurrentUser();
 
     if (typeof window !== "undefined") {
         window.addEventListener("scroll", () => {
@@ -77,7 +77,7 @@ export const Header = () => {
                                 user ? (
                                     <Link href="/profile">
                                         <Image
-                                            src={user.avatar ? user.avatar.url : image}
+                                            src={user.image ? user.image : ""}
                                             width={30}
                                             height={30}
                                             alt="Profile picture"
@@ -85,11 +85,18 @@ export const Header = () => {
                                         />
                                     </Link>
                                 ) : (
-                                    <HiOutlineUserCircle
-                                        size={25}
-                                        className="hidden 825:block ml-6 cursor-pointer dark:text-white text-black"
-                                        onClick={() => setOpen(true)}
-                                    />
+                                    <Link href={"/auth/login"}>
+                                        <HiOutlineUserCircle
+                                            size={25}
+                                            className="hidden 825:block ml-6 cursor-pointer dark:text-white text-black"
+                                        />
+                                        <span className="sr-only">Login</span>
+                                    </Link>
+                                    // <HiOutlineUserCircle
+                                    //     size={25}
+                                    //     className="hidden 825:block ml-6 cursor-pointer dark:text-white text-black"
+                                    //     onClick={() => setOpen(true)}
+                                    // />
                                 )
                             }
                         </div>
@@ -109,7 +116,7 @@ export const Header = () => {
                                     user ? (
                                         <Link href="/profile">
                                             <Image
-                                                src={user.avatar ? user.avatar.url : image}
+                                                src={user.image ? user?.image : ""}
                                                 width={30}
                                                 height={30}
                                                 alt="Profile picture"
@@ -129,51 +136,6 @@ export const Header = () => {
                     )
                 }
             </div>
-            {
-                route === "Login" && (
-                    <>
-                        {
-                            open && (
-                                <LoginModal
-                                    open={open}
-                                    setOpen={setOpen}
-                                    setRoute={setRoute}
-                                />
-                            )
-                        }
-                    </>
-                )
-            }
-            {
-                route === "register" && (
-                    <>
-                        {
-                            open && (
-                                <RegisterModal
-                                    open={open}
-                                    setOpen={setOpen}
-                                    setRoute={setRoute}
-                                />
-                            )
-                        }
-                    </>
-                )
-            }
-            {
-                route === "forgot" && (
-                    <>
-                        {
-                            open && (
-                                <PasswordResetModal
-                                    open={open}
-                                    setOpen={setOpen}
-                                    setRoute={setRoute}
-                                />
-                            )
-                        }
-                    </>
-                )
-            }
         </div>
     );
 };
