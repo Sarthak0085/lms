@@ -4,12 +4,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
 import { NavItems } from "@/components/layout/nav-items";
-import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "@repo/ui/icon";
+import { FaUser, HiOutlineMenuAlt3, HiOutlineUserCircle } from "@repo/ui/icon";
 import { LoginButton } from "@/components/auth/login-button";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { Button } from "@repo/ui/components/ui/button";
 import { auth } from "@/auth";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui";
+import { cn } from "@repo/ui/lib/utils";
+import { User } from "next-auth";
 
 
 export const Header = () => {
@@ -75,14 +78,17 @@ export const Header = () => {
                             </div>
                             {
                                 user ? (
+
                                     <Link href="/profile">
-                                        <Image
-                                            src={user.image ? user.image : ""}
-                                            width={30}
-                                            height={30}
-                                            alt="Profile picture"
-                                            className={`w-[30px] h-[30px] ml-6 rounded-full cursor-pointer ${activeItem === 5 ? "border-[2px] border-[#37a39a]" : ""}`}
-                                        />
+                                        <Avatar
+                                            className={cn(
+                                                "w-[30px] h-[30px] ml-6 cursor-pointer rounded-full")}
+                                        >
+                                            <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
+                                            <AvatarFallback className="bg-sky-500">
+                                                <FaUser color="white" />
+                                            </AvatarFallback>
+                                        </Avatar>
                                     </Link>
                                 ) : (
                                     <Link href={"/auth/login"}>
@@ -92,11 +98,6 @@ export const Header = () => {
                                         />
                                         <span className="sr-only">Login</span>
                                     </Link>
-                                    // <HiOutlineUserCircle
-                                    //     size={25}
-                                    //     className="hidden 825:block ml-6 cursor-pointer dark:text-white text-black"
-                                    //     onClick={() => setOpen(true)}
-                                    // />
                                 )
                             }
                         </div>
@@ -115,20 +116,24 @@ export const Header = () => {
                                 {
                                     user ? (
                                         <Link href="/profile">
-                                            <Image
-                                                src={user.image ? user?.image : ""}
-                                                width={30}
-                                                height={30}
-                                                alt="Profile picture"
-                                                className={`w-[30px] h-[30px] ml-6 rounded-full cursor-pointer ${activeItem === 5 ? "border-[2px] border-[#37a39a]" : ""}`}
-                                            />
+                                            <Avatar
+                                                className={cn(
+                                                    "w-[30px] h-[30px] ml-6 cursor-pointer rounded-full")}
+                                            >
+                                                <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
+                                                <AvatarFallback className="bg-sky-500">
+                                                    <FaUser color="white" />
+                                                </AvatarFallback>
+                                            </Avatar>
                                         </Link>
                                     ) : (
-                                        <HiOutlineUserCircle
-                                            size={25}
-                                            className="mx-auto cursor-pointer dark:text-white text-black"
-                                            onClick={() => setOpen(true)}
-                                        />
+                                        <Link href={"/auth/login"}>
+                                            <HiOutlineUserCircle
+                                                size={25}
+                                                className="ml-6 cursor-pointer dark:text-white text-black"
+                                            />
+                                            <span className="sr-only">Login</span>
+                                        </Link>
                                     )
                                 }
                             </div>

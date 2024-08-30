@@ -89,7 +89,6 @@
 }
 
 @keyframes changeBackgroundColor {
-
   0%,
   100% {
     opacity: 1;
@@ -117,21 +116,27 @@
 
 }
 
-.hide-scrollbar {
-  overflow: hidden;
-}
+ @keyframes bounce {
+   0%,
+   100% {
+     transform: translateY(0);
+   }
 
-/* Hide scrollbar but still allow scrolling */
-.hide-scrollbar-webkit {
-  overflow: -moz-scrollbars-none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
+   50% {
+     transform: translateY(-16px);
+   }
+ }
 
-.hide-scrollbar-webkit::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari and Opera */
-}
+ .bounce1 {
+   animation: bounce 1.5s infinite ease-in-out;
+ }
+
+ .bounce2 {
+   animation: bounce 1.5s infinite ease-in-out;
+   animation-delay: 0.3s;
+ }
+
+ .bounce3 {
+   animation: bounce 1.5s infinite ease-in-out;
+   animation-delay: 0.6s;
+ }

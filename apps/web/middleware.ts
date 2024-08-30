@@ -1,7 +1,7 @@
 // import { adminRoutes, apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "@/routes";
 import { UserRole } from "@repo/db/types";
 import { auth } from "./auth";
-import { adminRoutes, privateRoutes, authRoutes, DEFAULT_LOGIN_REDIRECT } from "./routes";
+import { adminRoutes, privateRoutes, authRoutes, DEFAULT_LOGIN_REDIRECT, apiAuthPrefix } from "./routes";
 
 //@ts-ignore
 export default auth((req) => {
@@ -13,7 +13,7 @@ export default auth((req) => {
     const isLoggedIn = !!session;
     console.log("isLoggedIn", isLoggedIn);
 
-    // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
 
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
@@ -21,9 +21,9 @@ export default auth((req) => {
 
     const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
 
-    // if (isApiAuthRoute) {
-    //     return null;
-    // }
+    if (isApiAuthRoute) {
+        return null;
+    }
 
     if (!isAuthRoute && !isAdminRoute && !isPrivateRoute) {
         return null;

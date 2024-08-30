@@ -39,7 +39,7 @@ export const adminRoutes = [
  * Routes that starts with this prefix are used for API authentication purpose
  * @type {string[]}
 */
-// export const apiAuthPrefix = "/api/auth";
+export const apiAuthPrefix = "/api/auth";
 
 /**
  * The default redirect path after logging in

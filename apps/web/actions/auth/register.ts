@@ -34,15 +34,19 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
         const confirmLink = `${domain}/auth/verification?token=${verificationToken.token}`;
 
+        console.log("hellobefore");
+
         await sendEmail({
             email: email,
             subject: "Confirm your Email",
-            template: "confirmation.ejs",
+            template: "confirmation_1.ejs",
             data: {
                 name: name,
                 confirmLink: confirmLink,
             }
         });
+
+        console.log("hello");
 
         const user = await db.user.create({
             data: {
