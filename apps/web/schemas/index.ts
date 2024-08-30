@@ -16,6 +16,11 @@ export const RegisterSchema = z.object({
         .min(8, { message: "Password must contains 8 characters" }),
 });
 
+export const NewPasswordSchema = z.object({
+    password: z.string()
+        .min(8, { message: "Password must contains 8 characters" }),
+});
+
 export const PasswordResetSchema = z.object({
     email: z.string()
         .email({ message: "Please Enter a valid Email" }),

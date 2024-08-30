@@ -3,41 +3,37 @@
 import * as z from "zod";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useForm } from "react-hook-form";
-import { PasswordResetSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    Input,
-    Button
-} from "@repo/ui";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
+import { newPassword } from "@/actions/auth/new-password";
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
-import { passwordReset } from "@/actions/auth/password-reset";
 
-export const PasswordResetForm = () => {
+export const NewPasswordForm = () => {
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
+
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<z.infer<typeof PasswordResetSchema>>({
-        resolver: zodResolver(PasswordResetSchema),
+    const form = useForm<z.infer<typeof NewPasswordSchema>>({
+        resolver: zodResolver(NewPasswordSchema),
         defaultValues: {
-            email: "",
+            password: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof PasswordResetSchema>) => {
+    const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
         setError("");
         setSuccess("");
+
         startTransition(() => {
-            passwordReset(values).then((data) => {
+            newPassword(values, token).then((data) => {
                 setError(data?.error);
                 setSuccess(data?.success);
             });
@@ -46,7 +42,7 @@ export const PasswordResetForm = () => {
 
     return (
         <CardWrapper
-            headerLabel="Forgot your password"
+            headerLabel="Enter a New Password"
             backButtonLabel="Go back to login"
             backButtonHref="/auth/login"
         >
@@ -55,16 +51,16 @@ export const PasswordResetForm = () => {
                     <div className="space-y-4">
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel>Password</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
                                             disabled={isPending}
-                                            placeholder="johnDoe123@gmail.com"
-                                            type="email"
+                                            placeholder="********"
+                                            type="password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -74,8 +70,8 @@ export const PasswordResetForm = () => {
                     </div>
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type="submit" variant={"primary"} disabled={isPending} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
-                        Sent Reset Link
+                    <Button type="submit" variant={"primary"} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
+                        Change Password
                     </Button>
                 </form>
             </Form>
