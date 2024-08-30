@@ -3,10 +3,10 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
-import { NavItems } from "@/components/nav-items";
+import { NavItems } from "@/components/layout/nav-items";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "@repo/ui/icon";
 import { LoginModal } from "@/components/auth/login-modal";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { Button } from "@repo/ui/components/ui/button";
 import { RegisterModal } from "@/components/auth/register-modal";
 import { PasswordResetModal } from "@/components/auth/reset-modal";

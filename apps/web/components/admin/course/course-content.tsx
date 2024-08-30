@@ -340,7 +340,7 @@ export const CourseContent = ({
                         variant={"outline"}
                         onClick={(e) => handleAddNewContent(e)}
                     >
-                        <RiAddCircleLine size={16} className="me-1" />
+                        <RiAddCircleLine size={16} className="me-2" />
                         Add New Section
                     </Button>
                 </form >
@@ -352,7 +352,7 @@ export const CourseContent = ({
                     disabled={isPending}
                     onClick={prevButton}
                 >
-                    <RxArrowLeft size={20} className="me-1" /> Prev
+                    <RxArrowLeft size={20} className="me-2" /> Prev
                 </Button>
                 <Button
                     variant={"primary"}
@@ -360,7 +360,7 @@ export const CourseContent = ({
                     disabled={isPending}
                     onClick={handleOptions}
                 >
-                    Next <RxArrowRight size={20} className="ms-1" />
+                    Next <RxArrowRight size={20} className="ms-2" />
                 </Button>
             </div>
         </div>

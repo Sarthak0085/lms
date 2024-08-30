@@ -50,16 +50,16 @@ export const CoursePreview = ({
                         videoUrl={courseData?.demoUrl}
                     /> */}
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center my-2">
                     <h1 className="pt-5 text-[25px]">
-                        {Number(getValues("price")) === 0 ? "Free" : `&#8377;.` + Number(getValues("price"))}
+                        {Number(getValues("price")) === 0 ? "Free" : `₹. ` + Number(getValues("price"))}
                     </h1>
                     <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
                         &#8377;. {getValues("estimatedPrice")}
                     </h5>
                     <h4 className="pt-5 pl-4 text-[22px]">{discountPercentage}% Off</h4>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center my-3 mb-5">
                     <Button
                         variant={"destructive"}
                         className="!w-[180px] font-Poppins"
@@ -67,7 +67,7 @@ export const CoursePreview = ({
                         Buy Now &#8377;. {getValues("price")}
                     </Button>
                 </div>
-                <div className="flex items-center my-3 justify-between">
+                <div className="flex items-center my-5 justify-between">
                     <Input
                         type="text"
                         placeholder="Discount Coupon Code..."
@@ -80,10 +80,12 @@ export const CoursePreview = ({
                         Apply
                     </Button>
                 </div>
-                <p className="pb-1">Source Code Included</p>
-                <p className="pb-1">Life Time Access</p>
-                <p className="pb-1">Certificate of Completion</p>
-                <p className="pb-3 825:pb-1">Premium Support</p>
+                <div className="my-5 space-y-1">
+                    <p className="pb-1">Source Code Included</p>
+                    <p className="pb-1">Life Time Access</p>
+                    <p className="pb-1">Certificate of Completion</p>
+                    <p className="pb-3 825:pb-1">Premium Support</p>
+                </div>
                 <div className="w-full">
                     <div className="w-full 825:pr-5">
                         <h1 className="text-[25px] font-Poppins font-[600]">
@@ -96,7 +98,7 @@ export const CoursePreview = ({
                             </div>
                             <h5>0 students</h5>
                         </div>
-                        <h1 className="text-[25px] font-Poppins font-[600]">
+                        <h1 className="text-[25px] font-Poppins font-[600] mt-5">
                             What will you learn from this Course?
                         </h1>
                         {getValues("benefits").map((item: { title: string }, index: number) => (
@@ -139,7 +141,7 @@ export const CoursePreview = ({
                                 disabled={isPending}
                                 onClick={() => setActive(active - 1)}
                             >
-                                <RxArrowLeft size={20} className="me-1" /> Prev
+                                <RxArrowLeft size={20} className="me-2" /> Prev
                             </Button>
                             <Button
                                 variant={"primary"}

@@ -1,7 +1,7 @@
 "use client"
 
 import CourseCard from '@/components/course/course-card';
-import { Header } from '@/components/header';
+import { Header } from '@/components/layout/header';
 import { allCategories, courses } from '@/utils/data';
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'

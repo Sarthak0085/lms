@@ -59,7 +59,7 @@ export const EditCourse = ({ id }: { id: string }) => {
     }
 
     return (
-        <div className='w-full flex min-h-screen'>
+        <div className='w-full flex items-center justify-center'>
             <div className='w-full sm:w-[78%] '>
                 <div className='mt-20'>
                     <CourseOptions active={active} setActive={setActive} />

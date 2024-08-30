@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 // import CourseDetails from "./CourseDetails";
 import { loadStripe } from "@stripe/stripe-js";
-import { Header } from "../header";
+import { Header } from "../layout/header";
 import { Footer } from "../footer";
 
 interface CourseDetailsPageProps {

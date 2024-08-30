@@ -1,22 +1,24 @@
 import { EditCourse } from '@/components/admin/course/edit-course';
-import DashboardHeader from '@/components/admin/dashboard/dashboard-header';
+import { PageContainer } from '@/components/admin/layout/page-container';
+import { Metadata } from 'next';
 import React from 'react';
 
-const page = ({ params }: any) => {
-    const Id = params.id;
+export const metadata: Metadata = {
+    title: "Admin Create Course",
+    description: "Admin can create course here",
+    keywords: "NextJs, MERN, ReactJs",
+}
+
+interface EditCoursePageProps {
+    params: { id: string };
+}
+
+const EditCoursePage = ({ params: { id } }: EditCoursePageProps) => {
     return (
-        <div>
-            <div className='flex h-[200vh]'>
-                <div className='1500px:w-[16%] w-1/5'>
-                    {/* <AdminSidebar /> */}
-                </div>
-                <div className='w-[85%]'>
-                    <DashboardHeader />
-                    <EditCourse id={Id} />
-                </div>
-            </div>
-        </div>
+        <PageContainer scrollable={true}>
+            <EditCourse id={id} />
+        </PageContainer>
     )
 }
 
-export default page;
+export default EditCoursePage;

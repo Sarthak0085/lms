@@ -1,7 +1,7 @@
 import React from 'react';
-import DashboardHeader from '@/components/admin/dashboard/dashboard-header';
 import { Metadata } from 'next';
 import { CreateCourse } from '@/components/admin/course/create-course';
+import { PageContainer } from '@/components/admin/layout/page-container';
 
 export const metadata: Metadata = {
     title: "Admin Create Course",
@@ -9,18 +9,12 @@ export const metadata: Metadata = {
     keywords: "NextJs, MERN, ReactJs",
 }
 
-const page = () => {
+const CreateCoursePage = () => {
     return (
-        <div className='flex h-[200vh]'>
-            <div className='1500px:w-[16%] w-1/5'>
-                {/* <AdminSidebar /> */}
-            </div>
-            <div className='w-[85%]'>
-                <DashboardHeader />
-                <CreateCourse />
-            </div>
-        </div>
+        <PageContainer scrollable={true}>
+            <CreateCourse />
+        </PageContainer>
     )
 }
 
-export default page
+export default CreateCoursePage;

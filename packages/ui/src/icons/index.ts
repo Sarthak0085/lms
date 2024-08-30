@@ -14,7 +14,14 @@ import {
     Search,
     PlusIcon,
     MinusIcon,
-    ChevronDown
+    ChevronDown,
+    ChevronLeft,
+    MenuIcon,
+    LayoutDashboardIcon,
+    User,
+    LogOutIcon,
+    User2Icon,
+    CircuitBoardIcon,
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -70,8 +77,15 @@ export {
     BiPencil,
     AiOutlineDelete,
     ChevronDown,
+    ChevronLeft,
+    MenuIcon,
     BsLink45Deg,
     IoMdCheckmark,
     IoIosCheckmarkCircleOutline,
-    TiTick
+    TiTick,
+    LayoutDashboardIcon,
+    User,
+    LogOutIcon,
+    User2Icon,
+    CircuitBoardIcon,
 }

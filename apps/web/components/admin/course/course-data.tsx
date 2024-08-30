@@ -180,14 +180,14 @@ export const CourseData = ({ form, active, setActive, isPending }: CourseDataPro
                             className={cn(isPending && "cursor-not-allowed")}
                             onClick={() => setActive(active - 1)}
                         >
-                            <RxArrowLeft size={20} className="me-1" /> Prev
+                            <RxArrowLeft size={20} className="me-2" /> Prev
                         </Button>
                         <Button
                             variant={"primary"}
                             className={cn(isPending && "cursor-not-allowed")}
                             onClick={handleSubmit}
                         >
-                            Next <RxArrowRight size={20} className="ml-2" />
+                            Next <RxArrowRight size={20} className="ms-2" />
                         </Button>
                     </div>
 

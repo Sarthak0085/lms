@@ -1,6 +1,6 @@
 "use client"
 
-import { ThemeSwitcher } from '@/components/theme-switcher';
+import { ThemeSwitcher } from '@/components/layout/theme-switcher';
 import { IoMdNotificationsOutline } from '@repo/ui/icon';
 import React, { useState } from 'react';
 

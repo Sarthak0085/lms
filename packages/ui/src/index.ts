@@ -73,7 +73,26 @@ import {
     SelectSeparator,
     SelectTrigger,
     SelectValue
-} from "./components/ui/select"
+} from "./components/ui/select";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetOverlay,
+    SheetPortal,
+    SheetTitle,
+    SheetTrigger
+} from "./components/ui/sheet";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
+} from "./components/ui/tooltip";
+import { ScrollArea, ScrollBar } from "./components/ui/scroll-area";
 
 export {
     Button,
@@ -136,5 +155,21 @@ export {
     SelectValue,
     toast,
     Toaster,
-    useToast
+    useToast,
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetOverlay,
+    SheetPortal,
+    SheetTitle,
+    SheetTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+    ScrollArea,
+    ScrollBar
 }

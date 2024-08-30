@@ -1,6 +1,6 @@
 "use client"
 
-import { Header } from '@/components/header';
+import { Header } from '@/components/layout/header';
 import { Profile } from '@/components/profile/profile';
 import React, { useState } from 'react'
 

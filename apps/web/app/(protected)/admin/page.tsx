@@ -1,5 +1,4 @@
 import React from 'react'
-import DashboardHero from '../components/Admin/Dashboard/DashboardHero'
 
 const AdminPage = () => {
     return (
@@ -9,7 +8,7 @@ const AdminPage = () => {
                     {/* <AdminSidebar /> */}
                 </div>
                 <div className='w-[85%]'>
-                    <DashboardHero isDashboard={true} />
+                    {/* <DashboardHero isDashboard={true} /> */}
                 </div>
             </div>
         </div>
