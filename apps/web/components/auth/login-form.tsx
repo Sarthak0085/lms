@@ -27,6 +27,7 @@ import {
     InputOTPSlot
 } from '@repo/ui';
 import Link from 'next/link';
+import { login } from '@/actions/auth/login';
 
 export const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -47,22 +48,23 @@ export const LoginForm = () => {
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         setError("");
         setSuccess("");
+        console.log(values);
 
         startTransition(() => {
-            // login(values)
-            //     .then((data) => {
-            //         if (data?.error) {
-            //             setError(data?.error);
-            //         }
-            //         if (data?.success) {
-            //             setSuccess(data?.success);
-            //             window.location.reload();
-            //         }
-            //         if (data?.twoFactor) {
-            //             setShowTwoFactor(true);
-            //         }
-            //     })
-            //     .catch(() => setError("Something went wrong"));
+            login(values)
+                .then((data) => {
+                    if (data?.error) {
+                        setError(data?.error);
+                    }
+                    if (data?.success) {
+                        setSuccess(data?.success);
+                        window.location.reload();
+                    }
+                    if (data?.twoFactor) {
+                        setShowTwoFactor(true);
+                    }
+                })
+                .catch(() => setError("Something went wrong"));
         });
     };
 
@@ -174,7 +176,7 @@ export const LoginForm = () => {
                     )}
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type="submit" variant={"primary"} disabled={isPending} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
+                    <Button type="submit" variant={"primary"} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
                         {showTwoFactor ? "Confirm" : "Login"}
                     </Button>
                 </form>

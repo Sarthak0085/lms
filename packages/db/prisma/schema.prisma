@@ -20,7 +20,7 @@ enum UserRole {
 
 enum UserStatus {
   BLOCK
-  UNBLOCK
+  ACTIVE
   ARCHIEVED
 }
 
@@ -35,7 +35,7 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   TwoFactorConfirmation TwoFactorConfirmation?
-  status                UserStatus             @default(UNBLOCK)
+  status                UserStatus             @default(ACTIVE)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @default(now())
 }

@@ -34,7 +34,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={
         cn("!bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 font-josefin dark:to-black duration-300 hide-scrollbar",
-          poppins.variable,
+          // poppins.variable,
           josefin.className
         )}>
         <ThemeProvider

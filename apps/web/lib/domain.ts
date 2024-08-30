@@ -1,0 +1,1 @@
+export const domain = process.env.NEXT_APP_URL;
