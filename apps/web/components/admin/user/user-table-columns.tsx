@@ -1,15 +1,13 @@
 "use client"
 
 import * as React from "react"
-// import { tasks, type Task } from "@/db/schema"
 import { type ColumnDef } from "@tanstack/react-table"
-// import { formatDate } from "@/lib/utils"
-// import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
-// import { getPriorityIcon, getStatusIcon } from "../_lib/utils"
 import { Checkbox } from "@repo/ui"
-// import { DeleteTasksDialog } from "./delete-tasks-dialog"
+import { DataTableColumnHeader } from "@/components/admin/table/data-table-column-header"
+import { User, UserRole, UserStatus } from "@repo/db/types"
+import { formatDate } from "@/lib/utils"
 
-export function getColumns(): ColumnDef<Task>[] {
+export function getColumns(): ColumnDef<User>[] {
     return [
         {
             id: "select",
@@ -36,29 +34,39 @@ export function getColumns(): ColumnDef<Task>[] {
             enableHiding: false,
         },
         {
-            accessorKey: "code",
+            accessorKey: "Id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Task" />
+                <DataTableColumnHeader column={column} title="User Id" />
             ),
-            cell: ({ row }) => <div className="w-20">{row.getValue("code")}</div>,
+            cell: ({ row }) => <div className="w-20">{row.getValue("id")}</div>,
             enableSorting: false,
             enableHiding: false,
         },
         {
-            accessorKey: "title",
+            accessorKey: "name",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Title" />
+                <DataTableColumnHeader column={column} title="Name" />
             ),
             cell: ({ row }) => {
-                // const label = tasks.label.enumValues.find(
-                //     (label) => label === row.original.label
-                // )
-
                 return (
                     <div className="flex space-x-2">
-                        {/* {label && <Badge variant="outline">{label}</Badge>} */}
                         <span className="max-w-[31.25rem] truncate font-medium">
-                            {row.getValue("title")}
+                            {row.getValue("name")}
+                        </span>
+                    </div>
+                )
+            },
+        },
+        {
+            accessorKey: "email",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Email" />
+            ),
+            cell: ({ row }) => {
+                return (
+                    <div className="flex space-x-2">
+                        <span className="max-w-[31.25rem] truncate font-medium">
+                            {row.getValue("email")}
                         </span>
                     </div>
                 )
@@ -70,7 +78,7 @@ export function getColumns(): ColumnDef<Task>[] {
                 <DataTableColumnHeader column={column} title="Status" />
             ),
             cell: ({ row }) => {
-                const status = tasks.status.enumValues.find(
+                const status = Object.values(UserStatus).find(
                     (status) => status === row.original.status
                 )
 
@@ -98,13 +106,13 @@ export function getColumns(): ColumnDef<Task>[] {
                 <DataTableColumnHeader column={column} title="Priority" />
             ),
             cell: ({ row }) => {
-                const priority = tasks.priority.enumValues.find(
-                    (priority) => priority === row.original.priority
+                const role = Object.values(UserRole).find(
+                    (role) => role === row.original.role
                 )
 
-                if (!priority) return null
+                if (!role) return null
 
-                const Icon = getPriorityIcon(priority)
+                const Icon = getRoleIcon(role)
 
                 return (
                     <div className="flex items-center">
@@ -112,7 +120,7 @@ export function getColumns(): ColumnDef<Task>[] {
                             className="mr-2 size-4 text-muted-foreground"
                             aria-hidden="true"
                         />
-                        <span className="capitalize">{priority}</span>
+                        <span className="capitalize">{role}</span>
                     </div>
                 )
             },

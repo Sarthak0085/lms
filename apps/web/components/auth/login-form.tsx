@@ -39,11 +39,6 @@ export const LoginForm = () => {
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
-            // email: "",
-            // password: "",
-            // ...(code && {
-            //     code: ""
-            // }),
         },
     });
 
@@ -131,7 +126,7 @@ export const LoginForm = () => {
                                                     disabled={isPending}
                                                     placeholder="john.doe123@gmail.com"
                                                     type="email"
-                                                    className='!text-[16px]'
+                                                    className='!text-[16px] font-josefin'
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -153,7 +148,7 @@ export const LoginForm = () => {
                                                         disabled={isPending}
                                                         placeholder="********"
                                                         type={showPassword ? "text" : "password"}
-                                                        className='!text-[16px]'
+                                                        className='!text-[16px] font-josefin'
                                                     />
                                                     <div
                                                         className="absolute cursor-pointer !right-2 !bottom-2"
@@ -170,7 +165,7 @@ export const LoginForm = () => {
                                 />
                             </div>
                             <div>
-                                <Link className='hover:underline' href={"/forgot-password"}>
+                                <Link className='hover:underline font-josefin' href={"/forgot-password"}>
                                     forgot password?
                                 </Link>
                             </div>
@@ -178,7 +173,13 @@ export const LoginForm = () => {
                     )}
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type="submit" variant={"primary"} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
+                    <Button
+                        type="submit"
+                        aria-label='login'
+                        disabled={isPending}
+                        variant={"primary"}
+                        className={cn("!w-full", isPending && "!cursor-not-allowed")}
+                    >
                         {showTwoFactor ? "Confirm" : "Login"}
                     </Button>
                 </form>

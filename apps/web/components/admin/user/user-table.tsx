@@ -2,21 +2,19 @@
 "use memo"
 
 import * as React from "react"
-// import { tasks, type Task } from "@/db/schema"
 import { type DataTableFilterField } from "@/types"
 import { useDataTable } from "@/hooks/use-data-table"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
-import { type getTasks } from "../_lib/queries"
-import { getPriorityIcon, getStatusIcon } from "../_lib/utils"
-import { getColumns } from "./tasks-table-columns"
-import { TasksTableToolbarActions } from "./tasks-table-toolbar-actions"
+import { getColumns } from "./user-table-columns"
+import { User, UserRole, UserStatus } from "@repo/db/types"
+import { DataTable } from "@/components/admin/table/data-table"
+import { DataTableToolbar } from "@/components/admin/table/data-table-toolbar"
+import { UsersTableToolbarActions } from "./users-table-toolbar-actions"
 
 interface TasksTableProps {
     tasksPromise: ReturnType<typeof getTasks>
 }
 
-export function TasksTable({ tasksPromise }: TasksTableProps) {
+export const UsersTable = ({ tasksPromise }: TasksTableProps) => {
 
     const { data, pageCount } = React.use(tasksPromise)
 
@@ -34,29 +32,29 @@ export function TasksTable({ tasksPromise }: TasksTableProps) {
      * @prop {React.ReactNode} [icon] - An optional icon to display next to the label.
      * @prop {boolean} [withCount] - An optional boolean to display the count of the filter option.
      */
-    const filterFields: DataTableFilterField<Task>[] = [
+    const filterFields: DataTableFilterField<User>[] = [
         {
-            label: "Title",
-            value: "title",
-            placeholder: "Filter titles...",
+            label: "Name",
+            value: "name",
+            placeholder: "Filter names...",
         },
         {
             label: "Status",
             value: "status",
-            options: tasks.status.enumValues.map((status: any) => ({
-                label: status[0]?.toUpperCase() + status.slice(1),
+            options: Object.values(UserStatus).map((status: UserStatus) => ({
+                label: status?.toUpperCase(),
                 value: status,
                 icon: getStatusIcon(status),
                 withCount: true,
             })),
         },
         {
-            label: "Priority",
-            value: "priority",
-            options: tasks.priority.enumValues.map((priority: any) => ({
-                label: priority[0]?.toUpperCase() + priority.slice(1),
-                value: priority,
-                icon: getPriorityIcon(priority),
+            label: "Role",
+            value: "role",
+            options: Object.values(UserRole).map((role: UserRole) => ({
+                label: role,
+                value: role,
+                icon: getRoleIcon(role),
                 withCount: true,
             })),
         },
@@ -81,7 +79,7 @@ export function TasksTable({ tasksPromise }: TasksTableProps) {
             table={table}
         >
             <DataTableToolbar table={table} filterFields={filterFields}>
-                <TasksTableToolbarActions table={table} />
+                <UsersTableToolbarActions table={table} />
             </DataTableToolbar>
         </DataTable>
     )

@@ -173,7 +173,13 @@ export const RegisterForm = () => {
                     </div>
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type="submit" variant={"primary"} disabled={isPending} className={cn("!w-full", isPending && "!cursor-not-allowed")}>
+                    <Button
+                        type="submit"
+                        aria-label='register'
+                        variant={"primary"}
+                        disabled={isPending}
+                        className={cn("!w-full", isPending && "!cursor-not-allowed")}
+                    >
                         Register
                     </Button>
                 </form>

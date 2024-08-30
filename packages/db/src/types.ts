@@ -1,6 +1,13 @@
-import { UserRole, UserStatus } from "@prisma/client";
+import {
+    Prisma,
+    UserRole,
+    UserStatus,
+    type User,
+} from "@prisma/client";
 
 export {
     UserRole,
-    UserStatus
+    UserStatus,
+    User,
+    Prisma
 }

@@ -104,6 +104,30 @@ import {
 } from "./components/ui/breadcrumb";
 import { Checkbox } from "./components/ui/checkbox";
 import { Badge } from "./components/ui/badge";
+import {
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+    CommandShortcut
+} from "./components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger
+} from "./components/ui/popover";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "./components/ui/table";
 
 export {
     Button,
@@ -191,5 +215,23 @@ export {
     BreadcrumbPage,
     BreadcrumbSeparator,
     Checkbox,
-    Badge
+    Badge,
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+    CommandShortcut,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 }

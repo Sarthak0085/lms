@@ -1,4 +1,10 @@
-import { LoginSchema, NewPasswordSchema, PasswordResetSchema, RegisterSchema } from "@/schemas";
+import {
+    LoginSchema,
+    NewPasswordSchema,
+    PasswordResetSchema,
+    RegisterSchema,
+    SearchParamsSchema
+} from "@/schemas";
 import { z } from "zod";
 
 export const ValidateLoginCredentials = (values: z.infer<typeof LoginSchema>) => {
@@ -33,6 +39,16 @@ export const ValidateResetPassword = (values: z.infer<typeof PasswordResetSchema
 
 export const ValidateNewPassword = (values: z.infer<typeof NewPasswordSchema>) => {
     const validatedFields = NewPasswordSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new Error("Invalid Fields");
+    }
+
+    return validatedFields.data;
+}
+
+export const ValidateSearchParams = (values: z.infer<typeof SearchParamsSchema>) => {
+    const validatedFields = SearchParamsSchema.safeParse(values);
 
     if (!validatedFields.success) {
         throw new Error("Invalid Fields");

@@ -101,7 +101,7 @@ export const EditCourseSchema = z.object({
     totalVideos: z.number(),
 });
 
-export const searchParamsSchema = z.object({
+export const SearchParamsSchema = z.object({
     page: z.coerce.number().default(1),
     per_page: z.coerce.number().default(10),
     sort: z.string().optional(),

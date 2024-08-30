@@ -6,7 +6,20 @@ import {
     SunIcon,
     MoonIcon,
     LaptopIcon,
-    SlashIcon
+    SlashIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
+    CaretSortIcon,
+    EyeNoneIcon,
+    Cross2Icon,
+    MixerHorizontalIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    CheckIcon,
+    PlusCircledIcon,
+    DownloadIcon
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -98,5 +111,18 @@ export {
     SunIcon,
     MoonIcon,
     LaptopIcon,
-    SlashIcon
+    SlashIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
+    CaretSortIcon,
+    EyeNoneIcon,
+    Cross2Icon,
+    MixerHorizontalIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    CheckIcon,
+    PlusCircledIcon,
+    DownloadIcon
 }
