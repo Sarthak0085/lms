@@ -1,6 +1,13 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaUser } from "react-icons/fa";
-import { ExclamationTriangleIcon, CheckCircledIcon } from "@radix-ui/react-icons";
+import {
+    ExclamationTriangleIcon,
+    CheckCircledIcon,
+    SunIcon,
+    MoonIcon,
+    LaptopIcon,
+    SlashIcon
+} from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
     HiOutlineMenuAlt3,
@@ -88,4 +95,8 @@ export {
     LogOutIcon,
     User2Icon,
     CircuitBoardIcon,
+    SunIcon,
+    MoonIcon,
+    LaptopIcon,
+    SlashIcon
 }

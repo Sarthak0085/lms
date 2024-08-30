@@ -93,6 +93,17 @@ import {
     TooltipTrigger
 } from "./components/ui/tooltip";
 import { ScrollArea, ScrollBar } from "./components/ui/scroll-area";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbEllipsis,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator
+} from "./components/ui/breadcrumb";
+import { Checkbox } from "./components/ui/checkbox";
+import { Badge } from "./components/ui/badge";
 
 export {
     Button,
@@ -171,5 +182,14 @@ export {
     TooltipProvider,
     TooltipTrigger,
     ScrollArea,
-    ScrollBar
+    ScrollBar,
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbEllipsis,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+    Checkbox,
+    Badge
 }
