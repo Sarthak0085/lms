@@ -8,6 +8,10 @@ export interface NavItem {
     description?: string;
 }
 
+export interface SearchParams {
+    [key: string]: string | string[] | undefined
+}
+
 export interface Option {
     label: string
     value: string

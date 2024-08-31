@@ -13,6 +13,7 @@ import {
     DoubleArrowLeftIcon,
     DoubleArrowRightIcon
 } from "@repo/ui/icon"
+import { cn } from "@repo/ui/lib/utils"
 import { type Table } from "@tanstack/react-table"
 
 interface DataTablePaginationProps<TData> {
@@ -59,11 +60,12 @@ export function DataTablePagination<TData>({
                     <Button
                         aria-label="Go to first page"
                         variant="outline"
-                        className="hidden size-8 p-0 lg:flex"
+                        className={cn("hidden size-8 p-0 lg:flex", !table.getCanPreviousPage() && "!cursor-not-allowed")}
                         onClick={() => table.setPageIndex(0)}
                         disabled={!table.getCanPreviousPage()}
                     >
                         <DoubleArrowLeftIcon className="size-4" aria-hidden="true" />
+                        <span className="sr-only">Go to first Page</span>
                     </Button>
                     <Button
                         aria-label="Go to previous page"

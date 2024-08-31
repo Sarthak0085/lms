@@ -5,6 +5,7 @@ import {
     RegisterSchema,
     SearchParamsSchema
 } from "@/schemas";
+import { UserRole, UserStatus } from "@repo/db/types";
 import { z } from "zod";
 
 export const ValidateLoginCredentials = (values: z.infer<typeof LoginSchema>) => {
@@ -47,12 +48,26 @@ export const ValidateNewPassword = (values: z.infer<typeof NewPasswordSchema>) =
     return validatedFields.data;
 }
 
-export const ValidateSearchParams = (values: z.infer<typeof SearchParamsSchema>) => {
-    const validatedFields = SearchParamsSchema.safeParse(values);
+export const ValidateSearchParams = (values: Record<string, string | string[] | undefined>) => {
+    const parsedParams: Record<string, any> = {};
 
-    if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+    for (const key in values) {
+        const value = values[key];
+        if (Array.isArray(value)) {
+            parsedParams[key] = value;
+        } else if (value) {
+            parsedParams[key] = value;
+        }
     }
 
-    return validatedFields.data;
+    // Specific handling for roles if needed
+    if (parsedParams.role) {
+        parsedParams.role = parsedParams.role.split(".").map((ro: UserRole) => ro.trim()) ?? [parsedParams.role]
+    }
+
+    if (parsedParams.status) {
+        parsedParams.status = parsedParams.status.split(".").map((status: UserStatus) => status.trim()) ?? [parsedParams.status]
+    }
+
+    return SearchParamsSchema.parse(parsedParams);
 }

@@ -19,7 +19,10 @@ import {
     DoubleArrowRightIcon,
     CheckIcon,
     PlusCircledIcon,
-    DownloadIcon
+    DownloadIcon,
+    CircleBackslashIcon,
+    ArchiveIcon,
+    PersonIcon,
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -42,6 +45,10 @@ import {
     LogOutIcon,
     User2Icon,
     CircuitBoardIcon,
+    CheckCircleIcon,
+    XCircleIcon,
+    ShieldIcon,
+    UserIcon,
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -124,5 +131,12 @@ export {
     DoubleArrowRightIcon,
     CheckIcon,
     PlusCircledIcon,
-    DownloadIcon
+    DownloadIcon,
+    CheckCircleIcon,
+    XCircleIcon,
+    CircleBackslashIcon,
+    ArchiveIcon,
+    UserIcon,
+    ShieldIcon,
+    PersonIcon
 }

@@ -2,11 +2,14 @@ import { SearchParamsSchema } from '@/schemas'
 import { db } from '@repo/db'
 import { Prisma, User } from '@repo/db/types'
 import { NextResponse } from 'next/server'
+import { unstable_noStore as noStore } from "next/cache"
 
 // Define the API handler
 export async function GET(request: Request) {
+    noStore();
     const url = new URL(request.url)
     const query = Object.fromEntries(url.searchParams.entries())
+    console.log("queriess", url,  query);
 
     // Validate and parse query parameters
     const validatedQuery = SearchParamsSchema.safeParse(query)

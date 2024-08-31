@@ -5,9 +5,10 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@repo/ui"
 import { DataTableColumnHeader } from "@/components/admin/table/data-table-column-header"
 import { User, UserRole, UserStatus } from "@repo/db/types"
-import { formatDate } from "@/lib/utils"
+import { formatDate, getRoleIcon, getStatusIcon } from "@/lib/utils"
+import { cn } from "@repo/ui/lib/utils"
 
-export function getColumns(): ColumnDef<User>[] {
+export const getColumns = (): ColumnDef<User>[] => {
     return [
         {
             id: "select",
@@ -34,11 +35,11 @@ export function getColumns(): ColumnDef<User>[] {
             enableHiding: false,
         },
         {
-            accessorKey: "Id",
+            accessorKey: "id",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="User Id" />
             ),
-            cell: ({ row }) => <div className="w-20">{row.getValue("id")}</div>,
+            cell: ({ row }) => <div className="w-20">{(row.getValue("id") as string).slice(0, 10)}</div>,
             enableSorting: false,
             enableHiding: false,
         },
@@ -87,12 +88,20 @@ export function getColumns(): ColumnDef<User>[] {
                 const Icon = getStatusIcon(status)
 
                 return (
-                    <div className="flex w-[6.25rem] items-center">
+                    <div className={cn("flex w-[6.25rem] items-center",
+                        status === UserStatus.ACTIVE && "text-emerald-500",
+                        status === UserStatus.BLOCK && "text-[red]",
+                        status === UserStatus.ARCHIEVED && "text-muted-foreground"
+                    )}>
                         <Icon
-                            className="mr-2 size-4 text-muted-foreground"
+                            className={cn("mr-2 size-5 text-muted-foreground",
+                                status === UserStatus.ACTIVE && "text-emerald-500",
+                                status === UserStatus.BLOCK && "text-[red]",
+                                status === UserStatus.ARCHIEVED && "text-muted-foreground"
+                            )}
                             aria-hidden="true"
                         />
-                        <span className="capitalize">{status}</span>
+                        <span className="capitalize font-bold">{status}</span>
                     </div>
                 )
             },
@@ -101,9 +110,9 @@ export function getColumns(): ColumnDef<User>[] {
             },
         },
         {
-            accessorKey: "priority",
+            accessorKey: "role",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Priority" />
+                <DataTableColumnHeader column={column} title="Role" />
             ),
             cell: ({ row }) => {
                 const role = Object.values(UserRole).find(
@@ -115,12 +124,18 @@ export function getColumns(): ColumnDef<User>[] {
                 const Icon = getRoleIcon(role)
 
                 return (
-                    <div className="flex items-center">
+                    <div className={cn("flex items-center",
+                        role === UserRole.USER && "text-sky-600",
+                        role === UserRole.ADMIN && "text-[#e62fe6e4]"
+                    )}>
                         <Icon
-                            className="mr-2 size-4 text-muted-foreground"
+                            className={cn("mr-2 size-5 text-muted-foreground",
+                                role === UserRole.USER && "text-sky-600",
+                                role === UserRole.ADMIN && "text-[#e62fe6e4]"
+                            )}
                             aria-hidden="true"
                         />
-                        <span className="capitalize">{role}</span>
+                        <span className="capitalize font-bold">{role}</span>
                     </div>
                 )
             },

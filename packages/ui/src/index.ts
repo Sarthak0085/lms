@@ -128,6 +128,7 @@ import {
     TableHeader,
     TableRow,
 } from "./components/ui/table";
+import { Skeleton } from "./components/ui/skeleton"
 
 export {
     Button,
@@ -234,4 +235,5 @@ export {
     TableHead,
     TableHeader,
     TableRow,
+    Skeleton
 }

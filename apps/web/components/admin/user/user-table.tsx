@@ -9,14 +9,16 @@ import { User, UserRole, UserStatus } from "@repo/db/types"
 import { DataTable } from "@/components/admin/table/data-table"
 import { DataTableToolbar } from "@/components/admin/table/data-table-toolbar"
 import { UsersTableToolbarActions } from "./users-table-toolbar-actions"
+import { getRoleIcon, getStatusIcon } from "@/lib/utils"
+import { getUsers } from "@/actions/user/get-users"
 
-interface TasksTableProps {
-    tasksPromise: ReturnType<typeof getTasks>
+interface UsersTableProps {
+    usersPromise: ReturnType<typeof getUsers>
 }
 
-export const UsersTable = ({ tasksPromise }: TasksTableProps) => {
+export const UsersTable = ({ usersPromise }: UsersTableProps) => {
 
-    const { data, pageCount } = React.use(tasksPromise)
+    const { data, pageCount } = React.use(usersPromise)
 
     // Memoize the columns so they don't re-render on every render
     const columns = React.useMemo(() => getColumns(), [])
