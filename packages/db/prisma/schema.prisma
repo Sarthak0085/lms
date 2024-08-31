@@ -38,6 +38,7 @@ model User {
   status                UserStatus             @default(ACTIVE)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @default(now())
+  categories            Category[]
 }
 
 model Account {
@@ -93,4 +94,15 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign key relation
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }

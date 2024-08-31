@@ -113,6 +113,7 @@ export const SearchParamsSchema = z.object({
     per_page: z.coerce.number().default(10),
     sort: z.string().optional(),
     name: z.string().optional(),
+    title: z.string().optional(),
     email: z.string().optional(),
     status: z.array(z.enum([UserStatus.ACTIVE, UserStatus.BLOCK, UserStatus.ARCHIEVED])).optional(),
     role: z.array(z.enum([UserRole.USER, UserRole.ADMIN])).optional(),

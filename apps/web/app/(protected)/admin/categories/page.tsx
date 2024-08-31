@@ -1,7 +1,9 @@
 "use memo";
 
+import { getCategories } from "@/actions/category/get-categories";
 import { getUsers } from "@/actions/user/get-users";
 import { Breadcrumbs } from "@/components/admin/breadcrumbs";
+import { CategoriesTable } from "@/components/admin/category/category-table";
 import { PageContainer } from "@/components/admin/layout/page-container";
 import { UsersTable } from "@/components/admin/user/user-table";
 import { DataTableSkeleton } from "@/components/skeletons/data-table-skeleton";
@@ -11,27 +13,16 @@ import { Suspense } from "react";
 
 const breadcrumbItems = [
     { title: 'Dashboard', link: '/admin' },
-    { title: 'User', link: '/admin/users' }
+    { title: 'Category', link: '/admin/categories' }
 ];
 
 export interface UsersPageProps {
     searchParams: SearchParams;
 }
 
-
-const UsersPage = ({ searchParams }: UsersPageProps) => {
+const CategoriesPage = ({ searchParams }: UsersPageProps) => {
     const search = ValidateSearchParams(searchParams)
-    // console.log("search", search);
-    // const response = await fetch(`${domain}/api/users?${search}`, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }
-    // });
-    // const { data, pageCount } = await response.json();
-    const users = getUsers(search);
-
-    // console.log(pageCount, data);
+    const categories = getCategories(search);
 
     return (
         <PageContainer>
@@ -41,7 +32,7 @@ const UsersPage = ({ searchParams }: UsersPageProps) => {
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">Welcome back!!</h2>
                         <p className="text-muted-foreground">
-                            Here&apos;s a list of all the users!
+                            Here&apos;s a list of all the categories!
                         </p>
                     </div>
                 </div>
@@ -60,11 +51,11 @@ const UsersPage = ({ searchParams }: UsersPageProps) => {
                      * Passing promises and consuming them using React.use for triggering the suspense fallback.
                      * @see https://react.dev/reference/react/use
                      */}
-                    <UsersTable usersPromise={users} />
+                    <CategoriesTable categoriesPromise={categories} />
                 </Suspense>
             </div>
         </PageContainer>
     );
 }
 
-export default UsersPage;
+export default CategoriesPage;
