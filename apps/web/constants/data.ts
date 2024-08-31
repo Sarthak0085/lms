@@ -1,4 +1,5 @@
 import { NavItem } from "@/types";
+import { UserRole, UserStatus } from "@repo/db/types";
 import { CircuitBoardIcon, LayoutDashboardIcon, LogOutIcon, User, User2Icon } from "@repo/ui/icon";
 
 export const navItems: NavItem[] = [
@@ -39,3 +40,24 @@ export const navItems: NavItem[] = [
         label: 'login'
     }
 ];
+
+export const userRoles = [
+    {
+        value: UserRole.USER
+    },
+    {
+        value: UserRole.ADMIN,
+    }
+];
+
+export const userStatuses = [
+    {
+        value: UserStatus.ACTIVE,
+    },
+    {
+        value: UserStatus.BLOCK,
+    },
+    {
+        value: UserStatus.ARCHIEVED,
+    }
+]

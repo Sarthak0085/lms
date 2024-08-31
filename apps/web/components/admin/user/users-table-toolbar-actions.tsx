@@ -3,13 +3,9 @@
 import { User } from "@repo/db/types"
 import { Button } from "@repo/ui"
 import { DownloadIcon } from "@repo/ui/icon"
-// import { DownloadIcon } from "@radix-ui/react-icons"
 import { type Table } from "@tanstack/react-table"
-
+import { DeleteUsersDialog } from "./delete-user-dialog"
 // import { exportTableToCSV } from "@/lib/export"
-
-// import { CreateTaskDialog } from "./create-task-dialog"
-// import { DeleteTasksDialog } from "./delete-tasks-dialog"
 
 interface UsersTableToolbarActionsProps {
     table: Table<User>
@@ -20,14 +16,14 @@ export function UsersTableToolbarActions({
 }: UsersTableToolbarActionsProps) {
     return (
         <div className="flex items-center gap-2">
-            {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-                <DeleteTasksDialog
-                    tasks={table
+            {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+                <DeleteUsersDialog
+                    users={table
                         .getFilteredSelectedRowModel()
                         .rows.map((row) => row.original)}
                     onSuccess={() => table.toggleAllRowsSelected(false)}
                 />
-            ) : null} */}
+            ) : null}
             {/* <Button
                 variant="outline"
                 size="sm"

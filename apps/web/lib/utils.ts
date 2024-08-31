@@ -1,5 +1,5 @@
 import { User, UserRole, UserStatus } from "@repo/db/types"
-import { ArchiveIcon, CheckCircledIcon, CheckCircleIcon, CircleBackslashIcon, PersonIcon, ShieldIcon, XCircleIcon } from "@repo/ui/icon"
+import { ArchiveIcon, CheckCircledIcon, CheckCircleIcon, CircleBackslashIcon, FaUserShield, PersonIcon, ShieldIcon, XCircleIcon } from "@repo/ui/icon"
 
 export const formatDate = (
     date: Date | string | number,
@@ -15,7 +15,7 @@ export const formatDate = (
 
 /**
  * Returns the appropriate status icon based on the provided status.
- * @param status - The status of the task.
+ * @param status - The status of the user.
  * @returns A React component representing the status icon.
  */
 export const getStatusIcon = (status: UserStatus): any => {
@@ -30,13 +30,13 @@ export const getStatusIcon = (status: UserStatus): any => {
 
 /**
  * Returns the appropriate role icon based on the provided role.
- * @param role - The role of the task.
+ * @param role - The role of the user.
  * @returns A React component representing the role icon.
  */
 export const getRoleIcon = (role: UserRole): any => {
     const roleIcons = {
         USER: PersonIcon,
-        ADMIN: ShieldIcon,
+        ADMIN: FaUserShield,
     }
 
     return roleIcons[role] || PersonIcon;

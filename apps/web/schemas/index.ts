@@ -102,6 +102,12 @@ export const EditCourseSchema = z.object({
     totalVideos: z.number(),
 });
 
+export const EditUserSchema = z.object({
+    userId: z.string().min(1, { message: "UserId is required" }),
+    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    status: z.enum([UserStatus.BLOCK, UserStatus.ACTIVE, UserStatus.ARCHIEVED]),
+});
+
 export const SearchParamsSchema = z.object({
     page: z.coerce.number().default(1),
     per_page: z.coerce.number().default(10),

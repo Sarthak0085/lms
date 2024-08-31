@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub, FaUser } from "react-icons/fa";
+import { FaGithub, FaUser, FaUserShield } from "react-icons/fa";
 import {
     ExclamationTriangleIcon,
     CheckCircledIcon,
@@ -23,6 +23,8 @@ import {
     CircleBackslashIcon,
     ArchiveIcon,
     PersonIcon,
+    TrashIcon,
+    DotsHorizontalIcon
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -138,5 +140,8 @@ export {
     ArchiveIcon,
     UserIcon,
     ShieldIcon,
-    PersonIcon
+    PersonIcon,
+    TrashIcon,
+    DotsHorizontalIcon,
+    FaUserShield
 }
