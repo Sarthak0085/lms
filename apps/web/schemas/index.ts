@@ -121,3 +121,13 @@ export const SearchParamsSchema = z.object({
     to: z.string().optional(),
     operator: z.enum(["and", "or"]).optional(),
 });
+
+export const CreateCategorySchema = z.object({
+    name: z.string().min(2, { message: "Category name is required" }),
+});
+
+export const UpdateCategorySchema = z.object({
+    categoryId: z.string().min(1, "Category Id is required"),
+    name: z.string().min(2, "Category name is required."),
+    userId: z.string().min(1, "UserId is required")
+});

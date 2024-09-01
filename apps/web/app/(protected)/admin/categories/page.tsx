@@ -1,11 +1,9 @@
 "use memo";
 
 import { getCategories } from "@/actions/category/get-categories";
-import { getUsers } from "@/actions/user/get-users";
 import { Breadcrumbs } from "@/components/admin/breadcrumbs";
 import { CategoriesTable } from "@/components/admin/category/category-table";
 import { PageContainer } from "@/components/admin/layout/page-container";
-import { UsersTable } from "@/components/admin/user/user-table";
 import { DataTableSkeleton } from "@/components/skeletons/data-table-skeleton";
 import { SearchParams } from "@/types";
 import { ValidateSearchParams } from "@/validations";
@@ -23,6 +21,7 @@ export interface UsersPageProps {
 const CategoriesPage = ({ searchParams }: UsersPageProps) => {
     const search = ValidateSearchParams(searchParams)
     const categories = getCategories(search);
+    console.log(categories);
 
     return (
         <PageContainer>

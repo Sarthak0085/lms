@@ -24,7 +24,9 @@ import {
     ArchiveIcon,
     PersonIcon,
     TrashIcon,
-    DotsHorizontalIcon
+    DotsHorizontalIcon,
+    ReloadIcon,
+    PlusIcon
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -37,7 +39,6 @@ import {
     Sun,
     Moon,
     Search,
-    PlusIcon,
     MinusIcon,
     ChevronDown,
     ChevronLeft,
@@ -143,5 +144,6 @@ export {
     PersonIcon,
     TrashIcon,
     DotsHorizontalIcon,
-    FaUserShield
+    FaUserShield,
+    ReloadIcon,
 }

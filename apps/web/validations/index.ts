@@ -1,10 +1,13 @@
+import CustomError from "@/lib/custom-error";
 import {
+    CreateCategorySchema,
     EditUserSchema,
     LoginSchema,
     NewPasswordSchema,
     PasswordResetSchema,
     RegisterSchema,
-    SearchParamsSchema
+    SearchParamsSchema,
+    UpdateCategorySchema
 } from "@/schemas";
 import { UserRole, UserStatus } from "@repo/db/types";
 import { z } from "zod";
@@ -13,7 +16,7 @@ export const ValidateLoginCredentials = (values: z.infer<typeof LoginSchema>) =>
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+        throw new CustomError("Invalid Fields", 400);
     }
 
     return validatedFields.data;
@@ -23,7 +26,7 @@ export const ValidateRegistrationCredentials = (values: z.infer<typeof RegisterS
     const validatedFields = RegisterSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+        throw new CustomError("Invalid Fields", 400);
     }
 
     return validatedFields.data;
@@ -33,7 +36,7 @@ export const ValidateResetPassword = (values: z.infer<typeof PasswordResetSchema
     const validatedFields = PasswordResetSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+        throw new CustomError("Invalid Fields", 400);
     }
 
     return validatedFields.data;
@@ -43,7 +46,7 @@ export const ValidateNewPassword = (values: z.infer<typeof NewPasswordSchema>) =
     const validatedFields = NewPasswordSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+        throw new CustomError("Invalid Fields", 400);
     }
 
     return validatedFields.data;
@@ -53,7 +56,7 @@ export const ValidateAdminEditUser = (values: z.infer<typeof EditUserSchema>) =>
     const validatedFields = EditUserSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        throw new Error("Invalid Fields");
+        throw new CustomError("Invalid Fields", 400);
     }
 
     return validatedFields.data;
@@ -81,4 +84,24 @@ export const ValidateSearchParams = (values: Record<string, string | string[] | 
     }
 
     return SearchParamsSchema.parse(parsedParams);
-}
+};
+
+export const ValidateCreateCategoryInput = (values: z.infer<typeof CreateCategorySchema>) => {
+    const validatedFields = CreateCategorySchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new CustomError("Invalid Fields", 400);
+    }
+
+    return validatedFields.data;
+};
+
+export const ValidateUpdateCategoryInput = (values: z.infer<typeof UpdateCategorySchema>) => {
+    const validatedFields = UpdateCategorySchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new CustomError("Invalid Fields", 400);
+    }
+
+    return validatedFields.data;
+};
