@@ -2,13 +2,7 @@
 
 import * as z from "zod";
 import { CreateCategorySchema, UpdateCategorySchema } from "@/schemas";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
 import {
-    Button,
-    Card,
-    CardContent,
-    CardHeader,
     Form,
     FormControl,
     FormField,
@@ -17,7 +11,6 @@ import {
     FormMessage,
     Input
 } from "@repo/ui";
-import { cn } from "@repo/ui/lib/utils";
 import { useForm } from "react-hook-form";
 import { ReactNode } from "react";
 
@@ -28,7 +21,7 @@ type CategoryFormValues =
 interface CategoryFormProps {
     form: ReturnType<typeof useForm<CategoryFormValues>>;
     isPending: boolean;
-    onSubmit: any;
+    onSubmit: (values: CategoryFormValues) => void;
     children: ReactNode;
 }
 

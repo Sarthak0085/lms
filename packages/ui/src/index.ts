@@ -128,7 +128,20 @@ import {
     TableHeader,
     TableRow,
 } from "./components/ui/table";
-import { Skeleton } from "./components/ui/skeleton"
+import { Skeleton } from "./components/ui/skeleton";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
+    AlertDialogPortal,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "./components/ui/alert-dialog";
 
 export {
     Button,
@@ -235,5 +248,16 @@ export {
     TableHead,
     TableHeader,
     TableRow,
-    Skeleton
+    Skeleton,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
+    AlertDialogPortal,
+    AlertDialogTitle,
+    AlertDialogTrigger
 }

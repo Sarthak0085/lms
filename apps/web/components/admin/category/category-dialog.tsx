@@ -16,7 +16,7 @@ import { Row } from "@tanstack/react-table";
 import { Category } from "@repo/db/types";
 import { PlusIcon, ReloadIcon } from "@repo/ui/icon";
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { ReactNode, useState, useTransition } from "react";
 import { CreateCategorySchema, UpdateCategorySchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editCategory } from "@/actions/category/edit-category";
@@ -35,10 +35,10 @@ interface CategoryDialogProps
 
 export const CategoryDialog = ({
     data,
-    isUpdate,
+    isUpdate = false,
     ...props
 }: CategoryDialogProps) => {
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<CategoryFormValues>({
@@ -95,7 +95,7 @@ export const CategoryDialog = ({
                         }
                         if (data?.success) {
                             form.reset();
-                            setOpen(false);
+                            props.onOpenChange?.(false);
                             toast({
                                 variant: "success",
                                 title: "Success!!",
@@ -115,13 +115,13 @@ export const CategoryDialog = ({
     };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild className="pt-0">
+        <Dialog {...props}>
+            {!isUpdate && <DialogTrigger asChild className="pt-0">
                 <Button aria-label="Create Category" variant="primary" size="sm" className="ml-auto hidden !h-8 lg:flex">
                     <PlusIcon className="mr-2 size-4" aria-hidden="true" />
                     Create
                 </Button>
-            </DialogTrigger>
+            </DialogTrigger>}
             <DialogContent >
                 <DialogHeader>
                     <DialogTitle>

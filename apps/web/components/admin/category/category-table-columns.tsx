@@ -6,6 +6,7 @@ import { Checkbox } from "@repo/ui"
 import { DataTableColumnHeader } from "@/components/admin/table/data-table-column-header"
 import { formatDate } from "@/lib/utils"
 import { Category, User } from "@repo/db/types"
+import { CategoryTableRowActions } from "./category-table-row-actions"
 
 export const getColumns = (): ColumnDef<Category>[] => {
     return [
@@ -71,6 +72,7 @@ export const getColumns = (): ColumnDef<Category>[] => {
                     </div>
                 )
             },
+            enableSorting: false,
         },
         {
             accessorKey: "createdAt",
@@ -83,7 +85,7 @@ export const getColumns = (): ColumnDef<Category>[] => {
             id: "actions",
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
-                    {/* <UserTableRowActions row={row} /> */}
+                    <CategoryTableRowActions row={row} />
                 </div>
             ),
             size: 40,

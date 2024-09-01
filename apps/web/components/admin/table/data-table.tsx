@@ -1,6 +1,8 @@
 import * as React from "react"
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table"
 import {
+    ScrollArea,
+    ScrollBar,
     Table,
     TableBody,
     TableCell,
@@ -10,6 +12,7 @@ import {
 } from "@repo/ui";
 import { cn } from "@repo/ui/lib/utils";
 import { DataTablePagination } from "./data-table-pagination";
+import { getCommonPinningStyles } from "@/lib/utils";
 
 interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
     /**
@@ -17,19 +20,10 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
      * @type TanstackTable<TData>
      */
     table: TanstackTable<TData>
-
-    // /**
-    //  * The floating bar to render at the bottom of the table on row selection.
-    //  * @default null
-    //  * @type React.ReactNode | null
-    //  * @example floatingBar={<TasksTableFloatingBar table={table} />}
-    //  */
-    // floatingBar?: React.ReactNode | null
 }
 
 export function DataTable<TData>({
     table,
-    // floatingBar = null,
     children,
     className,
     ...props
@@ -40,67 +34,70 @@ export function DataTable<TData>({
             {...props}
         >
             {children}
-            <div className="overflow-hidden rounded-md border">
-                <Table>
-                    <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead
-                                            key={header.id}
-                                            colSpan={header.colSpan}
-                                        // style={{
-                                        //     ...getCommonPinningStyles({ column: header.column }),
-                                        // }}
-                                        >
-                                            <div>{header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}</div>
-                                        </TableHead>
-                                    )
-                                })}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
-                    <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell
-                                            key={cell.id}
-                                        // style={{
-                                        //     ...getCommonPinningStyles({ column: cell.column }),
-                                        // }}
-                                        >
-                                            <div>{flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}</div>
-                                        </TableCell>
-                                    ))}
+            <ScrollArea className="h-[calc(80vh-220px)] w-[100%] rounded-md border md:h-[calc(80dvh-200px)]">
+                <div className="rounded-md border">
+                    <Table>
+                        <TableHeader>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
+                                        return (
+                                            <TableHead
+                                                key={header.id}
+                                                colSpan={header.colSpan}
+                                                style={{
+                                                    ...getCommonPinningStyles({ column: header.column }),
+                                                }}
+                                            >
+                                                <div>{header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}</div>
+                                            </TableHead>
+                                        )
+                                    })}
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={table.getAllColumns().length}
-                                    className="h-24 text-center"
-                                >
-                                    No results.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
+                            ))}
+                        </TableHeader>
+                        <TableBody>
+                            {table.getRowModel().rows?.length ? (
+                                table.getRowModel().rows.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={row.getIsSelected() && "selected"}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell
+                                                key={cell.id}
+                                                style={{
+                                                    ...getCommonPinningStyles({ column: cell.column }),
+                                                }}
+                                            >
+                                                <div>{flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}</div>
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={table.getAllColumns().length}
+                                        className="h-24 text-center"
+                                    >
+                                        No results.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
             <div className="flex flex-col gap-2.5">
                 <DataTablePagination table={table} />
             </div>

@@ -1,11 +1,12 @@
 "use client"
 
-import { Category, User } from "@repo/db/types"
+import { Category } from "@repo/db/types"
 import { Button } from "@repo/ui"
 import { DownloadIcon } from "@repo/ui/icon"
 import { type Table } from "@tanstack/react-table"
 import { CategoryDialog } from "./category-dialog"
-// import { exportTableToCSV } from "@/lib/export"
+import { DeleteCategoriesDialog } from "./delete-category-dialog"
+import { useState } from "react"
 
 interface CategoriesTableToolbarActionsProps {
     table: Table<Category>
@@ -14,20 +15,21 @@ interface CategoriesTableToolbarActionsProps {
 export const CategoriesTableToolbarActions = ({
     table,
 }: CategoriesTableToolbarActionsProps) => {
+    const [showCreateCategory, setShowCreateCategory] = useState(false);
     return (
         <div className="flex items-center gap-2">
-            {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-                <CategoryDialog />
-            ) : null} */}
-            <CategoryDialog />
-            {/* {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-                <DeleteUsersDialog
-                    users={table
+            <CategoryDialog
+                open={showCreateCategory}
+                onOpenChange={setShowCreateCategory}
+            />
+            {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+                <DeleteCategoriesDialog
+                    categories={table
                         .getFilteredSelectedRowModel()
                         .rows.map((row) => row.original)}
                     onSuccess={() => table.toggleAllRowsSelected(false)}
                 />
-            ) : null} */}
+            ) : null}
             {/* <Button
                 variant="outline"
                 size="sm"
