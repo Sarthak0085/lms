@@ -1,7 +1,7 @@
 "use client"
 
 import { CreateCourseSchema, EditCourseSchema } from '@/schemas';
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, SetStateAction } from 'react'
 import * as z from "zod";
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from '@repo/ui';
@@ -13,7 +13,7 @@ type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
 interface CourseDataProps {
     form: ReturnType<typeof useForm<z.infer<formSchema>>>
     active: number;
-    setActive: (active: number) => void;
+    setActive: React.Dispatch<SetStateAction<number>>;
     isPending: boolean;
 }
 

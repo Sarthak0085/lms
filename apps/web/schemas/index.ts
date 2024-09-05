@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from "@repo/db/types";
+import { Level, UserRole, UserStatus } from "@repo/db/types";
 import * as z from "zod";
 
 export const LoginSchema = z.object({
@@ -69,18 +69,23 @@ const BenefitsSchema = z.array(titleSchema);
 const PrerequisitesSchema = z.array(titleSchema);
 const CourseDataSchema = z.array(courseData);
 
-export const CreateCourseSchema = z.object({
-    benefits: BenefitsSchema,
-    prerequisites: PrerequisitesSchema,
+export const CourseSchema = z.object({
     name: z.string().min(2, { message: "Course Name is required" }),
+    slug: z.string().min(2, { message: "Course Slug is required" }),
     description: z.string().min(50, { message: "Course description must be of 50 characters" }),
     price: z.string(),
     estimatedPrice: z.optional(z.string()),
     tags: z.string().min(2, { message: "Tags are required" }),
-    level: z.string().min(2, { message: "Level is required" }),
+    level: z.enum([Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCED]),
     category: z.string().min(2, { message: "Category is required" }),
     demoUrl: z.string().min(2, { message: "Demo URL is required" }),
     thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
+});
+
+export const CreateCourseSchema = z.object({
+    course: CourseSchema,
+    benefits: BenefitsSchema,
+    prerequisites: PrerequisitesSchema,
     courseContentData: CourseDataSchema,
     totalVideos: z.number(),
 });

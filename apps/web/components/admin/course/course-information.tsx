@@ -1,8 +1,11 @@
 "use client"
 
 import { CustomInput } from '@/components/custom-input';
-import { CreateCourseSchema, EditCourseSchema } from '@/schemas';
+import FileUpload from '@/components/file-upload';
+import { CourseSchema, CreateCourseSchema, EditCourseSchema } from '@/schemas';
 import { data } from '@/utils/data';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Level } from '@repo/db/types';
 import {
     Button,
     Form,
@@ -23,21 +26,23 @@ import {
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
 import Image from 'next/image';
-import React, { useState, useEffect, MouseEvent } from 'react'
+import React, { useState, useEffect, MouseEvent, SetStateAction } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
 type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
 
 interface CourseInformationProps {
-    form: ReturnType<typeof useForm<z.infer<formSchema>>>;
+    courseData: formSchema,
+    setCourseData: React.Dispatch<SetStateAction<formSchema>>
     active: number;
-    setActive: (active: number) => void;
+    setActive: React.Dispatch<SetStateAction<number>>;
     isPending: boolean;
 }
 
 export const CourseInformation = ({
-    form,
+    courseData,
+    setCourseData,
     active,
     setActive,
     isPending
@@ -45,6 +50,21 @@ export const CourseInformation = ({
     const { toast } = useToast();
     const [dragging, setDragging] = useState(false);
     const [categories, setCategories] = useState<any>([]);
+
+    const form = useForm<z.infer<typeof CourseSchema>>({
+        resolver: zodResolver(CourseSchema),
+        defaultValues: {
+            name: courseData?.name ?? "",
+            slug: courseData?.slug ?? "",
+            price: courseData?.price ?? 0,
+            category: courseData?.category ?? "",
+            level: courseData?.level ?? Level.BEGINNER,
+            thumbnail: courseData?.thumbnail ?? "",
+            demoUrl: courseData?.demoUrl ?? "",
+            description: courseData?.description ?? "",
+            tags: courseData?.tags ?? "",
+        }
+    })
     const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(form.getValues("thumbnail"));
 
     useEffect(() => {
@@ -52,6 +72,25 @@ export const CourseInformation = ({
             setCategories(data.layout.categories);
         }
     }, [data]);
+
+    // useEffect(() => {
+    //     form.setValue("slug", generateSlug(form.getValues("name")));
+    // }, [form.getValues("name")]);
+
+    const generateSlug = (title: string) => {
+        const slug = title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+
+        return slug;
+    };
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const title = event.target.value;
+        form.setValue("name", title);
+        form.setValue("slug", generateSlug(title));
+    };
 
 
     const handleChange = (e: any) => {
@@ -96,7 +135,7 @@ export const CourseInformation = ({
         }
     }
 
-    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (form.getValues("name") === "" || form.getValues("description") === "" || form.getValues("price") === "" || form.getValues("tags") === "" || form.getValues("category") === "" || form.getValues("level") === "" || form.getValues("demoUrl") === "" || form.getValues("thumbnail") === "") {
             toast({
@@ -114,7 +153,7 @@ export const CourseInformation = ({
     return (
         <div className='w-[90%] mx-auto mt-16 md:mt-24'>
             <Form {...form}>
-                <form className='space-y-6'>
+                <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
                     <div className='mb-5 space-y-4'>
                         <FormField
                             control={form.control}
@@ -125,6 +164,25 @@ export const CourseInformation = ({
                                     name={field.name}
                                     value={field.value}
                                     placeholder='NextJs LMS platform with next 14'
+                                    type="text"
+                                    onChange={handleNameChange}
+                                    onBlur={field.onBlur}
+                                    isPending={isPending}
+                                    required={true}
+                                />
+                            )}
+                        />
+                    </div>
+                    <div className='mb-5 space-y-4'>
+                        <FormField
+                            control={form.control}
+                            name='slug'
+                            render={({ field }) => (
+                                <CustomInput
+                                    label='Course Slug'
+                                    name={field.name}
+                                    value={field.value}
+                                    placeholder='nextJs-lms-platform-with-next-14'
                                     type="text"
                                     onChange={field.onChange}
                                     onBlur={field.onBlur}
@@ -232,9 +290,11 @@ export const CourseInformation = ({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value='Beginner'>Beginner</SelectItem>
-                                                <SelectItem value='Intermediate'>Intermediate</SelectItem>
-                                                <SelectItem value='Advanced'>Advanced</SelectItem>
+                                                {Object.values(Level).map((level) => (
+                                                    <SelectItem key={level} value={level}>
+                                                        {level}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -243,26 +303,26 @@ export const CourseInformation = ({
                             />
                         </div>
                     </div>
-                    <div className='w-full 825:mb-5 825:flex justify-between'>
-                        <div className='825:w-[45%] w-full mb-5'>
-                            <FormField
-                                control={form.control}
-                                name='tags'
-                                render={({ field }) => (
-                                    <CustomInput
-                                        label='Course Tags'
-                                        name={field.name}
-                                        value={field.value}
-                                        placeholder='Next Js, React Js, LMS'
-                                        type="text"
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        isPending={isPending}
-                                        required={true}
-                                    />
-                                )}
-                            />
-                        </div>
+                    <div className='mb-5 space-y-4'>
+                        {/* <div className='825:w-[45%] w-full mb-5'> */}
+                        <FormField
+                            control={form.control}
+                            name='tags'
+                            render={({ field }) => (
+                                <CustomInput
+                                    label='Course Tags'
+                                    name={field.name}
+                                    value={field.value}
+                                    placeholder='Next Js, React Js, LMS'
+                                    type="text"
+                                    onChange={field.onChange}
+                                    onBlur={field.onBlur}
+                                    isPending={isPending}
+                                    required={true}
+                                />
+                            )}
+                        />
+                        {/* </div>
                         <div className='825:w-[45%] w-full mb-5'>
                             <FormField
                                 control={form.control}
@@ -280,8 +340,27 @@ export const CourseInformation = ({
                                         required={true}
                                     />
                                 )}
-                            />
-                        </div>
+                            /> 
+                         </div> */}
+                    </div>
+                    <div className='w-full mb-5 space-y-4'>
+                        <FormField
+                            control={form.control}
+                            name="thumbnail"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Thumbnail</FormLabel>
+                                    <FormControl>
+                                        <FileUpload
+                                            onChange={field.onChange}
+                                            value={field.value}
+                                            onRemove={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <div className='w-full'>
                         <Input
@@ -323,7 +402,7 @@ export const CourseInformation = ({
                             type='submit'
                             disabled={isPending}
                             className={cn(isPending && "cursor-not-allowed")}
-                            onClick={handleSubmit}
+                        // onClick={handleSubmit}
                         >
                             Next <RxArrowRight size={20} className="ms-1" />
                         </Button>

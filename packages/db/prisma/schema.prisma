@@ -118,12 +118,13 @@ model Banner {
 model Course {
   id             String         @id @default(cuid())
   name           String
+  slug           String         @unique
   description    String
   price          Float
   estimatedPrice Float?
   thumbnail      String
   tags           String
-  categories     String
+  category       String
   level          Level          @default(BEGINNER)
   demoUrl        String
   ratings        Float          @default(0)
@@ -162,6 +163,8 @@ model Review {
   courseId  String
   isPinned  Boolean  @default(false)
   Course    Course   @relation(fields: [courseId], references: [id])
+
+  @@index([courseId])
 }
 
 model Certificate {
@@ -232,7 +235,7 @@ model Bookmark {
 }
 
 model VideoProgress {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(cuid())
   userId           String
   contentId        String
   currentTimestamp Int
@@ -313,16 +316,12 @@ enum Level {
   BEGINNER
   INTERMEDIATE
   ADVANCED
+  EXPERT
 }
 
 enum VoteType {
   UPVOTE
   DOWNVOTE
-}
-
-enum PostType {
-  QUESTION
-  ANSWER
 }
 
 enum VideoStatus {
