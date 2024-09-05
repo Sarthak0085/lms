@@ -2,14 +2,36 @@ import {
     Prisma,
     UserRole,
     UserStatus,
+    VoteType,
+    Level,
     type User,
-    type Category
+    type Category,
+    type FAQ,
+    type Banner,
+    type Course,
+    type Content,
+    type Certificate,
+    type Review,
+    type Question,
+    type Answer,
+    type Vote
 } from "@prisma/client";
 
 export {
     UserRole,
     UserStatus,
+    Level,
+    VoteType,
     User,
     Category,
-    Prisma
+    FAQ,
+    Banner,
+    Course,
+    Content,
+    Certificate,
+    Review,
+    Question,
+    Answer,
+    Vote,
+    Prisma,
 }
