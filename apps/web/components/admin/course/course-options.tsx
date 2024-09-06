@@ -1,15 +1,13 @@
 "use client";
 
-import { IoMdCheckmark, TiTick } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
-import React from 'react'
+import React, { Fragment } from 'react'
 
 interface CourseOptionsProps {
     active: number;
-    setActive: (open: number) => void;
 }
 
-export const CourseOptions = ({ active, setActive }: CourseOptionsProps) => {
+export const CourseOptions = ({ active }: CourseOptionsProps) => {
     const options = [
         "Course Details",
         "Course Requirements",
@@ -20,7 +18,7 @@ export const CourseOptions = ({ active, setActive }: CourseOptionsProps) => {
         <div className="mx-4 pt-4">
             <div className="flex items-center">
                 {options.map((option, index) => (
-                    <>
+                    <Fragment key={index}>
                         <div className="flex items-center text-muted-foreground relative">
                             <div
                                 className={cn("rounded-full transition duration-500 text-center font-medium ease-in-out h-8 w-8 md:h-12 md:w-12 border-2 py-1 md:py-2",
@@ -40,7 +38,7 @@ export const CourseOptions = ({ active, setActive }: CourseOptionsProps) => {
                             className={cn("flex-auto border-t-[6px] transition duration-500 ease-in-out",
                                 active > index ? "border-teal-600" : "border-muted-foreground"
                             )}></div>}
-                    </>
+                    </Fragment>
                 ))}
                 {/* <div className="flex items-center text-teal-600 relative">
                     <div className="rounded-full transition duration-500 ease-in-out h-12 w-12 py-3 border-2 border-teal-600">

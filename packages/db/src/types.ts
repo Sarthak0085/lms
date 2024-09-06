@@ -4,6 +4,7 @@ import {
     UserStatus,
     VoteType,
     Level,
+    CourseStatus,
     type User,
     type Category,
     type FAQ,
@@ -14,12 +15,15 @@ import {
     type Review,
     type Question,
     type Answer,
-    type Vote
+    type Vote,
+    type Benefit,
+    type Prerequisite,
 } from "@prisma/client";
 
 export {
     UserRole,
     UserStatus,
+    CourseStatus,
     Level,
     VoteType,
     User,
@@ -33,5 +37,7 @@ export {
     Question,
     Answer,
     Vote,
+    Benefit,
+    Prerequisite,
     Prisma,
 }

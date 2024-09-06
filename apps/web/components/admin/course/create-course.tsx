@@ -17,7 +17,8 @@ export const CreateCourse = () => {
     const [isPending, startTransition] = useTransition();
     const [courseData, setCourseData] = useState<z.infer<typeof CreateCourseSchema>>({
         course: {
-            name: "",
+            title: "",
+            subTitle: "",
             slug: "",
             description: "",
             tags: "",
@@ -97,7 +98,7 @@ export const CreateCourse = () => {
         <div className='w-full flex items-center justify-center'>
             <div className='w-full sm:w-[78%]'>
                 <div className='mt-10'>
-                    <CourseOptions active={active} setActive={setActive} />
+                    <CourseOptions active={active} />
                 </div>
                 {
                     active === 0 && (
@@ -105,7 +106,6 @@ export const CreateCourse = () => {
                             courseData={courseData}
                             setCourseData={setCourseData}
                             isPending={isPending}
-                            active={active}
                             setActive={setActive}
                         />
                     )
@@ -116,27 +116,15 @@ export const CreateCourse = () => {
                             courseData={courseData}
                             setCourseData={setCourseData}
                             isPending={isPending}
-                            active={active}
                             setActive={setActive}
                         />
                     )
                 }
-                {/* {
-                    active === 2 && (
-                        <CourseContent
-                            form={form}
-                            isPending={isPending}
-                            active={active}
-                            setActive={setActive}
-                        />
-                    )
-                } */}
                 {
                     active === 2 && (
                         <CoursePreview
                             courseData={courseData}
                             isPending={isPending}
-                            active={active}
                             setActive={setActive}
                             handleCourseCreate={handleCourseCreate}
                         />

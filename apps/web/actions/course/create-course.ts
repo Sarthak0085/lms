@@ -12,7 +12,7 @@ import * as z from "zod";
 export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) => {
     try {
         const validatedData = validateCreateCourse(values);
-        const { course: { name, description, price, estimatedPrice, slug, demoUrl, thumbnail, category, tags, level }, prerequisites, benefits } = validatedData;
+        const { course: { title, subTitle, description, price, estimatedPrice, slug, demoUrl, thumbnail, category, tags, level }, prerequisites, benefits } = validatedData;
         const user = await currentUser();
         if (!user) {
             throw new CustomError("UnAuthorized. Please login to access this!!", 401);
@@ -29,7 +29,8 @@ export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) =
 
         const newCourse = await db.course.create({
             data: {
-                name: name,
+                title: title,
+                subTitle: subTitle,
                 slug: slug,
                 description: description,
                 price: Number(price),
@@ -38,7 +39,7 @@ export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) =
                 level: level,
                 category: category,
                 tags: tags,
-                thumbnail: thumbnail
+                thumbnail: thumbnail,
             }
         });
 

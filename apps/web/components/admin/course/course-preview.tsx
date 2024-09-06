@@ -7,11 +7,11 @@ import { IoIosCheckmarkCircleOutline, RxArrowLeft } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
 import React, { SetStateAction } from "react";
 import * as z from "zod";
+import MuxPlayer from "@mux/mux-player-react";
 
 type formSchema = z.infer<typeof CreateCourseSchema> | z.infer<typeof EditCourseSchema>;
 
 interface CoursePreviewProps {
-    active: number;
     setActive: React.Dispatch<SetStateAction<number>>;
     handleCourseCreate: any;
     courseData: formSchema
@@ -20,7 +20,6 @@ interface CoursePreviewProps {
 };
 
 export const CoursePreview = ({
-    active,
     setActive,
     handleCourseCreate,
     isEdit,
@@ -34,7 +33,7 @@ export const CoursePreview = ({
     const discountPercentage = discountPercent.toFixed(0);
 
     const createCourse = () => {
-        handleCourseCreate();
+        handleCourseCreate(courseData);
     }
 
     return (
@@ -45,6 +44,8 @@ export const CoursePreview = ({
                         title={coursecourseData?.title}
                         videoUrl={coursecourseData?.demoUrl}
                     /> */}
+                    <MuxPlayer
+                    />
                 </div>
                 <div className="flex items-center my-2">
                     <h1 className="pt-5 text-[25px]">
@@ -85,7 +86,10 @@ export const CoursePreview = ({
                 <div className="w-full">
                     <div className="w-full 825:pr-5">
                         <h1 className="text-[25px] font-Poppins font-[600]">
-                            {courseData?.course?.name}
+                            {courseData?.course?.title}
+                        </h1>
+                        <h1 className="text-[20px] font-Poppins font-[300]">
+                            {courseData?.course?.subTitle}
                         </h1>
                         <div className="flex items-center justify-between py-3">
                             <div className="flex items-center">
@@ -135,7 +139,7 @@ export const CoursePreview = ({
                                 variant={"primary"}
                                 className={cn(isPending && "cursor-not-allowed")}
                                 disabled={isPending}
-                                onClick={() => setActive(active - 1)}
+                                onClick={() => setActive(prev => prev - 1)}
                             >
                                 <RxArrowLeft size={20} className="me-2" /> Prev
                             </Button>

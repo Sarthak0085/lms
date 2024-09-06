@@ -75,13 +75,15 @@ export const CourseRequirementsSchema = z.object({
 });
 
 export const CourseSchema = z.object({
-    name: z.string().min(2, { message: "Course Name is required" }),
+    id: z.string().min(2, { message: "Id is required" }).optional(),
+    title: z.string().min(2, { message: "Course title is required" }),
+    subTitle: z.string().min(2, { message: "Course sub title is required" }),
     slug: z.string().min(2, { message: "Course Slug is required" }),
     description: z.string().min(50, { message: "Course description must be of 50 characters" }),
     price: z.string(),
     estimatedPrice: z.optional(z.string()),
     tags: z.string().min(2, { message: "Tags are required" }),
-    level: z.enum([Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCED]),
+    level: z.enum([Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCED, Level.EXPERT]),
     category: z.string().min(2, { message: "Category is required" }),
     demoUrl: z.string().min(2, { message: "Demo URL is required" }),
     thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
@@ -96,7 +98,6 @@ export const CreateCourseSchema = z.object({
 });
 
 export const EditCourseSchema = z.object({
-    id: z.string().min(2, { message: "Id is required" }),
     course: CourseSchema,
     benefits: BenefitsSchema,
     prerequisites: PrerequisitesSchema,

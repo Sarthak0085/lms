@@ -21,7 +21,6 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-    useToast
 } from '@repo/ui';
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
@@ -35,7 +34,6 @@ type formSchema = z.infer<typeof CreateCourseSchema> | z.infer<typeof EditCourse
 interface CourseInformationProps {
     courseData: formSchema,
     setCourseData: React.Dispatch<SetStateAction<formSchema>>
-    active: number;
     setActive: React.Dispatch<SetStateAction<number>>;
     isPending: boolean;
 }
@@ -43,18 +41,18 @@ interface CourseInformationProps {
 export const CourseInformation = ({
     courseData,
     setCourseData,
-    active,
     setActive,
     isPending
 }: CourseInformationProps) => {
-    const { toast } = useToast();
     const [dragging, setDragging] = useState(false);
     const [categories, setCategories] = useState<any>([]);
 
     const form = useForm<z.infer<typeof CourseSchema>>({
         resolver: zodResolver(CourseSchema),
         defaultValues: {
-            name: courseData?.course?.name ?? "",
+            id: courseData?.course?.id as string || undefined,
+            title: courseData?.course?.title ?? "",
+            subTitle: courseData?.course?.subTitle ?? "",
             slug: courseData?.course?.slug ?? "",
             price: courseData?.course?.price ?? "",
             category: courseData?.course?.category ?? "",
@@ -84,7 +82,7 @@ export const CourseInformation = ({
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         const title = event.target.value;
-        form.setValue("name", title);
+        form.setValue("title", title);
         form.setValue("slug", generateSlug(title));
     };
 
@@ -131,19 +129,25 @@ export const CourseInformation = ({
         }
     }
 
-    const onSubmit = () => {
-        // e.preventDefault();
-        if (form.getValues("name") === "" || form.getValues("description") === "" || form.getValues("price") === "" || form.getValues("tags") === "" || form.getValues("category") === "" || form.getValues("level") === "" || form.getValues("demoUrl") === "" || form.getValues("thumbnail") === "") {
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "Please fill all the required fields"
-            })
-            console.error("Please fill all the fields");
-        }
-        else {
-            setActive(active + 1);
-        }
+    const onSubmit = (values: z.infer<typeof CourseSchema>) => {
+        setCourseData(prev => ({
+            ...prev,
+            course: {
+                title: values?.title,
+                description: values?.description,
+                subTitle: values?.subTitle,
+                slug: values?.slug,
+                id: values?.id,
+                price: values?.price,
+                estimatedPrice: values?.estimatedPrice,
+                category: values?.category,
+                level: values?.level,
+                tags: values?.tags,
+                thumbnail: values?.thumbnail,
+                demoUrl: values?.demoUrl,
+            },
+        }));
+        setActive(prev => prev + 1);
     }
 
     return (
@@ -153,13 +157,32 @@ export const CourseInformation = ({
                     <div className='mb-5 space-y-4'>
                         <FormField
                             control={form.control}
-                            name='name'
+                            name='title'
                             render={({ field }) => (
                                 <CustomInput
                                     label='Course Name'
                                     name={field.name}
                                     value={field.value}
                                     placeholder='NextJs LMS platform with next 14'
+                                    type="text"
+                                    onChange={handleNameChange as any}
+                                    onBlur={field.onBlur}
+                                    isPending={isPending}
+                                    required={true}
+                                />
+                            )}
+                        />
+                    </div>
+                    <div className='mb-5 space-y-4'>
+                        <FormField
+                            control={form.control}
+                            name='subTitle'
+                            render={({ field }) => (
+                                <CustomInput
+                                    label='Course Sub Title'
+                                    name={field.name}
+                                    value={field.value}
+                                    placeholder='NextJs LMS platform tutorial to learn about Next Js and about how to make LMS platform.'
                                     type="text"
                                     onChange={handleNameChange as any}
                                     onBlur={field.onBlur}
@@ -348,10 +371,11 @@ export const CourseInformation = ({
                                     <FormLabel>Thumbnail</FormLabel>
                                     <FormControl>
                                         <FileUpload
-                                            onChange={field.onChange}
-                                            value={field.value}
+                                            value={field.value || ""}
+                                            onChange={(url) => field.onChange(url)}
                                             onRemove={field.onChange}
                                             maxSize={4}
+                                            endpoint='Image'
                                         />
                                     </FormControl>
                                     <FormMessage />

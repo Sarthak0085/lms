@@ -1,75 +1,62 @@
 "use client"
 
 import React, { useState, useTransition } from 'react'
-import { redirect } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import * as z from "zod";
-import { CreateCourseSchema, EditCourseSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { EditCourseSchema } from '@/schemas';
 import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
-import { CourseContent } from './course-content';
 import { CourseOptions } from './course-options';
 import { CoursePreview } from './course-preview';
-import { title } from 'process';
-import { courses } from '@/utils/data';
+import { Benefit, Course, Level, Prerequisite } from '@repo/db/types';
 
-export const EditCourse = ({ id }: { id: string }) => {
+type CourseType = Course & {
+    benefits: Benefit[];
+    prerequisites: Prerequisite[];
+}
+
+interface EditCourseProps {
+    data: CourseType
+}
+
+export const EditCourse = ({ data }: EditCourseProps) => {
     const [active, setActive] = useState(0);
     const [isPending, startTransition] = useTransition();
-    const data: z.infer<typeof EditCourseSchema> = courses[1];
-
-    const form = useForm<z.infer<typeof EditCourseSchema>>({
-        resolver: zodResolver(EditCourseSchema),
-        defaultValues: {
+    const [courseData, setCourseData] = useState<z.infer<typeof EditCourseSchema>>({
+        course: {
             id: data?.id ?? "",
-            name: data?.name ?? "",
+            title: data?.title ?? "",
+            subTitle: data?.subTitle ?? "",
+            slug: data?.slug ?? "",
             description: data?.description ?? "",
             tags: data?.tags ?? "",
-            category: data?.category ?? "",
-            price: data?.price ?? "",
-            estimatedPrice: data?.estimatedPrice ?? "",
-            level: data?.level ?? "",
-            thumbnail: data.thumbnail ?? "",
+            price: String(data?.price) ?? "",
+            estimatedPrice: String(data?.estimatedPrice) ?? "",
+            thumbnail: data?.thumbnail ?? "",
             demoUrl: data?.demoUrl ?? "",
-            benefits: data?.benefits.map((benefit) => benefit ?? ""),
-            prerequisites: data?.prerequisites.map((prerequisite) => prerequisite ?? ""),
-            courseContentData: data?.courseContentData?.map((courseContent) => ({
-                title: courseContent?.title ?? "",
-                description: courseContent?.description ?? "",
-                suggestion: courseContent?.suggestion ?? "",
-                videoUrl: courseContent?.videoUrl ?? "",
-                videoLength: courseContent?.videoLength ?? 0,
-                videoSection: courseContent?.videoSection ?? "Untitled Section",
-                links: courseContent?.links?.map((link) => ({
-                    title: link.title ?? "",
-                    url: link.url ?? "",
-                })),
-            })),
-            totalVideos: data?.totalVideos ?? 0,
-        }
+            level: data?.level ?? Level.BEGINNER,
+            category: data?.category ?? "",
+        },
+        benefits: data?.benefits.map((benefit) => ({ title: benefit.title })) ?? [{ title: "" }],
+        prerequisites: data?.prerequisites.map((prerequisite) => ({ title: prerequisite.title })) ?? [{ title: "" }],
     });
 
-    const handleCourseCreate = async (e: any) => {
-        console.log(form.getValues())
-        // const data = courseData;
-        // if (!isLoading) {
-        //     await createCourse(data);
-        // }
+    const handleCourseCreate = async (data: z.infer<typeof EditCourseSchema>) => {
+        console.log(data);
+        startTransition(() => { });
     }
 
     return (
         <div className='w-full flex items-center justify-center'>
             <div className='w-full sm:w-[78%] '>
                 <div className='mt-20'>
-                    <CourseOptions active={active} setActive={setActive} />
+                    <CourseOptions active={active} />
                 </div>
                 {
                     active === 0 && (
                         <CourseInformation
-                            form={form}
+                            courseData={courseData}
+                            setCourseData={setCourseData}
                             isPending={isPending}
-                            active={active}
                             setActive={setActive}
                         />
                     )
@@ -77,29 +64,18 @@ export const EditCourse = ({ id }: { id: string }) => {
                 {
                     active === 1 && (
                         <CourseData
-                            form={form}
+                            courseData={courseData}
+                            setCourseData={setCourseData}
                             isPending={isPending}
-                            active={active}
                             setActive={setActive}
                         />
                     )
                 }
                 {
                     active === 2 && (
-                        <CourseContent
-                            form={form}
-                            isPending={isPending}
-                            active={active}
-                            setActive={setActive}
-                        />
-                    )
-                }
-                {
-                    active === 3 && (
                         <CoursePreview
-                            form={form}
+                            courseData={courseData}
                             isPending={isPending}
-                            active={active}
                             isEdit={true}
                             setActive={setActive}
                             handleCourseCreate={handleCourseCreate}

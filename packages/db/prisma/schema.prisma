@@ -118,7 +118,8 @@ model Banner {
 
 model Course {
   id             String         @id @default(cuid())
-  name           String
+  title          String
+  subTitle       String
   slug           String         @unique
   description    String
   price          Float
@@ -350,6 +351,7 @@ enum ContentType {
 }
 
 enum CourseStatus {
+  DRAFT
   PUBLISHED
   ARCHIEVED
 }
