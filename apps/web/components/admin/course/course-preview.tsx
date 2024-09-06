@@ -5,17 +5,16 @@ import { CreateCourseSchema, EditCourseSchema } from "@/schemas";
 import { Button, Input } from "@repo/ui";
 import { IoIosCheckmarkCircleOutline, RxArrowLeft } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { SetStateAction } from "react";
 import * as z from "zod";
 
-type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+type formSchema = z.infer<typeof CreateCourseSchema> | z.infer<typeof EditCourseSchema>;
 
 interface CoursePreviewProps {
     active: number;
-    setActive: (active: number) => void;
+    setActive: React.Dispatch<SetStateAction<number>>;
     handleCourseCreate: any;
-    form: ReturnType<typeof useForm<z.infer<formSchema>>>
+    courseData: formSchema
     isEdit?: boolean;
     isPending: boolean;
 };
@@ -25,14 +24,11 @@ export const CoursePreview = ({
     setActive,
     handleCourseCreate,
     isEdit,
-    form,
+    courseData,
     isPending,
 }: CoursePreviewProps) => {
-
-    const { getValues } = form;
-
     const discountPercent =
-        ((Number(getValues("estimatedPrice")) - Number(getValues("price"))) / Number(getValues("price"))) *
+        ((Number(courseData.course.estimatedPrice ?? courseData.course?.price) - Number(courseData.course?.price)) / Number(courseData.course?.price)) *
         100;
 
     const discountPercentage = discountPercent.toFixed(0);
@@ -46,25 +42,25 @@ export const CoursePreview = ({
             <div className="w-full relative">
                 <div className="w-full mt-10">
                     {/* <CoursePlayer
-                        title={courseData?.title}
-                        videoUrl={courseData?.demoUrl}
+                        title={coursecourseData?.title}
+                        videoUrl={coursecourseData?.demoUrl}
                     /> */}
                 </div>
                 <div className="flex items-center my-2">
                     <h1 className="pt-5 text-[25px]">
-                        {Number(getValues("price")) === 0 ? "Free" : `₹. ` + Number(getValues("price"))}
+                        {Number(courseData.course?.price) === 0 ? "Free" : `₹. ` + Number(courseData.course?.price)}
                     </h1>
                     <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
-                        &#8377;. {getValues("estimatedPrice")}
+                        &#8377;. {courseData.course?.estimatedPrice}
                     </h5>
-                    <h4 className="pt-5 pl-4 text-[22px]">{discountPercentage}% Off</h4>
+                    {discountPercent > 0 && <h4 className="pt-5 pl-4 text-[22px]">{discountPercentage}% Off</h4>}
                 </div>
                 <div className="flex items-center my-3 mb-5">
                     <Button
                         variant={"destructive"}
                         className="!w-[180px] font-Poppins"
                     >
-                        Buy Now &#8377;. {getValues("price")}
+                        Buy Now &#8377;. {courseData.course?.price}
                     </Button>
                 </div>
                 <div className="flex items-center my-5 justify-between">
@@ -89,7 +85,7 @@ export const CoursePreview = ({
                 <div className="w-full">
                     <div className="w-full 825:pr-5">
                         <h1 className="text-[25px] font-Poppins font-[600]">
-                            {getValues("name")}
+                            {courseData?.course?.name}
                         </h1>
                         <div className="flex items-center justify-between py-3">
                             <div className="flex items-center">
@@ -101,7 +97,7 @@ export const CoursePreview = ({
                         <h1 className="text-[25px] font-Poppins font-[600] mt-5">
                             What will you learn from this Course?
                         </h1>
-                        {getValues("benefits").map((item: { title: string }, index: number) => (
+                        {courseData?.benefits.map((item: { title: string }, index: number) => (
                             <div className="w-full flex 825:items-center py-2" key={index}>
                                 <div className="w-[15px] mr-1">
                                     <IoIosCheckmarkCircleOutline size={20} />
@@ -114,7 +110,7 @@ export const CoursePreview = ({
                         <h1 className="text-[25px] font-Poppins font-[600]">
                             What are the prerequisites to start this Course?
                         </h1>
-                        {getValues("prerequisites").map((item: { title: string }, index: number) => (
+                        {courseData?.prerequisites.map((item: { title: string }, index: number) => (
                             <div className="w-full flex 825:items-center py-2" key={index}>
                                 <div className="w-[15px] mr-1">
                                     <IoIosCheckmarkCircleOutline size={20} />
@@ -129,7 +125,7 @@ export const CoursePreview = ({
                                 Course Details
                             </h1>
                             <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden">
-                                {getValues("description")}
+                                {courseData?.course?.description}
                             </p>
                         </div>
                         <br />

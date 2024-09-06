@@ -26,11 +26,11 @@ import {
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
 import Image from 'next/image';
-import React, { useState, useEffect, MouseEvent, SetStateAction } from 'react'
+import React, { useState, useEffect, SetStateAction, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
-type formSchema = typeof CreateCourseSchema | typeof EditCourseSchema;
+type formSchema = z.infer<typeof CreateCourseSchema> | z.infer<typeof EditCourseSchema>;
 
 interface CourseInformationProps {
     courseData: formSchema,
@@ -54,15 +54,15 @@ export const CourseInformation = ({
     const form = useForm<z.infer<typeof CourseSchema>>({
         resolver: zodResolver(CourseSchema),
         defaultValues: {
-            name: courseData?.name ?? "",
-            slug: courseData?.slug ?? "",
-            price: courseData?.price ?? 0,
-            category: courseData?.category ?? "",
-            level: courseData?.level ?? Level.BEGINNER,
-            thumbnail: courseData?.thumbnail ?? "",
-            demoUrl: courseData?.demoUrl ?? "",
-            description: courseData?.description ?? "",
-            tags: courseData?.tags ?? "",
+            name: courseData?.course?.name ?? "",
+            slug: courseData?.course?.slug ?? "",
+            price: courseData?.course?.price ?? "",
+            category: courseData?.course?.category ?? "",
+            level: courseData?.course?.level ?? Level.BEGINNER,
+            thumbnail: courseData?.course?.thumbnail ?? "",
+            demoUrl: courseData?.course?.demoUrl ?? "",
+            description: courseData?.course?.description ?? "",
+            tags: courseData?.course?.tags ?? "",
         }
     })
     const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(form.getValues("thumbnail"));
@@ -73,10 +73,6 @@ export const CourseInformation = ({
         }
     }, [data]);
 
-    // useEffect(() => {
-    //     form.setValue("slug", generateSlug(form.getValues("name")));
-    // }, [form.getValues("name")]);
-
     const generateSlug = (title: string) => {
         const slug = title
             .toLowerCase()
@@ -86,7 +82,7 @@ export const CourseInformation = ({
         return slug;
     };
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         const title = event.target.value;
         form.setValue("name", title);
         form.setValue("slug", generateSlug(title));
@@ -135,8 +131,8 @@ export const CourseInformation = ({
         }
     }
 
-    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit = () => {
+        // e.preventDefault();
         if (form.getValues("name") === "" || form.getValues("description") === "" || form.getValues("price") === "" || form.getValues("tags") === "" || form.getValues("category") === "" || form.getValues("level") === "" || form.getValues("demoUrl") === "" || form.getValues("thumbnail") === "") {
             toast({
                 variant: "destructive",
@@ -165,7 +161,7 @@ export const CourseInformation = ({
                                     value={field.value}
                                     placeholder='NextJs LMS platform with next 14'
                                     type="text"
-                                    onChange={handleNameChange}
+                                    onChange={handleNameChange as any}
                                     onBlur={field.onBlur}
                                     isPending={isPending}
                                     required={true}
@@ -355,6 +351,7 @@ export const CourseInformation = ({
                                             onChange={field.onChange}
                                             value={field.value}
                                             onRemove={field.onChange}
+                                            maxSize={4}
                                         />
                                     </FormControl>
                                     <FormMessage />

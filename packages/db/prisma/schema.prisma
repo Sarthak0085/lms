@@ -34,6 +34,7 @@ model User {
   bookmarks             Bookmark[]
   votes                 Vote[]
   videoProgress         VideoProgress[]
+  markAsCompleted       MarkAsCompleted[]
 }
 
 model Account {
@@ -129,6 +130,7 @@ model Course {
   demoUrl        String
   ratings        Float          @default(0)
   purchased      Int            @default(0)
+  status         CourseStatus   @default(PUBLISHED)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   content        Content[]
@@ -179,26 +181,37 @@ model Certificate {
 }
 
 model Content {
-  id               String          @id @default(cuid())
-  type             String          @default("folder")
+  id               String            @id @default(cuid())
+  type             ContentType       @default(FOLDER)
   title            String
-  hidden           Boolean         @default(false)
+  hidden           Boolean           @default(false)
   description      String?
   thumbnail        String?
   parentId         String?
-  parent           Content?        @relation("ContentToContent", fields: [parentId], references: [id])
+  parent           Content?          @relation("ContentToContent", fields: [parentId], references: [id])
   videoProgress    VideoProgress[]
-  children         Content[]       @relation("ContentToContent")
-  createdAt        DateTime        @default(now())
-  markAsCompleted  Boolean         @default(false)
+  children         Content[]         @relation("ContentToContent")
+  createdAt        DateTime          @default(now())
+  markAsCompleted  MarkAsCompleted[]
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
   notionMetadataId Int?
   questions        Question[]
-  commentsCount    Int             @default(0)
+  commentsCount    Int               @default(0)
   bookmark         Bookmark[]
-  Course           Course?         @relation(fields: [courseId], references: [id])
+  Course           Course?           @relation(fields: [courseId], references: [id])
   courseId         String?
+}
+
+model MarkAsCompleted {
+  id             String  @id @default(cuid())
+  markAsCopleted Boolean @default(false)
+  contentId      String
+  content        Content @relation(fields: [contentId], references: [id])
+  userId         String
+  user           User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, contentId])
 }
 
 model NotionMetadata {
@@ -328,4 +341,15 @@ enum VideoStatus {
   PROCESSING
   FAILED
   READY
+}
+
+enum ContentType {
+  FOLDER
+  VIDEO
+  NOTION
+}
+
+enum CourseStatus {
+  PUBLISHED
+  ARCHIEVED
 }

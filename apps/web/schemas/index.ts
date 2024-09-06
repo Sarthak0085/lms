@@ -53,7 +53,7 @@ const titleSchema = z.object({
 const linksSchema = z.object({
     title: z.string().min(2, { message: "Title is required" }),
     url: z.string().min(2, { message: "URL is required" }),
-})
+});
 
 const courseData = z.object({
     videoUrl: z.string().min(2, { message: "Video Url is required" }),
@@ -68,6 +68,11 @@ const courseData = z.object({
 const BenefitsSchema = z.array(titleSchema);
 const PrerequisitesSchema = z.array(titleSchema);
 const CourseDataSchema = z.array(courseData);
+
+export const CourseRequirementsSchema = z.object({
+    benefits: BenefitsSchema,
+    prerequisites: PrerequisitesSchema,
+});
 
 export const CourseSchema = z.object({
     name: z.string().min(2, { message: "Course Name is required" }),
@@ -86,25 +91,26 @@ export const CreateCourseSchema = z.object({
     course: CourseSchema,
     benefits: BenefitsSchema,
     prerequisites: PrerequisitesSchema,
-    courseContentData: CourseDataSchema,
-    totalVideos: z.number(),
+    // courseContentData: CourseDataSchema,
+    // totalVideos: z.number(),
 });
 
 export const EditCourseSchema = z.object({
     id: z.string().min(2, { message: "Id is required" }),
+    course: CourseSchema,
     benefits: BenefitsSchema,
     prerequisites: PrerequisitesSchema,
-    name: z.string().min(2, { message: "Course Name is required" }),
-    description: z.string().min(50, { message: "Course description must be of 50 characters" }),
-    price: z.string(),
-    estimatedPrice: z.optional(z.string()),
-    tags: z.string().min(2, { message: "Tags are required" }),
-    level: z.string().min(2, { message: "Level is required" }),
-    category: z.string().min(2, { message: "Category is required" }),
-    demoUrl: z.string().min(2, { message: "Demo URL is required" }),
-    thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
-    courseContentData: CourseDataSchema,
-    totalVideos: z.number(),
+    // name: z.string().min(2, { message: "Course Name is required" }),
+    // description: z.string().min(50, { message: "Course description must be of 50 characters" }),
+    // price: z.string(),
+    // estimatedPrice: z.optional(z.string()),
+    // tags: z.string().min(2, { message: "Tags are required" }),
+    // level: z.string().min(2, { message: "Level is required" }),
+    // category: z.string().min(2, { message: "Category is required" }),
+    // demoUrl: z.string().min(2, { message: "Demo URL is required" }),
+    // thumbnail: z.string().min(2, { message: "Thumbnail is required" }),
+    // courseContentData: CourseDataSchema,
+    // totalVideos: z.number(),
 });
 
 export const EditUserSchema = z.object({

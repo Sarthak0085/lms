@@ -12,8 +12,8 @@ interface CourseOptionsProps {
 export const CourseOptions = ({ active, setActive }: CourseOptionsProps) => {
     const options = [
         "Course Details",
-        "Course Data",
-        "Course Content",
+        "Course Requirements",
+        // "Course Content",
         "Course Preview",
     ]
     return (
@@ -36,7 +36,7 @@ export const CourseOptions = ({ active, setActive }: CourseOptionsProps) => {
                                 {option}
                             </div>
                         </div>
-                        {index !== 3 && <div
+                        {index !== 2 && <div
                             className={cn("flex-auto border-t-[6px] transition duration-500 ease-in-out",
                                 active > index ? "border-teal-600" : "border-muted-foreground"
                             )}></div>}

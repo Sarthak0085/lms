@@ -1,3 +1,4 @@
+//@ts-nocheck
 'use client';
 
 import { OurFileRouter } from '@/app/api/uploadthing/core';
@@ -39,7 +40,7 @@ export default function FileUpload({
                     value?.map((item) => (
                         <div
                             key={item.key}
-                            className="relative h-[200px] w-full overflow-hidden rounded-md"
+                            className="relative h-auto w-full overflow-hidden rounded-md"
                         >
                             <div className="absolute right-2 top-2 z-10">
                                 <Button

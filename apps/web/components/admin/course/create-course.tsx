@@ -2,56 +2,95 @@
 
 import React, { useState, useTransition } from 'react'
 import { redirect } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import * as z from "zod";
 import { CreateCourseSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
-import { CourseContent } from './course-content';
 import { CourseOptions } from './course-options';
 import { CoursePreview } from './course-preview';
+import { Level } from '@repo/db/types';
+import { createCourse } from '@/actions/course/create-course';
+import { toast } from '@repo/ui';
 
 export const CreateCourse = () => {
     const [active, setActive] = useState(0);
     const [isPending, startTransition] = useTransition();
-
-    const form = useForm<z.infer<typeof CreateCourseSchema>>({
-        resolver: zodResolver(CreateCourseSchema),
-        defaultValues: {
+    const [courseData, setCourseData] = useState<z.infer<typeof CreateCourseSchema>>({
+        course: {
             name: "",
+            slug: "",
             description: "",
             tags: "",
-            category: "",
             price: "",
             estimatedPrice: "",
-            level: "",
             thumbnail: "",
             demoUrl: "",
-            benefits: [{ title: "" }],
-            prerequisites: [{ title: "" }],
-            courseContentData: [{
-                title: "",
-                description: "",
-                suggestion: "",
-                videoUrl: "",
-                videoSection: "Untitled Section",
-                videoLength: 0,
-                links: [{
-                    title: "",
-                    url: "",
-                }]
-            }],
-            totalVideos: 0,
-        }
+            level: Level.BEGINNER,
+            category: "",
+
+        },
+        benefits: [{ title: "" }],
+        prerequisites: [{ title: "" }],
     });
 
-    const handleCourseCreate = async (e: any) => {
-        console.log(form.getValues())
-        // const data = courseData;
-        // if (!isLoading) {
-        //     await createCourse(data);
-        // }
+    // const form = useForm<z.infer<typeof CreateCourseSchema>>({
+    //     resolver: zodResolver(CreateCourseSchema),
+    //     defaultValues: {
+    //         name: "",
+    //         description: "",
+    //         tags: "",
+    //         category: "",
+    //         price: "",
+    //         estimatedPrice: "",
+    //         level: "",
+    //         thumbnail: "",
+    //         demoUrl: "",
+    //         benefits: [{ title: "" }],
+    //         prerequisites: [{ title: "" }],
+    //         courseContentData: [{
+    //             title: "",
+    //             description: "",
+    //             suggestion: "",
+    //             videoUrl: "",
+    //             videoSection: "Untitled Section",
+    //             videoLength: 0,
+    //             links: [{
+    //                 title: "",
+    //                 url: "",
+    //             }]
+    //         }],
+    //         totalVideos: 0,
+    //     }
+    // });
+
+    const handleCourseCreate = async () => {
+        startTransition(() => {
+            createCourse(courseData)
+                .then(({ error, success, data }) => {
+                    if (error) {
+                        toast({
+                            variant: "destructive",
+                            title: "Uh oh! Something went wrong.",
+                            description: error,
+                        });
+                    }
+                    if (success) {
+                        toast({
+                            variant: "success",
+                            title: "Success!!",
+                            description: success
+                        });
+                        redirect(`/admin/course/${data?.id}`);
+                    }
+                })
+                .catch(() => {
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with creating the course.",
+                    });
+                })
+        })
     }
 
     return (
@@ -63,7 +102,8 @@ export const CreateCourse = () => {
                 {
                     active === 0 && (
                         <CourseInformation
-                            form={form}
+                            courseData={courseData}
+                            setCourseData={setCourseData}
                             isPending={isPending}
                             active={active}
                             setActive={setActive}
@@ -73,14 +113,15 @@ export const CreateCourse = () => {
                 {
                     active === 1 && (
                         <CourseData
-                            form={form}
+                            courseData={courseData}
+                            setCourseData={setCourseData}
                             isPending={isPending}
                             active={active}
                             setActive={setActive}
                         />
                     )
                 }
-                {
+                {/* {
                     active === 2 && (
                         <CourseContent
                             form={form}
@@ -89,11 +130,11 @@ export const CreateCourse = () => {
                             setActive={setActive}
                         />
                     )
-                }
+                } */}
                 {
-                    active === 3 && (
+                    active === 2 && (
                         <CoursePreview
-                            form={form}
+                            courseData={courseData}
                             isPending={isPending}
                             active={active}
                             setActive={setActive}
