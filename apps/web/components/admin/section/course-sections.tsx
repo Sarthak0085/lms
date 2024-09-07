@@ -83,9 +83,7 @@ export const CourseSections = ({
                 <SectionList
                     items={sections || []}
                     onReorder={onReorder}
-                    handleChildEdit={(id) =>
-                        router.push(`/admin/courses/${courseId}/sections/${id}`)
-                    }
+                    courseId={courseId}
                     handleFolderEdit={handleEdit}
                 />
             </div>

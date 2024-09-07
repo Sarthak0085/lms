@@ -56,7 +56,7 @@ const linksSchema = z.object({
 });
 
 export const CourseSectionSchema = z.object({
-    // videoUrl: z.string().min(2, { message: "Video Url is required" }),
+    videoUrl: z.string().min(2, { message: "Video Url is required" }).optional(),
     title: z.string().min(2, { message: "Section Title is required" }),
     id: z.string().optional(),
     type: z.enum([ContentType.FOLDER, ContentType.VIDEO, ContentType.NOTION]).default(ContentType.FOLDER),
@@ -67,6 +67,21 @@ export const CourseSectionSchema = z.object({
     position: z.number().default(0),
     links: z.array(linksSchema).optional(),
     courseId: z.string().min(2, { message: "Course Id is required" }),
+});
+
+export const SectionContentSchema = z.object({
+    id: z.string().optional(),
+    notionMetadataId: z.string().optional(),
+    videoUrl: z.string().min(2, { message: "Video Url is required" }).optional(),
+    title: z.string().min(2, { message: "Section Title is required" }),
+    type: z.enum([ContentType.VIDEO, ContentType.NOTION]),
+    thumbnail: z.string().optional(),
+    parentId: z.string().optional(),
+    hidden: z.boolean().default(false),
+    description: z.string().min(15, { message: "Video description is required" }).optional(),
+    position: z.number().default(0),
+    courseId: z.string().min(2, { message: "Course Id is required" }),
+    links: z.array(linksSchema).optional(),
 });
 
 //   id               String @id @default (cuid())

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
     DndContext,
     DragEndEvent,
@@ -9,7 +10,7 @@ import {
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { Content, ContentType } from "@repo/db/types";
-import { BiPencil, ChevronDown, Grip } from "@repo/ui/icon";
+import { AiOutlineDelete, BiPencil, ChevronDown, Grip, PlusCircledIcon } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
 import {
     arrayMove,
@@ -18,15 +19,21 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem } from "./sortable-item";
 import { Button } from "@repo/ui";
+import Link from "next/link";
 
 interface SectionListProps {
     items: Content[];
     onReorder: (updateData: { id: string; position: number }[]) => void;
-    handleChildEdit: (id: string) => void;
+    courseId: string;
     handleFolderEdit: (id: string) => void;
 }
 
-export const SectionList = ({ items, onReorder, handleChildEdit, handleFolderEdit }: SectionListProps) => {
+export const SectionList = ({
+    items,
+    onReorder,
+    handleFolderEdit,
+    courseId
+}: SectionListProps) => {
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>(
         items.filter(item => item.type === ContentType.FOLDER).reduce((acc, item) => {
             acc[item.id] = false;
@@ -129,39 +136,60 @@ export const SectionList = ({ items, onReorder, handleChildEdit, handleFolderEdi
                                 {section.title}
                                 <div className="ml-auto flex gap-2">
                                     <BiPencil
-                                        className="h-4 w-4 cursor-pointer hover:scale-110"
+                                        className="h-4 w-4 text-blue-600 cursor-pointer hover:scale-110"
+                                        aria-label="Edit Parent Section"
                                         onClick={(e) => handleFolderEdit(section?.id)}
                                     />
-                                    <Button
-                                        variant={"icon"}
-                                        className="!p-0 h-auto"
+                                    <AiOutlineDelete
+                                        className="text-red-600 cursor-pointer hover:scale-110"
+                                        size={18}
+                                        aria-label="Delete Parent Section"
+                                        onClick={() => handleFolderEdit(section.id)}
+                                    />
+                                    <ChevronDown
+                                        className={cn("h-5 w-5 cursor-pointer hover:scale-105", isOpen[section?.id] && "rotate-180")}
                                         onClick={(e) => handleIsOpenChange(section?.id, e)}
-                                    >
-                                        <ChevronDown
-                                            className={cn("h-5 w-5 cursor-pointer hover:scale-105", isOpen[section?.id] && "rotate-180")}
-                                        />
-                                        <span className="sr-only">Open Section</span>
-                                    </Button>
+                                        aria-label="Open Child Sections"
+                                    />
                                 </div>
                             </SortableItem>
                             {
                                 isOpen[section.id] &&
-                                sections
-                                    .filter(childSection => childSection.type !== ContentType.FOLDER && childSection.parentId === section.id)
-                                    .map((childSection, index) => (
-                                        <SortableItem key={childSection.id || index} id={childSection.id} parentId={childSection?.parentId as string}>
-                                            <div >
-                                                <Grip className="h-4 w-4 mr-4 " />
-                                            </div>
-                                            {childSection.title}
-                                            <div className="ml-auto flex gap-2">
-                                                <BiPencil
-                                                    className="h-4 w-4 cursor-pointer hover:scale-110"
-                                                    onClick={() => handleChildEdit(section.id)}
-                                                />
-                                            </div>
-                                        </SortableItem>
-                                    ))
+                                <>
+                                    {sections
+                                        .filter(childSection => childSection.type !== ContentType.FOLDER && childSection.parentId === section.id)
+                                        .map((childSection, index) => (
+                                            <SortableItem key={childSection.id || index} id={childSection.id} parentId={childSection?.parentId as string}>
+                                                <div >
+                                                    <Grip className="h-4 w-4 mr-4 " />
+                                                </div>
+                                                {childSection.title}
+                                                <div className="ml-auto flex gap-2">
+                                                    <Link href={`/admin/course/${courseId}/sections/${section?.id}/${childSection?.id}`}>
+                                                        <BiPencil
+                                                            className="h-4 w-4 text-blue-600  cursor-pointer hover:scale-110"
+                                                            aria-label="Edit Child Section"
+                                                        />
+                                                    </Link>
+                                                    <AiOutlineDelete
+                                                        className="text-red-600 cursor-pointer hover:scale-110"
+                                                        size={18}
+                                                        aria-label="Delete Child Section"
+                                                    // onClick={() => handleChildEdit(section.id)}
+                                                    />
+                                                </div>
+                                            </SortableItem>
+                                        ))}
+                                    <Button
+                                        variant="primary"
+                                        asChild
+                                    >
+                                        <Link href={`/admin/course/${courseId}/sections/${section?.id}`}>
+                                            <PlusCircledIcon className="me-2 size-4" />
+                                            Add Child Section
+                                        </Link>
+                                    </Button>
+                                </>
                             }
                         </>
                     )

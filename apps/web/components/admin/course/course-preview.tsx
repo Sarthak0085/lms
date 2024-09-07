@@ -17,7 +17,7 @@ interface CoursePreviewProps {
     courseData: formSchema
     isEdit?: boolean;
     isPending: boolean;
-};
+}
 
 export const CoursePreview = ({
     setActive,

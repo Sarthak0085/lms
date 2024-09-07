@@ -188,22 +188,24 @@ model Content {
   hidden           Boolean           @default(false)
   description      String?
   thumbnail        String?
+  videoUrl         String?
   parentId         String?
   parent           Content?          @relation("ContentToContent", fields: [parentId], references: [id])
   videoProgress    VideoProgress[]
   children         Content[]         @relation("ContentToContent")
   createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
   links            Link[]
   position         Int
   markAsCompleted  MarkAsCompleted[]
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
-  notionMetadataId Int?
+  notionMetadataId String?
   questions        Question[]
   commentsCount    Int               @default(0)
   bookmark         Bookmark[]
   Course           Course?           @relation(fields: [courseId], references: [id])
-  courseId         String?
+  courseId         String
 }
 
 model Link {

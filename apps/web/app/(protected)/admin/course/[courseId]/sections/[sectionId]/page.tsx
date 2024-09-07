@@ -1,21 +1,22 @@
-import { getSections } from "@/actions/sections/get-sections";
+import { getSectionById, getSections } from "@/actions/sections/get-sections";
 import { PageContainer } from "@/components/admin/layout/page-container";
 import { CourseSections } from "@/components/admin/section/course-sections";
+import { SectionForm } from "@/components/admin/section/section-form";
 import { Content } from "@repo/db/types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Admin Course Sections",
+    title: "Admin Section Details",
     description: "Admin can add or edit course sections here",
     keywords: "NextJs, MERN, ReactJs",
 }
 
 interface CourseSectionsPageProps {
-    params: { courseId: string };
+    params: { courseId: string; sectionId: string; };
 }
 
-const CourseSectionsPage = async ({ params: { courseId } }: CourseSectionsPageProps) => {
-    const { error, data } = await getSections(courseId);
+const SectionDetailsPage = async ({ params: { courseId, sectionId } }: CourseSectionsPageProps) => {
+    const { error, data } = await getSectionById(courseId, sectionId);
 
     if (error) {
         return (
@@ -27,9 +28,9 @@ const CourseSectionsPage = async ({ params: { courseId } }: CourseSectionsPagePr
 
     return (
         <PageContainer scrollable={true}>
-            <CourseSections courseId={courseId} sections={data as Content[]} />
+            <SectionForm courseId={courseId} sectionId={sectionId} sectionLength={data?.length ?? 0} />
         </PageContainer>
     )
 };
 
-export default CourseSectionsPage;
+export default SectionDetailsPage;

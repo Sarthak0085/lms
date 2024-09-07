@@ -22,7 +22,7 @@ import {
     Switch,
     toast
 } from "@repo/ui"
-import { PlusIcon, ReloadIcon } from "@repo/ui/icon";
+import { PlusCircledIcon, ReloadIcon } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
 import { useRouter } from "next/navigation";
 import React, { SetStateAction, useTransition } from "react";
@@ -99,8 +99,8 @@ export const SectionDialog = ({
     return (
         <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger>
-                <Button aria-label="Create Category" variant="primary" size="sm" className="ml-auto !h-8 !justify-end">
-                    <PlusIcon className="mr-2 size-4" aria-hidden="true" />
+                <Button aria-label="Create Category" variant="primary" className="ml-auto !justify-end">
+                    <PlusCircledIcon className="mr-2 size-4" aria-hidden="true" />
                     Add New Section
                 </Button>
             </DialogTrigger>
