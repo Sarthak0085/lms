@@ -1,17 +1,13 @@
 "use client";
 
-import { z } from "zod";
 import { Content, ContentType } from "@repo/db/types";
 import { SectionDialog } from "./section-dialog";
-import { Button } from "@repo/ui";
+import { Button, toast } from "@repo/ui";
 import Link from "next/link";
 import { RxArrowLeft } from "@repo/ui/icon";
-
-const formSchema = z.object({
-    title: z.string().min(2, {
-        message: "Title is required and must be at least 2 characters long",
-    }),
-});
+import { SectionList } from "./section-lists";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface CourseSectionsProps {
     courseId: string;
@@ -22,47 +18,50 @@ export const CourseSections = ({
     courseId,
     sections
 }: CourseSectionsProps) => {
-    // const pathname = usePathname();
-    // const router = useRouter();
+    const router = useRouter();
+    const [openSectionDialog, setOpenSectionDialog] = useState(false);
+    const [selectedSection, setSelectedSection] = useState<Content | null>(null);
+    const onReorder = async (updateData: { id: string; position: number }[]) => {
+        try {
+            const response = await fetch(`/api/admin/course/${courseId}/sections/reorder`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    list: updateData,
+                }),
+            });
 
-    // const routes = [
-    //     {
-    //         label: "Basic Information",
-    //         path: `/instructor/courses/${course.id}/basic`,
-    //     },
-    //     { label: "Curriculum", path: `/instructor/courses/${course.id}/sections` },
-    // ];
+            if (!response?.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with reordering the course section.",
+                });
+            }
 
-    // 1. Define your form.
-
-    // 2. Define a submit handler.
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        //     try {
-        //         const response = await axios.post(
-        //             `/api/courses/${course.id}/sections`,
-        //             values
-        //         );
-        //         router.push(
-        //             `/instructor/courses/${course.id}/sections/${response.data.id}`
-        //         );
-        //         toast.success("New Section created!");
-        //     } catch (err) {
-        //         toast.error("Something went wrong!");
-        //         console.log("Failed to create a new section", err);
-        //     }
+            toast({
+                variant: "success",
+                title: "Success!!",
+                description: "Sections reorder successfully"
+            });
+        } catch (err) {
+            console.log("Failed to reorder sections", err);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with reordering the course section.",
+            });
+        }
     };
 
-    // const onReorder = async (updateData: { id: string; position: number }[]) => {
-    //     try {
-    //         await axios.put(`/api/courses/${course.id}/sections/reorder`, {
-    //             list: updateData,
-    //         });
-    //         toast.success("Sections reordered successfully");
-    //     } catch (err) {
-    //         console.log("Failed to reorder sections", err);
-    //         toast.error("Something went wrong!");
-    //     }
-    // };
+    const handleEdit = (id: string) => {
+        const sectionToEdit = sections.find(section => section.id === id) || null;
+        setSelectedSection(sectionToEdit);
+        console.log(sectionToEdit);
+        setOpenSectionDialog(true);
+    };
 
     return (
         <div className="px-10 py-6">
@@ -73,29 +72,23 @@ export const CourseSections = ({
                     </Link>
                 </Button>
                 <SectionDialog
+                    open={openSectionDialog}
+                    setOpen={setOpenSectionDialog}
+                    section={selectedSection}
                     courseId={courseId}
                     sectionLength={sections?.filter(section => section.type === ContentType.FOLDER).length}
                 />
             </div>
-            {/* <div className="flex gap-5">
-                {routes.map((route) => (
-                    <Link key={route.path} href={route.path}>
-                        <Button variant={pathname === route.path ? "default" : "outline"}>
-                            {route.label}
-                        </Button>
-                    </Link>
-                ))}
-            </div> */}
-
-            {/* <SectionList
-                items={course.sections || []}
-                onReorder={onReorder}
-                onEdit={(id) =>
-                    router.push(`/instructor/courses/${course.id}/sections/${id}`)
-                }
-            /> */}
-
-
+            <div className="my-10">
+                <SectionList
+                    items={sections || []}
+                    onReorder={onReorder}
+                    handleChildEdit={(id) =>
+                        router.push(`/admin/courses/${courseId}/sections/${id}`)
+                    }
+                    handleFolderEdit={handleEdit}
+                />
+            </div>
         </div>
     );
 };

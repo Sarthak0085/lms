@@ -3,16 +3,36 @@ import { CustomInput } from "@/components/custom-input"
 import { CourseSectionSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Content } from "@repo/db/types";
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Switch, toast } from "@repo/ui"
+import {
+    Button,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    Switch,
+    toast
+} from "@repo/ui"
 import { PlusIcon, ReloadIcon } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
-import { redirect, useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import React, { SetStateAction, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface SectionDialogProps {
-    section?: Content;
+    open: boolean;
+    setOpen: React.Dispatch<SetStateAction<boolean>>;
+    section: Content | null;
     sectionLength: number;
     courseId: string;
 }
@@ -21,10 +41,12 @@ export const SectionDialog = ({
     section,
     sectionLength,
     courseId,
+    open,
+    setOpen
 }: SectionDialogProps) => {
     const router = useRouter();
-    const [isOpen, setIsOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
+    console.log("section", section);
     const form = useForm<z.infer<typeof CourseSectionSchema>>({
         resolver: zodResolver(CourseSectionSchema),
         defaultValues: {
@@ -55,7 +77,7 @@ export const SectionDialog = ({
                         });
                     }
                     if (data?.success) {
-                        setIsOpen(false);
+                        setOpen(false);
                         form.reset();
                         toast({
                             variant: "success",
@@ -75,7 +97,7 @@ export const SectionDialog = ({
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen} >
+        <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger>
                 <Button aria-label="Create Category" variant="primary" size="sm" className="ml-auto !h-8 !justify-end">
                     <PlusIcon className="mr-2 size-4" aria-hidden="true" />
@@ -142,7 +164,7 @@ export const SectionDialog = ({
                                 disabled={isPending}
                                 variant="destructive"
                                 className="sm:w-[30%] w-auto"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => setOpen(false)}
                             >
                                 Cancel
                             </Button>

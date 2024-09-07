@@ -52,6 +52,7 @@ import {
     XCircleIcon,
     ShieldIcon,
     UserIcon,
+    Grip
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -146,4 +147,5 @@ export {
     DotsHorizontalIcon,
     FaUserShield,
     ReloadIcon,
+    Grip
 }
