@@ -3,7 +3,7 @@
 import { Ratings } from "@/components/ratings";
 import { CreateCourseSchema, EditCourseSchema } from "@/schemas";
 import { Button, Input } from "@repo/ui";
-import { IoIosCheckmarkCircleOutline, RxArrowLeft } from "@repo/ui/icon";
+import { IoIosCheckmarkCircleOutline, ReloadIcon, RxArrowLeft } from "@repo/ui/icon";
 import { cn } from "@repo/ui/lib/utils";
 import React, { SetStateAction } from "react";
 import * as z from "zod";
@@ -149,6 +149,12 @@ export const CoursePreview = ({
                                 disabled={isPending}
                                 onClick={createCourse}
                             >
+                                {isPending && (
+                                    <ReloadIcon
+                                        className="mr-2 size-4 animate-spin"
+                                        aria-hidden="true"
+                                    />
+                                )}
                                 {isEdit ? "Update" : "Create"}
                             </Button>
                         </div>

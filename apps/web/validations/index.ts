@@ -1,5 +1,6 @@
 import CustomError from "@/lib/custom-error";
 import {
+    CourseSectionSchema,
     CreateCategorySchema,
     CreateCourseSchema,
     EditUserSchema,
@@ -109,6 +110,16 @@ export const ValidateUpdateCategoryInput = (values: z.infer<typeof UpdateCategor
 
 export const validateCreateCourse = (values: z.infer<typeof CreateCourseSchema>) => {
     const validatedFields = CreateCourseSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new CustomError("Invalid Fields", 400);
+    }
+
+    return validatedFields.data;
+};
+
+export const validateCreateSection = (values: z.infer<typeof CourseSectionSchema>) => {
+    const validatedFields = CourseSectionSchema.safeParse(values);
 
     if (!validatedFields.success) {
         throw new CustomError("Invalid Fields", 400);

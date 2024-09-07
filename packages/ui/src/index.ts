@@ -142,6 +142,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "./components/ui/alert-dialog";
+import { Switch } from "./components/ui/switch";
 
 export {
     Button,
@@ -259,5 +260,6 @@ export {
     AlertDialogOverlay,
     AlertDialogPortal,
     AlertDialogTitle,
-    AlertDialogTrigger
+    AlertDialogTrigger,
+    Switch
 }

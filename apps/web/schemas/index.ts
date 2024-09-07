@@ -1,4 +1,4 @@
-import { Level, UserRole, UserStatus } from "@repo/db/types";
+import { ContentType, Level, UserRole, UserStatus } from "@repo/db/types";
 import * as z from "zod";
 
 export const LoginSchema = z.object({
@@ -55,19 +55,46 @@ const linksSchema = z.object({
     url: z.string().min(2, { message: "URL is required" }),
 });
 
-const courseData = z.object({
-    videoUrl: z.string().min(2, { message: "Video Url is required" }),
-    title: z.string().min(2, { message: "Video Title is required" }),
-    description: z.string().min(15, { message: "Video description is required" }),
-    videoSection: z.string().min(2, { message: "Video Section is required" }),
-    suggestion: z.optional(z.string()),
-    links: z.array(linksSchema),
-    videoLength: z.optional(z.number()),
+export const CourseSectionSchema = z.object({
+    // videoUrl: z.string().min(2, { message: "Video Url is required" }),
+    title: z.string().min(2, { message: "Section Title is required" }),
+    id: z.string().optional(),
+    type: z.enum([ContentType.FOLDER, ContentType.VIDEO, ContentType.NOTION]).default(ContentType.FOLDER),
+    thumbnail: z.string().optional(),
+    parentId: z.string().optional(),
+    hidden: z.boolean().default(false),
+    description: z.string().min(15, { message: "Video description is required" }).optional(),
+    position: z.number().default(0),
+    links: z.array(linksSchema).optional(),
+    courseId: z.string().min(2, { message: "Course Id is required" }),
 });
+
+//   id               String @id @default (cuid())
+// type ContentType       @default (FOLDER)
+//   title            String
+//   hidden           Boolean @default (false)
+//   description      String ?
+//     thumbnail        String ?
+//         parentId         String ?
+//             parent           Content ? @relation("ContentToContent", fields: [parentId], references: [id])
+//   videoProgress    VideoProgress[]
+//   children         Content[]         @relation("ContentToContent")
+//   createdAt        DateTime @default (now())
+//   links            Link[]
+//   position         Int
+//   markAsCompleted  MarkAsCompleted[]
+//   VideoMetadata    VideoMetadata ?
+//     NotionMetadata   NotionMetadata ?
+//         notionMetadataId Int ?
+//             questions        Question[]
+//   commentsCount    Int @default (0)
+//   bookmark         Bookmark[]
+//   Course           Course ? @relation(fields: [courseId], references: [id])
+//   courseId         String ?
 
 const BenefitsSchema = z.array(titleSchema);
 const PrerequisitesSchema = z.array(titleSchema);
-const CourseDataSchema = z.array(courseData);
+const CourseDataSchema = z.array(CourseSectionSchema);
 
 export const CourseRequirementsSchema = z.object({
     benefits: BenefitsSchema,

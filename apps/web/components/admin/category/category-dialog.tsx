@@ -16,7 +16,7 @@ import { Row } from "@tanstack/react-table";
 import { Category } from "@repo/db/types";
 import { PlusIcon, ReloadIcon } from "@repo/ui/icon";
 import { useForm } from "react-hook-form";
-import { ReactNode, useState, useTransition } from "react";
+import { useTransition } from "react";
 import { CreateCategorySchema, UpdateCategorySchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editCategory } from "@/actions/category/edit-category";
@@ -38,7 +38,6 @@ export const CategoryDialog = ({
     isUpdate = false,
     ...props
 }: CategoryDialogProps) => {
-    // const [open, setOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<CategoryFormValues>({

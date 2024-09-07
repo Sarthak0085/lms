@@ -193,6 +193,8 @@ model Content {
   videoProgress    VideoProgress[]
   children         Content[]         @relation("ContentToContent")
   createdAt        DateTime          @default(now())
+  links            Link[]
+  position         Int
   markAsCompleted  MarkAsCompleted[]
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
@@ -202,6 +204,15 @@ model Content {
   bookmark         Bookmark[]
   Course           Course?           @relation(fields: [courseId], references: [id])
   courseId         String?
+}
+
+model Link {
+  id    String @id @default(cuid())
+  title String
+  url   String
+
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id])
 }
 
 model MarkAsCompleted {

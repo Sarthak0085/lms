@@ -1,8 +1,6 @@
 "use client"
 
 import { Category } from "@repo/db/types"
-import { Button } from "@repo/ui"
-import { DownloadIcon } from "@repo/ui/icon"
 import { type Table } from "@tanstack/react-table"
 import { CategoryDialog } from "./category-dialog"
 import { DeleteCategoriesDialog } from "./delete-category-dialog"
