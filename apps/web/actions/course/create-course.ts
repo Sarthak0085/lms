@@ -95,6 +95,7 @@ export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) =
         }
 
     } catch (error) {
+        console.log(error)
         if (error instanceof CustomError) {
             return {
                 error: error.message,

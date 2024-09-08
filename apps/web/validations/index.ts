@@ -83,16 +83,16 @@ export const ValidateSearchParams = (values: Record<string, number | string | st
     }
 
     if (parsedParams.status) {
-        parsedParams.status = parsedParams.status.split(".").map((status: UserStatus) => status.trim()) ?? [parsedParams.status]
+        parsedParams.status = parsedParams.status.split(".").map((status: UserStatus | CourseStatus) => status.trim()) ?? [parsedParams.status]
     }
 
     if (parsedParams.level) {
         parsedParams.level = parsedParams.level.split(".").map((level: Level) => level.trim()) ?? [parsedParams.level]
     }
 
-    if (parsedParams.courseStatus) {
-        parsedParams.courseStatus = parsedParams.courseStatus.split(".").map((courseStatus: CourseStatus) => courseStatus.trim()) ?? [parsedParams.courseStatus]
-    }
+    // if (parsedParams.courseStatus) {
+    //     parsedParams.courseStatus = parsedParams.courseStatus.split(".").map((courseStatus: CourseStatus) => courseStatus.trim()) ?? [parsedParams.courseStatus]
+    // }
 
     return SearchParamsSchema.parse(parsedParams);
 };

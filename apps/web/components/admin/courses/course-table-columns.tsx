@@ -52,7 +52,7 @@ export const getColumns = (): ColumnDef<Course>[] => {
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
-                        <span className="max-w-[31.25rem] truncate font-medium">
+                        <span className="max-w-[20rem] truncate font-medium">
                             {row.getValue("title")}
                         </span>
                     </div>
@@ -67,7 +67,7 @@ export const getColumns = (): ColumnDef<Course>[] => {
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
-                        <span className="max-w-[31.25rem] truncate font-medium">
+                        <span className="max-w-[20rem] truncate font-medium">
                             {row.getValue("slug")}
                         </span>
                     </div>

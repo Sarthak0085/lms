@@ -30,7 +30,7 @@ const CoursesPage = ({ searchParams }: CoursesPageProps) => {
                     <div>
                         <h2 className="text-2xl font-bold tracking-tight">Welcome back!!</h2>
                         <p className="text-muted-foreground">
-                            Here&apos;s a list of all the users!
+                            Here&apos;s a list of all the courses!
                         </p>
                     </div>
                 </div>

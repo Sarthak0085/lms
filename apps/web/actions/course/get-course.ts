@@ -7,7 +7,7 @@ import { Course, Prisma } from "@repo/db/types";
 import { z } from "zod";
 
 export const getCourses = async (input: z.infer<typeof SearchParamsSchema>) => {
-    const { page, per_page, sort, title, price, purchased, courseStatus, level, slug, category, operator, from, to } = input
+    const { page, per_page, sort, title, price, purchased, status, level, slug, category, operator, from, to } = input
     try {
         // Offset to paginate the results
         const offset = (Number(page) - 1) * Number(per_page);
@@ -33,7 +33,7 @@ export const getCourses = async (input: z.infer<typeof SearchParamsSchema>) => {
             price: price ? { contains: price } : undefined,
             purchased: purchased ? { contains: purchased } : undefined,
             category: category ? { contains: category } : undefined,
-            status: courseStatus ? { in: courseStatus } : undefined,
+            status: status ? { in: status as any } : undefined,
             level: level ? { in: level } : undefined,
             createdAt: {
                 ...(fromDate && { gte: fromDate }),

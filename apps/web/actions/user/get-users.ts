@@ -29,7 +29,7 @@ export const getUsers = async (input: z.infer<typeof SearchParamsSchema>) => {
         const filters: Prisma.UserWhereInput = {
             name: name ? { contains: name } : undefined,
             email: email ? { contains: email } : undefined,
-            status: status ? { in: status } : undefined,
+            status: status ? { in: status as any } : undefined,
             role: role ? { in: role } : undefined,
             createdAt: {
                 ...(fromDate && { gte: fromDate }),
