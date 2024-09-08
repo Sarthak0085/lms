@@ -99,7 +99,7 @@ export const SectionDialog = ({
     return (
         <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger>
-                <Button aria-label="Create Category" variant="primary" className="ml-auto !justify-end">
+                <Button variant="primary" className="ml-auto !justify-end">
                     <PlusCircledIcon className="mr-2 size-4" aria-hidden="true" />
                     Add New Section
                 </Button>

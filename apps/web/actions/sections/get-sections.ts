@@ -58,3 +58,31 @@ export const getSectionById = async (courseId: string, sectionId: string) => {
         };
     }
 }
+
+export const getSectionsByParentId = async (courseId: string, sectionId: string) => {
+    noStore();
+    try {
+        const data = await db.content.findMany({
+            where: {
+                courseId: courseId,
+                parentId: sectionId,
+            }
+        });
+
+        return {
+            data
+        }
+    } catch (error) {
+        if (error instanceof CustomError) {
+            return {
+                error: error.message,
+                code: error.code,
+            };
+        }
+        return {
+            error: "An unexpected error occurred.",
+            data: [],
+            code: 500,
+        };
+    }
+}

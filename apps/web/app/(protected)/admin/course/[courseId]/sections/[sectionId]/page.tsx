@@ -1,7 +1,8 @@
-import { getSectionById, getSections } from "@/actions/sections/get-sections";
+import { getSectionsByParentId } from "@/actions/sections/get-sections";
 import { PageContainer } from "@/components/admin/layout/page-container";
 import { CourseSections } from "@/components/admin/section/course-sections";
 import { SectionForm } from "@/components/admin/section/section-form";
+import { SectionManager } from "@/components/admin/section/section-manager";
 import { Content } from "@repo/db/types";
 import { Metadata } from "next";
 
@@ -16,7 +17,7 @@ interface CourseSectionsPageProps {
 }
 
 const SectionDetailsPage = async ({ params: { courseId, sectionId } }: CourseSectionsPageProps) => {
-    const { error, data } = await getSectionById(courseId, sectionId);
+    const { error, data } = await getSectionsByParentId(courseId, sectionId);
 
     if (error) {
         return (
@@ -28,7 +29,7 @@ const SectionDetailsPage = async ({ params: { courseId, sectionId } }: CourseSec
 
     return (
         <PageContainer scrollable={true}>
-            <SectionForm courseId={courseId} sectionId={sectionId} sectionLength={data?.length ?? 0} />
+            <SectionManager courseId={courseId} data={data} />
         </PageContainer>
     )
 };

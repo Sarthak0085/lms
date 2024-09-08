@@ -1,3 +1,5 @@
+import { Content, Link } from "@repo/db/types";
+
 export interface NavItem {
     title: string;
     href?: string;
@@ -7,6 +9,8 @@ export interface NavItem {
     label?: string;
     description?: string;
 }
+
+export type ExtendContent = Content & { links: Link[] }
 
 export interface SearchParams {
     [key: string]: string | string[] | undefined

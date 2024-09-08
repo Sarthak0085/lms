@@ -6,6 +6,7 @@ import {
     Level,
     CourseStatus,
     ContentType,
+    VideoStatus,
     type User,
     type Category,
     type FAQ,
@@ -19,6 +20,7 @@ import {
     type Vote,
     type Benefit,
     type Prerequisite,
+    type Link
 } from "@prisma/client";
 
 export {
@@ -28,6 +30,7 @@ export {
     Level,
     VoteType,
     ContentType,
+    VideoStatus,
     User,
     Category,
     FAQ,
@@ -42,4 +45,5 @@ export {
     Benefit,
     Prerequisite,
     Prisma,
+    Link
 }

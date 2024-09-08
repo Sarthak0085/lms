@@ -26,7 +26,8 @@ import {
     TrashIcon,
     DotsHorizontalIcon,
     ReloadIcon,
-    PlusIcon
+    PlusIcon,
+    ImageIcon,
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
@@ -52,7 +53,8 @@ import {
     XCircleIcon,
     ShieldIcon,
     UserIcon,
-    Grip
+    Grip,
+    CirclePlay
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -147,5 +149,7 @@ export {
     DotsHorizontalIcon,
     FaUserShield,
     ReloadIcon,
-    Grip
+    Grip,
+    ImageIcon,
+    CirclePlay
 }
