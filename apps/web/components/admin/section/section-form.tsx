@@ -48,6 +48,7 @@ export const SectionForm = ({
     const form = useForm<z.infer<typeof SectionContentSchema>>({
         resolver: zodResolver(SectionContentSchema),
         defaultValues: {
+            id: section?.id ?? "",
             title: section?.title ?? "",
             description: section?.description ?? "",
             notionMetadataId: String(section?.notionMetadataId) ?? "",
@@ -57,10 +58,11 @@ export const SectionForm = ({
             courseId: courseId,
             type: section?.type as Exclude<ContentType, "FOLDER"> ?? undefined,
             hidden: section?.hidden ?? false,
-            position: section?.position ?? sectionLength ?? 0,
-            links: section?.links.map(link => ({ title: link.title, url: link.url })) ?? [{ title: "", url: "" }]
+            position: (section?.position ?? sectionLength) || 0,
+            links: section?.links?.map(link => ({ title: link?.title, url: link?.url })) ?? [{ title: "", url: "" }]
         }
     });
+    console.log(form.getValues("parentId"), form.getValues("id"))
 
     const onSubmit = (values: z.infer<typeof SectionContentSchema>) => {
         startTransition(() => {
@@ -250,14 +252,13 @@ export const SectionForm = ({
                             type='submit'
                             disabled={isPending}
                             className={cn(isPending && "cursor-not-allowed")}
-                        // onClick={handleSubmit}
                         >
                             {isPending && (
                                 <ReloadIcon
                                     className="mr-2 size-4 animate-spin"
                                 />
                             )}
-                            Create
+                            Save
                         </Button>
                     </div>
                     <br />

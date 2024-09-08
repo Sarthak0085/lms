@@ -66,6 +66,9 @@ export const getSectionsByParentId = async (courseId: string, sectionId: string)
             where: {
                 courseId: courseId,
                 parentId: sectionId,
+            },
+            include: {
+                links: true
             }
         });
 

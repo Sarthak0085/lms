@@ -25,14 +25,18 @@ interface SectionListProps {
     items: Content[];
     onReorder: (updateData: { id: string; position: number }[]) => void;
     courseId: string;
+    isPending: boolean;
     handleFolderEdit: (id: string) => void;
+    deleteSection: (id: string, parentId?: string | null) => void;
 }
 
 export const SectionList = ({
     items,
     onReorder,
     handleFolderEdit,
-    courseId
+    courseId,
+    isPending,
+    deleteSection
 }: SectionListProps) => {
     const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>(
         items.filter(item => item.type === ContentType.FOLDER).reduce((acc, item) => {
@@ -138,18 +142,21 @@ export const SectionList = ({
                                     <BiPencil
                                         className="h-4 w-4 text-blue-600 cursor-pointer hover:scale-110"
                                         aria-label="Edit Parent Section"
+                                        aria-disabled={isPending}
                                         onClick={(e) => handleFolderEdit(section?.id)}
                                     />
                                     <AiOutlineDelete
                                         className="text-red-600 cursor-pointer hover:scale-110"
                                         size={18}
                                         aria-label="Delete Parent Section"
-                                        onClick={() => handleFolderEdit(section.id)}
+                                        aria-disabled={isPending}
+                                        onClick={() => deleteSection(section?.id)}
                                     />
                                     <ChevronDown
                                         className={cn("h-5 w-5 cursor-pointer hover:scale-105", isOpen[section?.id] && "rotate-180")}
                                         onClick={(e) => handleIsOpenChange(section?.id, e)}
                                         aria-label="Open Child Sections"
+                                        aria-disabled={isPending}
                                     />
                                 </div>
                             </SortableItem>
@@ -169,13 +176,15 @@ export const SectionList = ({
                                                         <BiPencil
                                                             className="h-4 w-4 text-blue-600  cursor-pointer hover:scale-110"
                                                             aria-label="Edit Child Section"
+                                                            aria-disabled={isPending}
                                                         />
                                                     </Link>
                                                     <AiOutlineDelete
                                                         className="text-red-600 cursor-pointer hover:scale-110"
                                                         size={18}
                                                         aria-label="Delete Child Section"
-                                                    // onClick={() => handleChildEdit(section.id)}
+                                                        aria-disabled={isPending}
+                                                        onClick={() => deleteSection(childSection?.id, section?.id)}
                                                     />
                                                 </div>
                                             </SortableItem>

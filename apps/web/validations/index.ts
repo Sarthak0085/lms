@@ -9,6 +9,7 @@ import {
     PasswordResetSchema,
     RegisterSchema,
     SearchParamsSchema,
+    SectionContentSchema,
     UpdateCategorySchema
 } from "@/schemas";
 import { UserRole, UserStatus } from "@repo/db/types";
@@ -120,6 +121,16 @@ export const validateCreateCourse = (values: z.infer<typeof CreateCourseSchema>)
 
 export const validateCreateSection = (values: z.infer<typeof CourseSectionSchema>) => {
     const validatedFields = CourseSectionSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new CustomError("Invalid Fields", 400);
+    }
+
+    return validatedFields.data;
+};
+
+export const validateSectionContent = (values: z.infer<typeof SectionContentSchema>) => {
+    const validatedFields = SectionContentSchema.safeParse(values);
 
     if (!validatedFields.success) {
         throw new CustomError("Invalid Fields", 400);

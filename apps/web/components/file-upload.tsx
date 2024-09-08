@@ -73,9 +73,10 @@ export default function FileUpload({
                             container: "w-full flex-col rounded-md border-black/80 py-8 dark:border-white/80",
                         }}
                         content={{
-                            uploadIcon() {
+                            uploadIcon({ isUploading }) {
                                 return (
-                                    <ImageIcon className='w-8 h-8 !text-orange-500 ' />
+                                    <ImageIcon className={cn('w-8 h-8 !text-orange-500', isUploading && "animate-pulse")
+                                    } />
                                 )
                             },
                             label({ isUploading }) {
@@ -180,7 +181,7 @@ export const VideoFileUpload = ({
                             </Button>
                         </div>
                         <div>
-                            <video className='w-full h-auto' controls autoPlay>
+                            <video className='w-full h-auto' controls autoPlay={false}>
                                 <source src={value} type={data?.[0]?.type} />
                             </video>
                         </div>
@@ -198,9 +199,9 @@ export const VideoFileUpload = ({
                             container: "w-full flex-col rounded-md border-black/80 py-8 dark:border-white/80",
                         }}
                         content={{
-                            uploadIcon() {
+                            uploadIcon({ isUploading }) {
                                 return (
-                                    <CirclePlay className='h-8 w-8 text-blue-500' />
+                                    <CirclePlay className={cn('h-8 w-8 text-blue-500', isUploading && "animate-ping")} />
                                 )
                             },
                             label({ isUploading }) {

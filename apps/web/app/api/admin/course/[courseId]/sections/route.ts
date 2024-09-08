@@ -22,3 +22,25 @@ export const GET = async (
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 }
+
+export const DELETE = async (
+    req: NextRequest,
+    { params }: { params: { courseId: string; } }
+) => {
+    try {
+        const { courseId } = params;
+        const { sectionId } = await req.json();
+        console.log(courseId);
+        await db.content.delete({
+            where: {
+                id: sectionId,
+                courseId: courseId
+            },
+        });
+
+        return NextResponse.json("Section Deleted Successfully", { status: 200 });
+
+    } catch (error) {
+        return new NextResponse("Internal Server Error", { status: 500 });
+    }
+}

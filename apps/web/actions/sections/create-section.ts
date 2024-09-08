@@ -2,9 +2,9 @@
 
 import { currentUser } from "@/lib/auth";
 import CustomError from "@/lib/custom-error";
-import { CourseSectionSchema } from "@/schemas";
+import { CourseSectionSchema, SectionContentSchema } from "@/schemas";
 import { getSectionById } from "@/utils/helpers/section";
-import { validateCreateSection } from "@/validations";
+import { validateCreateSection, validateSectionContent } from "@/validations";
 import { db } from "@repo/db";
 import { ContentType, Link, UserRole, VideoStatus } from "@repo/db/types";
 import * as z from "zod";
@@ -13,14 +13,15 @@ import Mux from "@mux/mux-node";
 import { revalidatePath } from "next/cache";
 
 const { video } = new Mux({
-    tokenId: process.env.MUX_TOKEN_ID as string,
-    tokenSecret: process.env.MUX_TOKEN_SECRET as string,
+    tokenId: process.env.MUX_TOKEN_ID,
+    tokenSecret: process.env.MUX_TOKEN_SECRET,
 });
 
-export const createSection = async (values: z.infer<typeof CourseSectionSchema>) => {
+export const createSection = async (values: z.infer<typeof SectionContentSchema>) => {
     try {
-        const validatedData = validateCreateSection(values);
+        const validatedData = validateSectionContent(values);
         const { id, title, type, thumbnail, parentId, hidden, description, links, position, courseId, videoUrl } = validatedData;
+        console.log(validatedData);
 
         const user = await currentUser();
 
@@ -37,6 +38,7 @@ export const createSection = async (values: z.infer<typeof CourseSectionSchema>)
         if (!isCourseExists) {
             throw new CustomError("Course doesn't exists", 404);
         }
+        console.log("after course");
 
         const existedSection = await getSectionById(id as string);
 
@@ -76,7 +78,6 @@ export const createSection = async (values: z.infer<typeof CourseSectionSchema>)
                     hidden: hidden,
                 }
             });
-
             if (links && links.length > 0) {
                 const customLinks = links.map(link => ({
                     title: link.title,
@@ -87,16 +88,19 @@ export const createSection = async (values: z.infer<typeof CourseSectionSchema>)
                     data: customLinks
                 });
             }
-
             if (type === ContentType.VIDEO) {
                 if (videoUrl && videoUrl !== "") {
+                    // if (videoUrl === existedSection?.videoUrl) {
+
+                    // }
+                    console.log("before creating assets")
                     const asset = await video.assets.create({
                         input: videoUrl as any,
                         playback_policy: ["public"],
                         test: false,
                         max_resolution_tier: "1080p",
                     });
-
+                    console.log("after assets");
                     await db.videoMetadata.create({
                         data: {
                             muxAssetId: asset.id,
@@ -113,17 +117,19 @@ export const createSection = async (values: z.infer<typeof CourseSectionSchema>)
                     });
 
                 }
+                console.log("after creation");
 
                 revalidatePath(`/admin/course/${courseId}/sections`, "page");
                 revalidatePath(`/admin/course/${courseId}/sections/${parentId}`, "page");
 
                 return {
-                    success: "Section Created Successfully"
+                    success: "Section Saved Successfully"
                 }
             }
         }
 
     } catch (error) {
+        console.error(error)
         if (error instanceof CustomError) {
             return {
                 error: error.message,

@@ -3,6 +3,7 @@ import { PageContainer } from "@/components/admin/layout/page-container";
 import { CourseSections } from "@/components/admin/section/course-sections";
 import { SectionForm } from "@/components/admin/section/section-form";
 import { SectionManager } from "@/components/admin/section/section-manager";
+import { ExtendContent } from "@/types";
 import { Content } from "@repo/db/types";
 import { Metadata } from "next";
 
@@ -29,7 +30,7 @@ const SectionDetailsPage = async ({ params: { courseId, sectionId } }: CourseSec
 
     return (
         <PageContainer scrollable={true}>
-            <SectionManager courseId={courseId} data={data} />
+            <SectionManager courseId={courseId} sectionId={sectionId} data={data as ExtendContent[]} />
         </PageContainer>
     )
 };

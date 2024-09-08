@@ -51,8 +51,8 @@ const titleSchema = z.object({
 });
 
 const linksSchema = z.object({
-    title: z.string().min(2, { message: "Title is required" }),
-    url: z.string().min(2, { message: "URL is required" }),
+    title: z.string(),
+    url: z.string(),
 });
 
 export const CourseSectionSchema = z.object({
@@ -74,14 +74,14 @@ export const SectionContentSchema = z.object({
     notionMetadataId: z.string().optional(),
     videoUrl: z.string().min(2, { message: "Video Url is required" }).optional(),
     title: z.string().min(2, { message: "Section Title is required" }),
-    type: z.enum([ContentType.VIDEO, ContentType.NOTION]),
+    type: z.enum([ContentType.VIDEO, ContentType.NOTION, ContentType.FOLDER]),
     thumbnail: z.string().optional(),
     parentId: z.string().optional(),
     hidden: z.boolean().default(false),
-    description: z.string().min(15, { message: "Video description is required" }).optional(),
+    description: z.string().optional(),
     position: z.number().default(0),
     courseId: z.string().min(2, { message: "Course Id is required" }),
-    links: z.array(linksSchema).optional(),
+    links: z.optional(z.array(linksSchema)),
 });
 
 //   id               String @id @default (cuid())

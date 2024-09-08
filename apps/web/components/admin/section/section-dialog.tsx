@@ -1,6 +1,6 @@
 import { createSection } from "@/actions/sections/create-section";
 import { CustomInput } from "@/components/custom-input"
-import { CourseSectionSchema } from "@/schemas";
+import { CourseSectionSchema, SectionContentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Content } from "@repo/db/types";
 import {
@@ -47,8 +47,8 @@ export const SectionDialog = ({
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     console.log("section", section);
-    const form = useForm<z.infer<typeof CourseSectionSchema>>({
-        resolver: zodResolver(CourseSectionSchema),
+    const form = useForm<z.infer<typeof SectionContentSchema>>({
+        resolver: zodResolver(SectionContentSchema),
         defaultValues: {
             courseId: courseId,
             title: section?.title ?? "",
@@ -64,7 +64,7 @@ export const SectionDialog = ({
         },
     });
 
-    const onSubmit = (values: z.infer<typeof CourseSectionSchema>) => {
+    const onSubmit = (values: z.infer<typeof SectionContentSchema>) => {
         console.log(values)
         startTransition(() => {
             createSection(values)
@@ -116,7 +116,7 @@ export const SectionDialog = ({
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5">
+                    <form className="space-y-8 mt-5">
                         <FormField
                             control={form.control}
                             name="title"

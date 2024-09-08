@@ -4,7 +4,7 @@ import * as React from "react"
 import { type Row } from "@tanstack/react-table"
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, toast } from "@repo/ui"
 import { User } from "@repo/db/types"
-import { TrashIcon } from "@repo/ui/icon"
+import { ReloadIcon, TrashIcon } from "@repo/ui/icon"
 import { Icons } from "@/components/icons"
 import { deleteUsers } from "@/actions/user/delete-user"
 
@@ -88,7 +88,7 @@ export const DeleteUsersDialog = ({
                         disabled={isPending}
                     >
                         {isPending && (
-                            <Icons.spinner
+                            <ReloadIcon
                                 className="mr-2 size-4 animate-spin"
                                 aria-hidden="true"
                             />

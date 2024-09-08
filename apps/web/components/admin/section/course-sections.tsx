@@ -7,7 +7,8 @@ import Link from "next/link";
 import { RxArrowLeft } from "@repo/ui/icon";
 import { SectionList } from "./section-lists";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { deleteSection } from "@/actions/sections/delete-section";
 
 interface CourseSectionsProps {
     courseId: string;
@@ -19,8 +20,10 @@ export const CourseSections = ({
     sections
 }: CourseSectionsProps) => {
     const router = useRouter();
+    const [isPending, startTransition] = useTransition();
     const [openSectionDialog, setOpenSectionDialog] = useState(false);
     const [selectedSection, setSelectedSection] = useState<Content | null>(null);
+
     const onReorder = async (updateData: { id: string; position: number }[]) => {
         try {
             const response = await fetch(`/api/admin/course/${courseId}/sections/reorder`, {
@@ -56,6 +59,34 @@ export const CourseSections = ({
         }
     };
 
+    const removeSection = (id: string, parentId?: string | null) => {
+        startTransition(() => {
+            deleteSection(courseId, id, parentId!)
+                .then((data) => {
+                    if (data?.error) {
+                        toast({
+                            variant: "destructive",
+                            title: "Uh oh! Something went wrong.",
+                            description: data?.error,
+                        });
+                    }
+                    if (data?.success) {
+                        toast({
+                            variant: "success",
+                            title: "Success!!",
+                            description: data?.success
+                        });
+                    }
+                }).catch(() => {
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with creating the course section.",
+                    });
+                })
+        })
+    };
+
     const handleEdit = (id: string) => {
         const sectionToEdit = sections.find(section => section.id === id) || null;
         setSelectedSection(sectionToEdit);
@@ -84,6 +115,8 @@ export const CourseSections = ({
                     items={sections || []}
                     onReorder={onReorder}
                     courseId={courseId}
+                    isPending={isPending}
+                    deleteSection={removeSection}
                     handleFolderEdit={handleEdit}
                 />
             </div>

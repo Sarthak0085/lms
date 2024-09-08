@@ -190,7 +190,7 @@ model Content {
   thumbnail        String?
   videoUrl         String?
   parentId         String?
-  parent           Content?          @relation("ContentToContent", fields: [parentId], references: [id])
+  parent           Content?          @relation("ContentToContent", fields: [parentId], references: [id], onDelete: Cascade)
   videoProgress    VideoProgress[]
   children         Content[]         @relation("ContentToContent")
   createdAt        DateTime          @default(now())
@@ -200,7 +200,7 @@ model Content {
   markAsCompleted  MarkAsCompleted[]
   VideoMetadata    VideoMetadata?
   NotionMetadata   NotionMetadata?
-  notionMetadataId String?
+  notionMetadataId Int?
   questions        Question[]
   commentsCount    Int               @default(0)
   bookmark         Bookmark[]
@@ -214,14 +214,14 @@ model Link {
   url   String
 
   contentId String
-  content   Content @relation(fields: [contentId], references: [id])
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 
 model MarkAsCompleted {
   id             String  @id @default(cuid())
   markAsCopleted Boolean @default(false)
   contentId      String
-  content        Content @relation(fields: [contentId], references: [id])
+  content        Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
   userId         String
   user           User    @relation(fields: [userId], references: [id])
 
@@ -231,7 +231,7 @@ model MarkAsCompleted {
 model NotionMetadata {
   id        String  @id @default(cuid())
   contentId String
-  content   Content @relation(fields: [contentId], references: [id])
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
   notionId  String
 
   @@unique([contentId])
@@ -245,7 +245,7 @@ model VideoMetadata {
   duration     Int?
   status       VideoStatus @default(PROCESSING)
   contentId    String
-  content      Content     @relation(fields: [contentId], references: [id])
+  content      Content     @relation(fields: [contentId], references: [id], onDelete: Cascade)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
@@ -257,7 +257,7 @@ model Bookmark {
   userId    String
   contentId String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content   Content  @relation(fields: [contentId], references: [id])
+  content   Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -284,7 +284,7 @@ model Question {
   answers      Answer[]
   votes        Vote[]
   contentId    String
-  onContent    Content  @relation(fields: [contentId], references: [id])
+  onContent    Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -294,7 +294,7 @@ model Question {
 model Answer {
   id           String   @id @default(cuid())
   content      String
-  question     Question @relation(fields: [questionId], references: [id])
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId   String
   author       User     @relation(fields: [authorId], references: [id])
   authorId     String
@@ -304,7 +304,7 @@ model Answer {
   totalanswers Int      @default(0)
   parentId     String?
   responses    Answer[] @relation("AnswerToAnswer")
-  parent       Answer?  @relation("AnswerToAnswer", fields: [parentId], references: [id])
+  parent       Answer?  @relation("AnswerToAnswer", fields: [parentId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
