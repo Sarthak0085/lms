@@ -8,6 +8,7 @@ import { cn } from "@repo/ui/lib/utils";
 import React, { SetStateAction } from "react";
 import * as z from "zod";
 import MuxPlayer from "@mux/mux-player-react";
+import { ReadText } from "@/components/read-text";
 
 type formSchema = z.infer<typeof CreateCourseSchema> | z.infer<typeof EditCourseSchema>;
 
@@ -40,12 +41,9 @@ export const CoursePreview = ({
         <div className="w-[90%] mx-auto mt-16 md:mt-24">
             <div className="w-full relative">
                 <div className="w-full mt-10">
-                    {/* <CoursePlayer
-                        title={coursecourseData?.title}
-                        videoUrl={coursecourseData?.demoUrl}
-                    /> */}
-                    <MuxPlayer
-                    />
+                    <video className="w-full h-auto" controls autoPlay={false}>
+                        <source src={courseData?.course?.demoUrl} />
+                    </video>
                 </div>
                 <div className="flex items-center my-2">
                     <h1 className="pt-5 text-[25px]">
@@ -129,7 +127,7 @@ export const CoursePreview = ({
                                 Course Details
                             </h1>
                             <p className="text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden">
-                                {courseData?.course?.description}
+                                <ReadText value={courseData?.course?.description} />
                             </p>
                         </div>
                         <br />

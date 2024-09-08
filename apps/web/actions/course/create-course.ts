@@ -2,11 +2,12 @@
 
 import { currentUser } from "@/lib/auth";
 import CustomError from "@/lib/custom-error";
+import { video } from "@/lib/video";
 import { CreateCourseSchema } from "@/schemas";
 import { getCourseBySlug } from "@/utils/helpers/course";
 import { validateCreateCourse } from "@/validations";
 import { db } from "@repo/db";
-import { UserRole } from "@repo/db/types";
+import { UserRole, VideoStatus } from "@repo/db/types";
 import * as z from "zod";
 
 export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) => {
@@ -42,6 +43,31 @@ export const createCourse = async (values: z.infer<typeof CreateCourseSchema>) =
                 thumbnail: thumbnail,
             }
         });
+
+        if (demoUrl && demoUrl !== "") {
+            const asset = await video.assets.create({
+                input: demoUrl as any,
+                max_resolution_tier: '1080p',
+                playback_policy: ['public'],
+                test: false,
+            });
+
+            await db.demoMetadata.create({
+                data: {
+                    muxAssetId: asset?.id,
+                    playbackUrl: asset?.playback_ids?.[0]?.id as string,
+                    courseId: newCourse?.id,
+                    duration: asset?.duration,
+                    thumbnailUrl: thumbnail,
+                    status: asset?.status === "preparing" ?
+                        VideoStatus?.PROCESSING :
+                        asset?.status === "errored" ?
+                            VideoStatus.FAILED :
+                            VideoStatus.READY
+                }
+            })
+
+        }
 
         if (benefits && benefits.length > 0) {
             await db.benefit.createMany({

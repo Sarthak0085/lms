@@ -20,7 +20,8 @@ import {
     type Vote,
     type Benefit,
     type Prerequisite,
-    type Link
+    type Link,
+    type DemoMetadata,
 } from "@prisma/client";
 
 export {
@@ -45,5 +46,6 @@ export {
     Benefit,
     Prerequisite,
     Prisma,
-    Link
+    Link,
+    DemoMetadata
 }

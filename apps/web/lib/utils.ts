@@ -1,6 +1,6 @@
-import { User, UserRole, UserStatus } from "@repo/db/types"
+import { CourseStatus, Level, User, UserRole, UserStatus } from "@repo/db/types"
 import { type Column } from "@tanstack/react-table"
-import { ArchiveIcon, CheckCircledIcon, CheckCircleIcon, CircleBackslashIcon, FaUserShield, PersonIcon, ShieldIcon, XCircleIcon } from "@repo/ui/icon"
+import { ArchiveIcon, Book, CheckCircledIcon, CheckCircleIcon, CircleBackslashIcon, CrownIcon, FaUserShield, GearIcon, MdDrafts, PersonIcon, RocketIcon, ShieldIcon, XCircleIcon } from "@repo/ui/icon"
 
 export const formatDate = (
     date: Date | string | number,
@@ -77,4 +77,35 @@ export const getRoleIcon = (role: UserRole): any => {
     }
 
     return roleIcons[role] || PersonIcon;
+}
+
+/**
+ * Returns the appropriate status icon based on the provided status.
+ * @param status - The status of the user.
+ * @returns A React component representing the status icon.
+ */
+export const getCoursesStatusIcon = (status: CourseStatus): any => {
+    const statusIcons = {
+        DRAFT: MdDrafts,
+        PUBLISHED: CheckCircledIcon,
+        ARCHIEVED: ArchiveIcon,
+    }
+
+    return statusIcons[status] || CheckCircledIcon
+}
+
+/**
+ * Returns the appropriate status icon based on the provided status.
+ * @param status - The status of the user.
+ * @returns A React component representing the status icon.
+ */
+export const getCoursesLevelIcon = (status: Level): any => {
+    const statusIcons = {
+        BEGINNER: Book,
+        INTERMEDIATE: GearIcon,
+        ADVANCED: RocketIcon,
+        EXPERT: CrownIcon,
+    }
+
+    return statusIcons[status] || CheckCircledIcon
 }

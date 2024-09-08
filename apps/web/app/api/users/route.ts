@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     noStore();
     const url = new URL(request.url)
     const query = Object.fromEntries(url.searchParams.entries())
-    console.log("queriess", url,  query);
+    console.log("queriess", url, query);
 
     // Validate and parse query parameters
     const validatedQuery = SearchParamsSchema.safeParse(query)
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     }
     // const validatedQuery = ValidateSearchParams(query);
 
-    const { page, per_page, sort, title, status, priority, operator, from, to } = validatedQuery.data
+    const { page, per_page, sort, title, status, role, operator, from, to } = validatedQuery.data
 
     try {
         // Offset for pagination
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
             AND: [
                 title ? { title: { contains: title, mode: 'insensitive' } } : undefined,
                 status ? { status } : undefined,
-                priority ? { priority } : undefined,
+                role ? { role } : undefined,
                 fromDate && toDate ? { createdAt: { gte: fromDate, lte: toDate } } : undefined
             ].filter(Boolean) as Prisma.UserWhereInput
         }

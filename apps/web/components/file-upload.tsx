@@ -13,20 +13,12 @@ import { useState } from 'react';
 interface UploadProps {
     value: string;
     onChange: (url?: string) => void;
-    onRemove?: (value: any[]) => void;
-    maxSize?: number;
-    isVideo?: boolean;
-    endpoint?: keyof typeof ourFileRouter
 }
 
-export default function FileUpload({
+export const ImageUpload = ({
     onChange,
-    onRemove,
     value,
-    maxSize,
-    isVideo = false,
-    endpoint
-}: UploadProps) {
+}: UploadProps) => {
     const [data, setData] = useState();
     const onDeleteFile = (key: string) => {
         onChange("");

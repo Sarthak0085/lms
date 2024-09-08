@@ -2,26 +2,20 @@
 
 import { currentUser } from "@/lib/auth";
 import CustomError from "@/lib/custom-error";
-import { CourseSectionSchema, SectionContentSchema } from "@/schemas";
+import { SectionContentSchema } from "@/schemas";
 import { getSectionById } from "@/utils/helpers/section";
-import { validateCreateSection, validateSectionContent } from "@/validations";
+import { validateSectionContent } from "@/validations";
 import { db } from "@repo/db";
-import { ContentType, Link, UserRole, VideoStatus } from "@repo/db/types";
+import { ContentType, UserRole, VideoStatus } from "@repo/db/types";
 import * as z from "zod";
-import { getCourseById } from "../course/get-course";
-import Mux from "@mux/mux-node";
 import { revalidatePath } from "next/cache";
-
-const { video } = new Mux({
-    tokenId: process.env.MUX_TOKEN_ID,
-    tokenSecret: process.env.MUX_TOKEN_SECRET,
-});
+import { video } from "@/lib/video";
+import { getCourseById } from "@/utils/helpers/course";
 
 export const createSection = async (values: z.infer<typeof SectionContentSchema>) => {
     try {
         const validatedData = validateSectionContent(values);
         const { id, title, type, thumbnail, parentId, hidden, description, links, position, courseId, videoUrl } = validatedData;
-        console.log(validatedData);
 
         const user = await currentUser();
 
@@ -93,14 +87,12 @@ export const createSection = async (values: z.infer<typeof SectionContentSchema>
                     // if (videoUrl === existedSection?.videoUrl) {
 
                     // }
-                    console.log("before creating assets")
                     const asset = await video.assets.create({
                         input: videoUrl as any,
                         playback_policy: ["public"],
                         test: false,
                         max_resolution_tier: "1080p",
                     });
-                    console.log("after assets");
                     await db.videoMetadata.create({
                         data: {
                             muxAssetId: asset.id,

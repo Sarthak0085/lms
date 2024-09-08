@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import { redirect } from 'next/navigation';
 import * as z from "zod";
 import { CreateCourseSchema } from '@/schemas';
@@ -8,12 +8,15 @@ import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
 import { CourseOptions } from './course-options';
 import { CoursePreview } from './course-preview';
-import { Level } from '@repo/db/types';
+import { Category, Level } from '@repo/db/types';
 import { createCourse } from '@/actions/course/create-course';
 import { toast } from '@repo/ui';
+import { getCategories } from '@/actions/category/get-categories';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 export const CreateCourse = () => {
     const [active, setActive] = useState(0);
+    const [categories, setCategories] = useState<Category[]>([])
     const [isPending, startTransition] = useTransition();
     const [courseData, setCourseData] = useState<z.infer<typeof CreateCourseSchema>>({
         course: {
@@ -33,36 +36,22 @@ export const CreateCourse = () => {
         benefits: [{ title: "" }],
         prerequisites: [{ title: "" }],
     });
+    const user = useCurrentUser();
+    console.log(user);
 
-    // const form = useForm<z.infer<typeof CreateCourseSchema>>({
-    //     resolver: zodResolver(CreateCourseSchema),
-    //     defaultValues: {
-    //         name: "",
-    //         description: "",
-    //         tags: "",
-    //         category: "",
-    //         price: "",
-    //         estimatedPrice: "",
-    //         level: "",
-    //         thumbnail: "",
-    //         demoUrl: "",
-    //         benefits: [{ title: "" }],
-    //         prerequisites: [{ title: "" }],
-    //         courseContentData: [{
-    //             title: "",
-    //             description: "",
-    //             suggestion: "",
-    //             videoUrl: "",
-    //             videoSection: "Untitled Section",
-    //             videoLength: 0,
-    //             links: [{
-    //                 title: "",
-    //                 url: "",
-    //             }]
-    //         }],
-    //         totalVideos: 0,
-    //     }
-    // });
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch(`/api/categories`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const categories = await response.json();
+            setCategories(categories);
+        }
+        fetchData();
+    }, [])
 
     const handleCourseCreate = async () => {
         startTransition(() => {
@@ -107,6 +96,7 @@ export const CreateCourse = () => {
                             setCourseData={setCourseData}
                             isPending={isPending}
                             setActive={setActive}
+                            categories={categories}
                         />
                     )
                 }

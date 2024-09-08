@@ -7,7 +7,6 @@ import * as z from "zod";
 
 export const getUsers = async (input: z.infer<typeof SearchParamsSchema>) => {
     const { page, per_page, sort, name, status, role, email, operator, from, to } = input
-    console.log("input", input);
     try {
         // Offset to paginate the results
         const offset = (Number(page) - 1) * Number(per_page);

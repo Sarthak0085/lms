@@ -1,11 +1,11 @@
 "use client"
 
 import { CustomInput } from '@/components/custom-input';
-import FileUpload from '@/components/file-upload';
+import { Editor } from '@/components/editor';
+import { ImageUpload, VideoFileUpload } from '@/components/file-upload';
 import { CourseSchema, CreateCourseSchema, EditCourseSchema } from '@/schemas';
-import { data } from '@/utils/data';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Level } from '@repo/db/types';
+import { Category, Level } from '@repo/db/types';
 import {
     Button,
     Form,
@@ -14,8 +14,6 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-    Input,
-    Label,
     Select,
     SelectContent,
     SelectItem,
@@ -24,8 +22,7 @@ import {
 } from '@repo/ui';
 import { RxArrowRight } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
-import Image from 'next/image';
-import React, { useState, useEffect, SetStateAction, ChangeEvent } from 'react'
+import React, { SetStateAction, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
@@ -36,17 +33,16 @@ interface CourseInformationProps {
     setCourseData: React.Dispatch<SetStateAction<formSchema>>
     setActive: React.Dispatch<SetStateAction<number>>;
     isPending: boolean;
+    categories: Category[]
 }
 
 export const CourseInformation = ({
     courseData,
     setCourseData,
     setActive,
-    isPending
+    isPending,
+    categories
 }: CourseInformationProps) => {
-    const [dragging, setDragging] = useState(false);
-    const [categories, setCategories] = useState<any>([]);
-
     const form = useForm<z.infer<typeof CourseSchema>>({
         resolver: zodResolver(CourseSchema),
         defaultValues: {
@@ -62,14 +58,7 @@ export const CourseInformation = ({
             description: courseData?.course?.description ?? "",
             tags: courseData?.course?.tags ?? "",
         }
-    })
-    const [thumbnail, setThumbnail] = useState<string | ArrayBuffer | null>(form.getValues("thumbnail"));
-
-    useEffect(() => {
-        if (data) {
-            setCategories(data.layout.categories);
-        }
-    }, [data]);
+    });
 
     const generateSlug = (title: string) => {
         const slug = title
@@ -85,49 +74,6 @@ export const CourseInformation = ({
         form.setValue("title", title);
         form.setValue("slug", generateSlug(title));
     };
-
-
-    const handleChange = (e: any) => {
-        const file = e.target?.files?.[0];
-        console.log(file);
-        if (file) {
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                if (fileReader.readyState === 2) {
-                    console.log(true);
-                    form.setValue("thumbnail", fileReader.result as string);
-                    setThumbnail(fileReader.result);
-                }
-            }
-            fileReader.readAsDataURL(file);
-        }
-    }
-
-    const handleDragOver = (e: any) => {
-        e.preventDefault();
-        setDragging(true);
-    }
-
-    const handleDragLeave = (e: any) => {
-        e.preventDefault();
-        setDragging(false);
-    }
-
-    const handleDrop = (e: any) => {
-        e.preventDefault();
-        setDragging(false);
-
-        const file = e.dataTransfer.files?.[0];
-        if (file) {
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                if (fileReader.readyState === 2) {
-                    form.setValue("thumbnail", fileReader.result as string);
-                }
-            }
-            fileReader.readAsDataURL(file);
-        }
-    }
 
     const onSubmit = (values: z.infer<typeof CourseSchema>) => {
         setCourseData(prev => ({
@@ -184,7 +130,7 @@ export const CourseInformation = ({
                                     value={field.value}
                                     placeholder='NextJs LMS platform tutorial to learn about Next Js and about how to make LMS platform.'
                                     type="text"
-                                    onChange={handleNameChange as any}
+                                    onChange={field.onChange}
                                     onBlur={field.onBlur}
                                     isPending={isPending}
                                     required={true}
@@ -216,17 +162,10 @@ export const CourseInformation = ({
                             control={form.control}
                             name='description'
                             render={({ field }) => (
-                                <CustomInput
-                                    label='Course Description'
-                                    name={field.name}
+                                <Editor
                                     value={field.value}
-                                    type='text'
-                                    placeholder='NextJs LMS platform with next 14'
                                     onChange={field.onChange}
-                                    onBlur={field.onBlur}
-                                    isPending={isPending}
-                                    required={true}
-                                    rows={8}
+                                    placeholder='NextJs LMS platform with next 14'
                                 />
                             )}
                         />
@@ -285,8 +224,8 @@ export const CourseInformation = ({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {categories.map((category: any) => (
-                                                    <SelectItem key={category?.id} value={category?.title}>{category?.title}</SelectItem>
+                                                {categories.map((category: Category) => (
+                                                    <SelectItem key={category?.id} value={category?.name}>{category?.name}</SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
@@ -323,7 +262,6 @@ export const CourseInformation = ({
                         </div>
                     </div>
                     <div className='mb-5 space-y-4'>
-                        {/* <div className='825:w-[45%] w-full mb-5'> */}
                         <FormField
                             control={form.control}
                             name='tags'
@@ -341,26 +279,6 @@ export const CourseInformation = ({
                                 />
                             )}
                         />
-                        {/* </div>
-                        <div className='825:w-[45%] w-full mb-5'>
-                            <FormField
-                                control={form.control}
-                                name='demoUrl'
-                                render={({ field }) => (
-                                    <CustomInput
-                                        label='Demo url'
-                                        name={field.name}
-                                        value={field.value}
-                                        placeholder='fhhswu32gjjw22'
-                                        type="text"
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        isPending={isPending}
-                                        required={true}
-                                    />
-                                )}
-                            /> 
-                         </div> */}
                     </div>
                     <div className='w-full mb-5 space-y-4'>
                         <FormField
@@ -370,12 +288,9 @@ export const CourseInformation = ({
                                 <FormItem>
                                     <FormLabel>Thumbnail</FormLabel>
                                     <FormControl>
-                                        <FileUpload
+                                        <ImageUpload
                                             value={field.value || ""}
                                             onChange={(url) => field.onChange(url)}
-                                            onRemove={field.onChange}
-                                            maxSize={4}
-                                            endpoint='Image'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -383,38 +298,23 @@ export const CourseInformation = ({
                             )}
                         />
                     </div>
-                    <div className='w-full'>
-                        <Input
-                            type='file'
-                            id='file'
-                            accept='image/*'
-                            className={`hidden`}
-                            onChange={(e) => handleChange(e)}
+                    <div className='w-full mb-5 space-y-4'>
+                        <FormField
+                            control={form.control}
+                            name="demoUrl"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Demo Url</FormLabel>
+                                    <FormControl>
+                                        <VideoFileUpload
+                                            value={field.value || ""}
+                                            onChange={(url) => field.onChange(url)}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                        <Label
-                            htmlFor='file'
-                            className={`w-full min-h-[10vh] cursor-pointer dark:border-white border-[#00000026] p-3 border flex 
-                                items-center justify-center ${dragging ? "bg-blue-500" : "bg-transparent"}`}
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                        >
-                            {
-                                thumbnail ?
-                                    (
-                                        <Image
-                                            src={thumbnail as string}
-                                            alt="Thumbnail"
-                                            width={200}
-                                            height={200}
-                                            className="w-full max-h-full object-cover" />
-                                    ) : (
-                                        <span className='text-black dark:text-white'>
-                                            Drag or drop your thumbnail here or click to browse
-                                        </span>
-                                    )
-                            }
-                        </Label>
                     </div>
                     <br />
                     <div className='w-full flex items-center justify-end relative '>
@@ -423,7 +323,6 @@ export const CourseInformation = ({
                             type='submit'
                             disabled={isPending}
                             className={cn(isPending && "cursor-not-allowed")}
-                        // onClick={handleSubmit}
                         >
                             Next <RxArrowRight size={20} className="ms-1" />
                         </Button>

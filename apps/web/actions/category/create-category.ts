@@ -48,6 +48,7 @@ export const createCategory = async (values: z.infer<typeof CreateCategorySchema
         }
 
     } catch (error) {
+        console.log(error)
         if (error instanceof CustomError) {
             return {
                 error: error.message,

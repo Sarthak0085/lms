@@ -12,7 +12,7 @@ import {
     SectionContentSchema,
     UpdateCategorySchema
 } from "@/schemas";
-import { UserRole, UserStatus } from "@repo/db/types";
+import { CourseStatus, Level, UserRole, UserStatus } from "@repo/db/types";
 import { z } from "zod";
 
 export const ValidateLoginCredentials = (values: z.infer<typeof LoginSchema>) => {
@@ -65,7 +65,7 @@ export const ValidateAdminEditUser = (values: z.infer<typeof EditUserSchema>) =>
     return validatedFields.data;
 }
 
-export const ValidateSearchParams = (values: Record<string, string | string[] | undefined>) => {
+export const ValidateSearchParams = (values: Record<string, number | string | string[] | undefined>) => {
     const parsedParams: Record<string, any> = {};
 
     for (const key in values) {
@@ -84,6 +84,14 @@ export const ValidateSearchParams = (values: Record<string, string | string[] | 
 
     if (parsedParams.status) {
         parsedParams.status = parsedParams.status.split(".").map((status: UserStatus) => status.trim()) ?? [parsedParams.status]
+    }
+
+    if (parsedParams.level) {
+        parsedParams.level = parsedParams.level.split(".").map((level: Level) => level.trim()) ?? [parsedParams.level]
+    }
+
+    if (parsedParams.courseStatus) {
+        parsedParams.courseStatus = parsedParams.courseStatus.split(".").map((courseStatus: CourseStatus) => courseStatus.trim()) ?? [parsedParams.courseStatus]
     }
 
     return SearchParamsSchema.parse(parsedParams);

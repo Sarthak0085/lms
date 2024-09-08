@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { Button } from "@repo/ui";
-import { AiOutlineDelete, ChevronDown, PlusCircledIcon, ReloadIcon, RxArrowLeft } from "@repo/ui/icon";
+import { AiOutlineDelete, ChevronDown, PlusCircledIcon, RxArrowLeft } from "@repo/ui/icon";
 import { SectionForm } from './section-form';
 import { cn } from '@repo/ui/lib/utils';
 import Link from 'next/link';

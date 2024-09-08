@@ -28,13 +28,14 @@ import {
     ReloadIcon,
     PlusIcon,
     ImageIcon,
+    GearIcon,
 } from "@radix-ui/react-icons";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import {
     HiOutlineMenuAlt3,
     HiOutlineUserCircle,
     HiMinus,
-    HiPlus
+    HiPlus,
 } from "react-icons/hi";
 import {
     Sun,
@@ -54,7 +55,14 @@ import {
     ShieldIcon,
     UserIcon,
     Grip,
-    CirclePlay
+    CirclePlay,
+    Book,
+    HelpCircle,
+    PuzzleIcon,
+    RocketIcon,
+    CrownIcon,
+    StarIcon,
+    TrophyIcon,
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -64,12 +72,12 @@ import {
     AiOutlineStar,
     AiFillStar,
     AiOutlineUnorderedList,
-    AiOutlineDelete
+    AiOutlineDelete,
 } from "react-icons/ai";
 import { BsStarHalf, BsLink45Deg } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi";
 import { SiCoursera } from "react-icons/si";
-import { MdOutlineEmail } from "react-icons/md";
+import { MdOutlineEmail, MdDrafts } from "react-icons/md";
 import { IoMdNotificationsOutline, IoMdCheckmark, IoIosCheckmarkCircleOutline } from "react-icons/io"
 import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
 import { RiAddCircleLine } from "react-icons/ri";
@@ -151,5 +159,14 @@ export {
     ReloadIcon,
     Grip,
     ImageIcon,
-    CirclePlay
+    CirclePlay,
+    Book,
+    PuzzleIcon,
+    RocketIcon,
+    CrownIcon,
+    HelpCircle,
+    StarIcon,
+    TrophyIcon,
+    GearIcon,
+    MdDrafts,
 }

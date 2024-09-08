@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomInput } from "@/components/custom-input";
-import FileUpload, { VideoFileUpload } from "@/components/file-upload";
+import { ImageUpload, VideoFileUpload } from "@/components/file-upload";
 import { SectionContentSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContentType } from "@repo/db/types";
@@ -209,12 +209,9 @@ export const SectionForm = ({
                                 <FormItem>
                                     <FormLabel>Thumbnail</FormLabel>
                                     <FormControl>
-                                        <FileUpload
+                                        <ImageUpload
                                             value={field.value || ""}
                                             onChange={(url) => field.onChange(url)}
-                                            onRemove={field.onChange}
-                                            maxSize={4}
-                                            endpoint='imageUploader'
                                         />
                                     </FormControl>
                                     <FormMessage />

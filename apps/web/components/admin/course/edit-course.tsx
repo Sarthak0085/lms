@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useState, useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import * as z from "zod";
 import { EditCourseSchema } from '@/schemas';
 import { CourseInformation } from './course-information';
 import { CourseData } from './course-data';
 import { CourseOptions } from './course-options';
 import { CoursePreview } from './course-preview';
-import { Benefit, Course, Level, Prerequisite } from '@repo/db/types';
+import { Benefit, Category, Course, Level, Prerequisite } from '@repo/db/types';
 
 type CourseType = Course & {
     benefits: Benefit[];
@@ -20,6 +20,7 @@ interface EditCourseProps {
 
 export const EditCourse = ({ data }: EditCourseProps) => {
     const [active, setActive] = useState(0);
+    const [categories, setCategories] = useState<Category[]>([])
     const [isPending, startTransition] = useTransition();
     const [courseData, setCourseData] = useState<z.infer<typeof EditCourseSchema>>({
         course: {
@@ -40,6 +41,20 @@ export const EditCourse = ({ data }: EditCourseProps) => {
         prerequisites: data?.prerequisites.map((prerequisite) => ({ title: prerequisite.title })) ?? [{ title: "" }],
     });
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch(`/api/categories`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const categories = await response.json();
+            setCategories(categories);
+        }
+        fetchData();
+    }, [])
+
     const handleCourseCreate = async (data: z.infer<typeof EditCourseSchema>) => {
         console.log(data);
         startTransition(() => { });
@@ -58,6 +73,7 @@ export const EditCourse = ({ data }: EditCourseProps) => {
                             setCourseData={setCourseData}
                             isPending={isPending}
                             setActive={setActive}
+                            categories={categories}
                         />
                     )
                 }

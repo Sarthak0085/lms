@@ -1,4 +1,4 @@
-import { ContentType, Level, UserRole, UserStatus } from "@repo/db/types";
+import { ContentType, CourseStatus, Level, UserRole, UserStatus } from "@repo/db/types";
 import * as z from "zod";
 
 export const LoginSchema = z.object({
@@ -168,9 +168,15 @@ export const SearchParamsSchema = z.object({
     sort: z.string().optional(),
     name: z.string().optional(),
     title: z.string().optional(),
+    slug: z.string().optional(),
+    category: z.string().optional(),
+    price: z.number().optional(),
+    purchased: z.number().optional(),
+    courseStatus: z.array(z.enum([CourseStatus.DRAFT, CourseStatus.PUBLISHED, CourseStatus.ARCHIEVED])).optional(),
     email: z.string().optional(),
     status: z.array(z.enum([UserStatus.ACTIVE, UserStatus.BLOCK, UserStatus.ARCHIEVED])).optional(),
     role: z.array(z.enum([UserRole.USER, UserRole.ADMIN])).optional(),
+    level: z.array(z.enum([Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCED, Level.EXPERT])).optional(),
     from: z.string().optional(),
     to: z.string().optional(),
     operator: z.enum(["and", "or"]).optional(),

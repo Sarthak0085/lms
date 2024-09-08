@@ -116,7 +116,7 @@ export const CategoryDialog = ({
     return (
         <Dialog {...props}>
             {!isUpdate && <DialogTrigger asChild className="pt-0">
-                <Button aria-label="Create Category" variant="primary" size="sm" className="ml-auto hidden !h-8 lg:flex">
+                <Button aria-label="Create Category" variant="primary" size="sm" className="ml-auto !h-8 flex">
                     <PlusIcon className="mr-2 size-4" aria-hidden="true" />
                     Create
                 </Button>

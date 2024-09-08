@@ -1,9 +1,9 @@
 "use memo";
 
-import { getUsers } from "@/actions/user/get-users";
+import { getCourses } from "@/actions/course/get-course";
 import { Breadcrumbs } from "@/components/admin/breadcrumbs";
+import { CoursesTable } from "@/components/admin/courses/course-table";
 import { PageContainer } from "@/components/admin/layout/page-container";
-import { UsersTable } from "@/components/admin/user/user-table";
 import { DataTableSkeleton } from "@/components/skeletons/data-table-skeleton";
 import { SearchParams } from "@/types";
 import { ValidateSearchParams } from "@/validations";
@@ -11,17 +11,17 @@ import { Suspense } from "react";
 
 const breadcrumbItems = [
     { title: 'Dashboard', link: '/admin' },
-    { title: 'User', link: '/admin/users' }
+    { title: 'Courses', link: '/admin/courses' }
 ];
 
-export interface UsersPageProps {
+export interface CoursesPageProps {
     searchParams: SearchParams;
 }
 
 
-const UsersPage = ({ searchParams }: UsersPageProps) => {
+const CoursesPage = ({ searchParams }: CoursesPageProps) => {
     const search = ValidateSearchParams(searchParams)
-    const users = getUsers(search);
+    const courses = getCourses(search);
     return (
         <PageContainer>
             <div className="space-y-2 mt-10">
@@ -49,11 +49,11 @@ const UsersPage = ({ searchParams }: UsersPageProps) => {
                      * Passing promises and consuming them using React.use for triggering the suspense fallback.
                      * @see https://react.dev/reference/react/use
                      */}
-                    <UsersTable usersPromise={users} />
+                    <CoursesTable coursesPromise={courses} />
                 </Suspense>
             </div>
         </PageContainer>
     );
 }
 
-export default UsersPage;
+export default CoursesPage;

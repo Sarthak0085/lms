@@ -129,6 +129,7 @@ model Course {
   category       String
   level          Level          @default(BEGINNER)
   demoUrl        String
+  demoMetadata   DemoMetadata?
   ratings        Float          @default(0)
   purchased      Int            @default(0)
   status         CourseStatus   @default(PUBLISHED)
@@ -235,6 +236,21 @@ model NotionMetadata {
   notionId  String
 
   @@unique([contentId])
+}
+
+model DemoMetadata {
+  id           String      @id @default(cuid())
+  muxAssetId   String      @unique
+  playbackUrl  String
+  thumbnailUrl String?
+  duration     Int?
+  status       VideoStatus @default(PROCESSING)
+  courseId     String
+  course       Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([courseId])
 }
 
 model VideoMetadata {
