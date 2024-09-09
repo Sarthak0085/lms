@@ -140,3 +140,23 @@
    animation: bounce 1.5s infinite ease-in-out;
    animation-delay: 0.6s;
  }
+
+ .custom-quill .ql-editor h1 {
+   font-size: 24px;
+ }
+
+ .custom-quill .ql-editor h2 {
+   font-size: 20px;
+ }
+
+ .custom-quill .ql-editor h3 {
+      font-size: 18px;
+  }
+
+ .custom-quill .ql-editor ul {
+   font-size: 15px;
+ }
+
+ .custom-quill .ql-editor p {
+      font-size: 16px;
+  }

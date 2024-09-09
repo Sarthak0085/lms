@@ -86,9 +86,9 @@ export const CoursePreview = ({
                         <h1 className="text-[25px] font-Poppins font-[600]">
                             {courseData?.course?.title}
                         </h1>
-                        <h1 className="text-[20px] font-Poppins font-[300]">
+                        <h2 className="text-[20px] font-Poppins font-[300]">
                             {courseData?.course?.subTitle}
-                        </h1>
+                        </h2>
                         <div className="flex items-center justify-between py-3">
                             <div className="flex items-center">
                                 <Ratings rating={0} />

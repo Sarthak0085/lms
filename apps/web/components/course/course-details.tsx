@@ -1,30 +1,38 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from "../Payment/CheckoutForm";
+// import { Elements } from "@stripe/react-stripe-js";
+// import CheckoutForm from "../Payment/CheckoutForm";
 import { Ratings } from "@/components/ratings";
 import { Button } from "@repo/ui";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { Benefit, Prerequisite } from "@repo/db/types";
+import { IoIosCheckmarkCircleOutline } from "@repo/ui/icon";
+import MuxPlayer from "@mux/mux-player-react";
+import { ExtendCourse } from "@/types";
+import { ReadText } from "../read-text";
 
 interface CourseDetailsProps {
-    data: any;
+    data: ExtendCourse;
     stripePromise: any;
     clientSecret: any;
+    // setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const CourseDetails = ({
     data,
     stripePromise,
-    clientSecret
+    clientSecret,
 }: CourseDetailsProps) => {
-    const user = {};
+    // const user = {};
+    const user = useCurrentUser();
     const [open, setOpen] = useState(false)
     const discountedPercentage = (
-        ((data?.estimatedPrice - data?.price) / data?.price) *
+        ((Number(data?.estimatedPrice) - data?.price) / data?.price) *
         100
     ).toFixed(0);
 
-    const isPurchased =
-        user && user.courses.find((item: any) => item._id === data._id);
+    const isPurchased = false
+    // user && data.purchased.find((item: any) => item._id === data._id);
 
     const handleOrder = () => {
         setOpen(true)
@@ -33,14 +41,19 @@ export const CourseDetails = ({
     return (
         <div>
             <div className="w-[90%] m-auto py-5">
-                <div className="w-full flex-col-reverse 825:flex-row">
+                <div className="w-full flex flex-col-reverse 825:flex-row">
                     <div className="w-full 825:w-[65%] 825:pr-5">
-                        <h1 className={`title !text-[25px]`}>{data?.name}</h1>
+                        <h1 className="text-[25px] font-Poppins font-[600]">
+                            {data?.title}
+                        </h1>
+                        <h2 className="text-[20px] font-Poppins font-[300]">
+                            {data?.subTitle}
+                        </h2>
                         <div className="flex items-center justify-between pt-3">
                             <div className="flex items-center">
                                 <Ratings rating={data?.ratings} />
                                 <h5 className="text-black dark:text-white">
-                                    {data?.reviews.length} reviews
+                                    {data?.reviews?.length} reviews
                                 </h5>
                             </div>
                             <h5 className="text-black dark:text-white">
@@ -49,18 +62,18 @@ export const CourseDetails = ({
                         </div>
 
                         <br />
-                        <h1 className="title">
+                        <h4 className="title">
                             What will you learn from this course?
-                        </h1>
+                        </h4>
                         <div>
                             {data &&
-                                data?.benefits?.map((item: any, index: number) => (
+                                data?.benefits?.map((item: Benefit, index: number) => (
                                     <div
                                         className="w-full flex 825:items-center py-2"
                                         key={index}
                                     >
                                         <div className="w-[15px] mr-1">
-                                            <IoCheckmarkDoneOutline
+                                            <IoIosCheckmarkCircleOutline
                                                 size={20}
                                                 className="text-black dark:text-white"
                                             />
@@ -73,15 +86,18 @@ export const CourseDetails = ({
                             <br />
                             <br />
                         </div>
+                        <h4 className="title">
+                            What are the prerequisites to start this Course?
+                        </h4>
                         <div>
                             {data &&
-                                data?.prerequisites?.map((item: any, index: number) => (
+                                data?.prerequisites?.map((item: Prerequisite, index: number) => (
                                     <div
                                         className="w-full flex 825:items-center py-2"
                                         key={index}
                                     >
                                         <div className="w-[15px] mr-1">
-                                            <IoCheckmarkDoneOutline
+                                            <IoIosCheckmarkCircleOutline
                                                 size={20}
                                                 className="text-black dark:text-white"
                                             />
@@ -103,9 +119,7 @@ export const CourseDetails = ({
                         <br />
                         <div className="w-full">
                             <h1 className={"title"}>Course Details</h1>
-                            <p className="text-[18px] mt-[20px] whitespace-pre-line overflow-hidden w-full text-black dark:text-white">
-                                {data?.description}
-                            </p>
+                            <ReadText value={data?.description} />
                         </div>
                         <br />
                         <br />
@@ -117,11 +131,11 @@ export const CourseDetails = ({
                                         {Number.isInteger(data?.ratings)
                                             ? data?.ratings.toFixed(1)
                                             : data?.ratings.toFixed(2)}{" "}
-                                        Course Rating * {data?.reviews.length} Reviews
+                                        Course Rating * {data?.reviews?.length} Reviews
                                     </h5>
                                 </div>
                                 <br />
-                                {(data?.reviews && [...data.reviews].reverse()).map(
+                                {(data?.reviews && [...data.reviews].reverse())?.map(
                                     (item: any, index: number) => (
                                         <div className="w-full pb-4" key={index}>
                                             <div className="flex">
@@ -158,15 +172,18 @@ export const CourseDetails = ({
                         </div>
                     </div>
                     <div className="w-full 825:w-[35%] relative">
-                        <div className="sticky top-[100px] w-full z-20 left-0">
-                            {/* <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} /> */}
+                        <div className="825:sticky top-[100px] w-full z-20 left-0">
+                            <MuxPlayer
+                                playbackId={data?.demoMetadata?.playbackUrl ?? ""}
+                                className="w-full rounded-md"
+                            />
                         </div>
                         <div className="flex items-center">
                             <h1 className="pt-5 text-blue-500 text-[25px]">
-                                {data?.price === 0 ? "Free" : "&rupee;." + data?.price}
+                                {data?.price === 0 ? "Free" : `₹. ` + data?.price}
                             </h1>
                             <h5 className="pl-3 text-[crimson] text-[20px] mt-2 line-through opacity-80">
-                                &rupee;. {data?.estimatedPrice}
+                                &#8377;. {data?.estimatedPrice}
                             </h5>
                             <h4 className="pt-5 pl-4 text-blue-500 text-[22px]">
                                 {discountedPercentage}% Off
@@ -180,8 +197,7 @@ export const CourseDetails = ({
                                     className="!w-[180px] my-3 font-poppins"
                                 >
                                     <Link
-                                        // className={"!w-[180px] my-3 font-Poppins !bg-[crimson]"}
-                                        href={`/course-access/${data._id}`}
+                                        href={`/course-access/${data.id}`}
                                     >
                                         Enter to Course
                                     </Link>
@@ -191,7 +207,7 @@ export const CourseDetails = ({
                                     variant={"primary"}
                                     className="!w-[180px] my-3 font-poppins"
                                 >
-                                    Buy Now  &rupee;. {data?.price}
+                                    Buy Now  &#8377;. {data?.price}
                                 </Button>
                             )}
                         </div>
@@ -203,7 +219,7 @@ export const CourseDetails = ({
                     </div>
                 </div>
             </div>
-            <>
+            {/* <>
                 <div className="w-full h-screen fixed top-0 left-0 z-50 flex items-center justify-center">
                     <div className="w-[500px] min-h-[500px] bg-gray-300 dark:bg-slate-800 rounded-xl p-3 shadow">
                         <div className="w-full flex justify-end">
@@ -219,7 +235,7 @@ export const CourseDetails = ({
                         </div>
                     </div>
                 </div>
-            </>
+            </> */}
         </div>
     );
 };

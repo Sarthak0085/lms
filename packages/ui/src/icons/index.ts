@@ -63,6 +63,8 @@ import {
     CrownIcon,
     StarIcon,
     TrophyIcon,
+    TvMinimalPlayIcon,
+    FileIcon
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -169,4 +171,6 @@ export {
     TrophyIcon,
     GearIcon,
     MdDrafts,
+    TvMinimalPlayIcon,
+    FileIcon,
 }

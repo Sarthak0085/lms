@@ -1,5 +1,5 @@
 import { CustomInput } from "@/components/custom-input";
-import FileUpload from "@/components/file-upload";
+import { ImageUpload } from "@/components/file-upload";
 import { SectionContentSchema } from "@/schemas";
 import { Button, FormControl, FormField, FormItem, FormLabel, FormMessage, Label } from "@repo/ui";
 import { AiOutlineDelete, BsLink45Deg, ChevronDown } from "@repo/ui/icon";
@@ -125,12 +125,9 @@ export const SectionContentLinks = ({
                                         <FormItem>
                                             <FormLabel>Asset File</FormLabel>
                                             <FormControl>
-                                                <FileUpload
+                                                <ImageUpload
                                                     value={field.value || ""}
                                                     onChange={(url) => field.onChange(url)}
-                                                    onRemove={field.onChange}
-                                                    maxSize={4}
-                                                    endpoint='SectionImage'
                                                 />
                                             </FormControl>
                                             <FormMessage />

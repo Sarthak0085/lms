@@ -5,15 +5,16 @@ import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Header } from "../layout/header";
 import { Footer } from "../footer";
+import { CourseDetails } from "./course-details";
+import { ExtendCourse } from "@/types";
 
 interface CourseDetailsPageProps {
-    id: string;
+    course: ExtendCourse;
 }
 
-export const CourseDetailsPage = ({ id }: CourseDetailsPageProps) => {
+export const CourseDetailsPage = ({ course }: CourseDetailsPageProps) => {
     // const { data, isLoading } = useGetCourseDetailsQuery(id, {});
     const [open, setOpen] = useState(false);
-    const [route, setRoute] = useState("Login");
     // const { data: config } = useGetStripePublishableKeyQuery({});
     const [stripePromise, setStripePromise] = useState<any>(null);
     const [clientSecret, setClientSecret] = useState("");
@@ -41,15 +42,14 @@ export const CourseDetailsPage = ({ id }: CourseDetailsPageProps) => {
     return (
         <div>
             <Header />
-            {/* {stripePromise && (
-                <CourseDetails
-                    data={data?.course}
-                    stripePromise={stripePromise}
-                    clientSecret={clientSecret}
-                    setOpen={setOpen}
-                    setRoute={setRoute}
-                />
-            )} */}
+            {/* {stripePromise && ( */}
+            <CourseDetails
+                data={course}
+                stripePromise={stripePromise}
+                clientSecret={clientSecret}
+            // setOpen={setOpen}
+            />
+            {/* )} */}
             <Footer />
         </div>
     );

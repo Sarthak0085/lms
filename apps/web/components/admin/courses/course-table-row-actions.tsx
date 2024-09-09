@@ -47,7 +47,7 @@ export function CourseTableRowActions<TData>({ row }: CoursesTableRowActionsProp
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
-                        <Link href={`/admin/edit-course/${course?.id}/sections`}>
+                        <Link href={`/admin/course/${course?.id}/sections`}>
                             Edit Sections
                         </Link>
                     </DropdownMenuItem>
