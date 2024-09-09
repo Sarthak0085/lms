@@ -3,9 +3,14 @@
 import { getSectionByCourseIdAndSectionId } from '@/actions/sections/get-sections';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import MuxPlayer from '@mux/mux-player-react';
-import { Content } from '@repo/db/types';
+import { Content, Link } from '@repo/db/types';
+import { Avatar, AvatarFallback, AvatarImage, Button, Textarea } from '@repo/ui';
+import { ChevronLeftIcon, ChevronRightIcon, FaUser, RxArrowLeft, RxArrowRight } from '@repo/ui/icon';
+import { cn } from '@repo/ui/lib/utils';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import { QnASection } from './q&a';
 
 type Props = {
     content: ReturnType<typeof getSectionByCourseIdAndSectionId>;
@@ -14,6 +19,7 @@ type Props = {
 
 export const SectionDetails = ({ courseId, content }: Props) => {
     const { data, prevSection, nextSection } = React.use(content);
+    const router = useRouter();
     console.log(data, prevSection, nextSection);
     const user = useCurrentUser();
     const [activeBar, setActiveBar] = useState(0);
@@ -55,20 +61,27 @@ export const SectionDetails = ({ courseId, content }: Props) => {
 
     return (
         <div className='w-[95%] 825:w-[85%] py-4 m-auto'>
-            {/* <CoursePlayer title={data[activeVideo]?.title} videoUrl={data[activeVideo]?.videoUrl} /> */}
             <div className='relative w-full !h-[400px]'>
                 <MuxPlayer playbackId={data?.VideoMetadata?.playbackUrl} className='w-full h-[400px]' />
+                <Button
+                    variant={"primary"}
+                    disabled={prevSection === null}
+                    className={`absolute left-2 top-[180px] !rounded-full !w-[40px] !p-0 !h-[40px] ${prevSection === null && "cursor-no-drop opacity-[0.8]"}`}
+                    onClick={() => router.push(`/course/${courseId}/sections/${prevSection?.id}`)}
+                >
+                    <ChevronLeftIcon className='size-5 font-bold' />
+                    <span className='sr-only'>Prev Lesson</span>
+                </Button>
+                <Button
+                    variant={"primary"}
+                    disabled={nextSection === null}
+                    className={`absolute right-2 top-[180px] !rounded-full !w-[40px] !p-0 !h-[40px] ${nextSection === null && "cursor-no-drop opacity-[0.8]"}`}
+                    onClick={() => router.push(`/course/${courseId}/sections/${nextSection?.id}`)}
+                >
+                    <ChevronRightIcon className='size-5 font-bold' />
+                    <span className='sr-only'>Next Lesson</span>
+                </Button>
             </div>
-            {/* <div className='w-full flex items-center justify-between my-3'>
-                <div className={`${styles.button} !min-h-[40px] !py-[unset] ${activeVideo === 0 && "cursor-no-drop opacity-[0.8]"}`} onClick={() => setActiveVideo(activeVideo === 0 ? 0 : activeVideo - 1)}>
-                    <AiOutlineArrowLeft className="mr-2" />
-                    Prev Lesson
-                </div>
-                <div className={`${styles.button} !min-h-[40px] !py-[unset] ${activeVideo === data.length - 1 && "cursor-no-drop opacity-[0.8]"}`} onClick={() => setActiveVideo(data && activeVideo === data.length - 1 ? activeVideo : activeVideo + 1)}>
-                    Next Lesson
-                    <AiOutlineArrowRight className="ml-2" />
-                </div>
-            </div> */}
             <h1 className='text-[25px] pt-2 font-[600] text-black dark:text-white'>
                 {data?.title}
             </h1>
@@ -77,7 +90,7 @@ export const SectionDetails = ({ courseId, content }: Props) => {
                 {["Overview", "Resources", "Q&A", "Reviews"].map((text: string, index: number) => (
                     <h5
                         key={index}
-                        className={`800px:text-[20px] cursor-pointer ${activeBar === index && "text-blue-500 dark:text-[#37a39a]"}`}
+                        className={`825:text-[18px] cursor-pointer ${activeBar === index && "text-blue-500 dark:text-[#37a39a]"}`}
                         onClick={() => setActiveBar(index)}
                     >
                         {text}
@@ -86,8 +99,8 @@ export const SectionDetails = ({ courseId, content }: Props) => {
             </div>
             {
                 activeBar === 0 && (
-                    <p className='text-[18px] whitespace-pre-line mb-3 text-black dark:text-white'>
-                        {data?.description}
+                    <p className='text-[18px] whitespace-pre-line my-3 text-black dark:text-white'>
+                        {data?.description || data?.Course?.description}
                     </p>
                 )
             }
@@ -95,12 +108,18 @@ export const SectionDetails = ({ courseId, content }: Props) => {
                 activeBar === 1 && (
                     <div>
                         {
-                            data?.links.map((item: any, index: number) => (
-                                <div className="mb-5">
-                                    <h2 className='800px:text-[20px] 800px:inline-block text-black dark:text-white'>
-                                        {item.title && item.title + ":"}
+                            data?.links.map((item: Link, index: number) => (
+                                <div key={index} className="my-5">
+                                    <h2 className='825:inline-block text-black dark:text-white'>
+                                        {item?.title && item.title + ":"}
                                     </h2>
-                                    <a className='800px:pl-2 800px:text-[20px] inline-block text-blue-500 dark:text-[#37a39a]' href={item?.url} >{item?.url}</a>
+                                    <a
+                                        className='825:pl-2  inline-block text-blue-500 dark:text-[#37a39a]'
+                                        href={item?.url}
+                                        target='_blank'
+                                    >
+                                        {item?.url}
+                                    </a>
                                 </div>
                             ))
                         }
@@ -109,41 +128,44 @@ export const SectionDetails = ({ courseId, content }: Props) => {
             }
             {
                 activeBar === 2 && (
-                    <>
-                        <div className='flex w-full'>
-                            <Image
-                                src={user?.image ? user?.image : ""}
-                                width={50}
-                                height={50}
-                                alt='profile'
-                                className='rounded-full'
-                            />
-                            <textarea
-                                rows={8}
-                                cols={40}
-                                placeholder="Write your question...."
-                                className={`outline-none bg-transparent ml-3 border border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins`}
-                                value={question}
-                                onChange={(e: any) =>
-                                    setQuestion(e.target.value)
-                                }
-                            />
-                        </div>
-                        {/* <div className='w-full flex justify-end'>
-                            <div
-                                className={`button !w-[120px] !h-[40px] !text-[18px] mt-5 ${isQuestionLoading ? "cursor-no-drop" : ""}`}
-                                onClick={() => { isQuestionLoading ? () => { } : handleQuestionSubmit }}
-                            >
-                                Submit
-                            </div>
-                        </div> */}
-                        <br />
-                        <br />
-                        <div className='w-full h-[1px] bg-[#ffffff3b]'></div>
-                        <div>
-                            {/* <CommentReply data={data} user={user} activeVideo={activeVideo} answer={answer} setAnswer={setAnswer} handleAnswerSubmit={handleAnswerSubmit} setAnswerId={setAnswerId} /> */}
-                        </div>
-                    </>
+                    // <>
+                    //     <div className='flex my-3 w-full'>
+                    //         <Avatar
+                    //             className={cn(
+                    //                 "w-[40px] h-[40px] ml-6 cursor-pointer rounded-full")}
+                    //         >
+                    //             <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
+                    //             <AvatarFallback className="bg-black/80">
+                    //                 <FaUser color="white" />
+                    //             </AvatarFallback>
+                    //         </Avatar>
+                    //         <Textarea
+                    //             rows={10}
+                    //             cols={40}
+                    //             placeholder="Write your question...."
+                    //             className={`outline-none !ring-0 bg-transparent ml-3 border border-[#ffffff57] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins`}
+                    //             value={question}
+                    //             onChange={(e: any) =>
+                    //                 setQuestion(e.target.value)
+                    //             }
+                    //         />
+                    //     </div>
+                    //     <div className='w-full flex justify-end'>
+                    //         <div
+                    //             className={`button !w-[120px] !h-[40px] !text-[18px] mt-5 ${isQuestionLoading ? "cursor-no-drop" : ""}`}
+                    //             onClick={() => { isQuestionLoading ? () => { } : handleQuestionSubmit }}
+                    //         >
+                    //             Submit
+                    //         </div>
+                    //     </div>
+                    //     <br />
+                    //     <br />
+                    //     <div className='w-full h-[1px] bg-[#ffffff3b]'></div>
+                    //     <div>
+                    //         {/* <CommentReply data={data} user={user} activeVideo={activeVideo} answer={answer} setAnswer={setAnswer} handleAnswerSubmit={handleAnswerSubmit} setAnswerId={setAnswerId} /> */}
+                    //     </div>
+                    // </>
+                    <QnASection user={user!} contentId={data?.id!} courseId={courseId} />
                 )
             }
             {/* {

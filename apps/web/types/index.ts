@@ -1,4 +1,4 @@
-import { Benefit, Content, Course, DemoMetadata, Link, Prerequisite, Review } from "@repo/db/types";
+import { Benefit, Content, Course, DemoMetadata, Link, Prerequisite, Question, Review, User } from "@repo/db/types";
 
 export interface NavItem {
     title: string;
@@ -13,6 +13,11 @@ export interface NavItem {
 export type ExtendContent = Content & {
     links: Link[];
 }
+
+export type ExtendQuestion = Question & {
+    author?: User;
+    onContent?: Content;
+};
 
 export type ExtendCourse = Course & {
     reviews?: Review[];
