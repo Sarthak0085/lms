@@ -102,3 +102,33 @@ export const getCourseById = async (id: string) => {
     }
 }
 
+export const getCourseContents = async (id: string) => {
+    try {
+        const data = await db.course.findUnique({
+            where: {
+                id
+            },
+            include: {
+                content: {
+                    include: {
+                        children: true,
+                    },
+                    orderBy: {
+                        createdAt: "asc"
+                    }
+                },
+            },
+        });
+
+        return {
+            data
+        }
+    } catch (error) {
+        return {
+            data: null
+        }
+    }
+}
+
+
+
