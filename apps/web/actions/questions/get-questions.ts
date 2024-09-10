@@ -12,7 +12,13 @@ export const getQuestionsByContentId = async (contentId: string) => {
             },
             include: {
                 author: true,
-                answers: true
+                answers: {
+                    include: {
+                        votes: true,
+                        author: true,
+                    }
+                },
+                votes: true,
             }
         });
 

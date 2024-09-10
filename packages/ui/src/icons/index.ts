@@ -84,7 +84,12 @@ import { IoMdNotificationsOutline, IoMdCheckmark, IoIosCheckmarkCircleOutline } 
 import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
 import { RiAddCircleLine } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
-import { PiArrowFatLinesDown, PiArrowFatLinesUp } from "react-icons/pi";
+import {
+    PiArrowFatLinesDown,
+    PiArrowFatLinesUp,
+    PiArrowFatLinesUpFill,
+    PiArrowFatLinesDownFill
+} from "react-icons/pi";
 import { LiaComments } from "react-icons/lia";
 
 export {
@@ -177,5 +182,7 @@ export {
     FileIcon,
     PiArrowFatLinesUp,
     PiArrowFatLinesDown,
+    PiArrowFatLinesUpFill,
+    PiArrowFatLinesDownFill,
     LiaComments
 }
