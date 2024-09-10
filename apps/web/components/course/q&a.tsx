@@ -5,7 +5,8 @@ import { cn } from "@repo/ui/lib/utils"
 import { User } from "next-auth"
 import { useEffect, useRef, useState } from "react";
 import { QuestionCard } from "./question-card"
-import { FaUser } from "@repo/ui/icon"
+import { FaUser, ReloadIcon } from "@repo/ui/icon"
+import { Editor } from "../editor"
 
 interface QnASectionProps {
     user: User;
@@ -21,6 +22,7 @@ export const QnASection = ({
     const [question, setQuestion] = useState("");
     const [isEdit, setIsEdit] = useState(false);
     const [questionId, setQuestionId] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [questionsData, setQuestionsData] = useState<ExtendQuestion[]>([]);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,84 +36,136 @@ export const QnASection = ({
     const handleRefetch = () => { fetchData(); }
 
     const handleQuestionSubmit = async () => {
-        console.log("clicked")
+        console.log("clicked");
         if (question === "") {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
-                description: "Question cannot be empty."
+                description: "Answer cannot be empty."
             });
-        } else if (isEdit === true) {
-            try {
-                const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        question: question,
-                        questionId: questionId
-                    }),
-                });
-                if (!response.ok) {
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: "Error while updating the Question",
-                    })
-                }
-                else {
-                    toast({
-                        variant: "success",
-                        title: "Success!!",
-                        description: "Question updated successfully",
-                    });
-                    setQuestion("");
-                    handleRefetch();
-                }
-            } catch (error) {
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "Error while updating the Question",
-                })
-            }
-        } else {
-            try {
-                const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        question: question,
-                    }),
-                });
-                if (!response.ok) {
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: "Error while creating the Question",
-                    })
-                }
-                else {
-                    toast({
-                        variant: "success",
-                        title: "Success!!",
-                        description: "Question added successfully",
-                    });
-                    setQuestion("");
-                    handleRefetch();
-                }
-            } catch (error) {
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "Error while creating the Question",
-                })
-            }
+            return;
         }
-    }
+
+        setIsSubmitting(true);
+
+        try {
+            const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
+                method: isEdit ? "PUT" : "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    question: question,
+                    ...(isEdit && { questionId: questionId })
+                }),
+            });
+
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: isEdit ? "Error while updating the Question" : "Error while creating the Question",
+                });
+            } else {
+                toast({
+                    variant: "success",
+                    title: "Success!!",
+                    description: isEdit ? "Question updated successfully" : "Question added successfully",
+                });
+                setQuestion("");
+                setIsEdit(false);
+                handleRefetch();
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: isEdit ? "Error while updating the Question" : "Error while creating the Question",
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    // const handleQuestionSubmit = async () => {
+    //     console.log("clicked")
+    //     if (question === "") {
+    //         toast({
+    //             variant: "destructive",
+    //             title: "Uh oh! Something went wrong.",
+    //             description: "Question cannot be empty."
+    //         });
+    //     } else if (isEdit === true) {
+    //         try {
+    //             const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
+    //                 method: "PUT",
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify({
+    //                     question: question,
+    //                     questionId: questionId
+    //                 }),
+    //             });
+    //             if (!response.ok) {
+    //                 toast({
+    //                     variant: "destructive",
+    //                     title: "Uh oh! Something went wrong.",
+    //                     description: "Error while updating the Question",
+    //                 })
+    //             }
+    //             else {
+    //                 toast({
+    //                     variant: "success",
+    //                     title: "Success!!",
+    //                     description: "Question updated successfully",
+    //                 });
+    //                 setQuestion("");
+    //                 handleRefetch();
+    //             }
+    //         } catch (error) {
+    //             toast({
+    //                 variant: "destructive",
+    //                 title: "Uh oh! Something went wrong.",
+    //                 description: "Error while updating the Question",
+    //             })
+    //         }
+    //     } else {
+    //         try {
+    //             const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify({
+    //                     question: question,
+    //                 }),
+    //             });
+    //             if (!response.ok) {
+    //                 toast({
+    //                     variant: "destructive",
+    //                     title: "Uh oh! Something went wrong.",
+    //                     description: "Error while creating the Question",
+    //                 })
+    //             }
+    //             else {
+    //                 toast({
+    //                     variant: "success",
+    //                     title: "Success!!",
+    //                     description: "Question added successfully",
+    //                 });
+    //                 setQuestion("");
+    //                 handleRefetch();
+    //             }
+    //         } catch (error) {
+    //             toast({
+    //                 variant: "destructive",
+    //                 title: "Uh oh! Something went wrong.",
+    //                 description: "Error while creating the Question",
+    //             })
+    //         }
+    //     }
+    // }
 
     const deleteQuestion = async (questionId: string) => {
         try {
@@ -163,32 +217,41 @@ export const QnASection = ({
 
     return (
         <>
-            <div className='flex my-3 w-full'>
+            <div className='flex my-3 gap-2 mb-10 w-full'>
                 <Avatar
-                    className={cn(
-                        "w-[40px] h-[40px] ml-6 cursor-pointer rounded-full")}
+                    className={
+                        "w-[40px] h-[40px] ml-6 cursor-pointer rounded-full"}
                 >
                     <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
                     <AvatarFallback className="bg-black/80">
                         <FaUser color="white" />
                     </AvatarFallback>
                 </Avatar>
-                <Textarea
-                    ref={textareaRef}
-                    rows={10}
-                    cols={40}
-                    placeholder="Write your question...."
-                    className={`outline-none !ring-0 bg-transparent ml-3 border border-[#ffffff57] 825:w-full rounded w-[90%] 825:text-[18px] font-Poppins`}
-                    value={question}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setQuestion(e.target.value)}
-                />
-                <div className='absolute right-16 bottom-0'>
-                    <Button
-                        variant={"primary"}
-                        onClick={() => handleQuestionSubmit()}
-                    >
-                        Submit
-                    </Button>
+                <div className="w-full space-y-3 flex flex-col">
+                    <div className="w-full">
+                        <Editor
+                            //@ts-ignore
+                            ref={textareaRef}
+                            placeholder="Write your question...."
+                            value={question}
+                            onChange={(value: string) => setQuestion(value)}
+                        />
+                    </div>
+                    <div className='flex justify-end'>
+                        <Button
+                            variant={"primary"}
+                            disabled={isSubmitting}
+                            onClick={() => handleQuestionSubmit()}
+                        >
+                            {
+                                isSubmitting &&
+                                <ReloadIcon
+                                    className="size-4 animate-spin me-2"
+                                />
+                            }
+                            Submit
+                        </Button>
+                    </div>
                 </div>
             </div>
             <br />

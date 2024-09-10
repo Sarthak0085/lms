@@ -84,30 +84,44 @@ export const createSection = async (values: z.infer<typeof SectionContentSchema>
             }
             if (type === ContentType.VIDEO) {
                 if (videoUrl && videoUrl !== "") {
-                    // if (videoUrl === existedSection?.videoUrl) {
-
-                    // }
                     const asset = await video.assets.create({
                         input: videoUrl as any,
                         playback_policy: ["public"],
                         test: false,
                         max_resolution_tier: "1080p",
                     });
-                    await db.videoMetadata.create({
+
+                    let videoMetadata = await db.videoMetadata.create({
                         data: {
                             muxAssetId: asset.id,
                             playbackUrl: asset.playback_ids?.[0]?.id as string,
-                            contentId: section?.id,
+                            contentId: section.id,
                             thumbnailUrl: thumbnail,
-                            duration: asset?.duration,
-                            status: asset?.status === "preparing" ?
-                                VideoStatus?.PROCESSING :
-                                asset?.status === "errored" ?
-                                    VideoStatus.FAILED :
-                                    VideoStatus.READY
+                            duration: null, // Initially null
+                            status: VideoStatus.PROCESSING,
                         },
                     });
 
+                    const getAssetMetadata = async (assetId: string) => {
+                        const assetDetails = await video.assets.retrieve(assetId);
+                        return assetDetails;
+                    };
+
+                    let assetDetails = await getAssetMetadata(asset.id);
+                    while (assetDetails.status === 'preparing') {
+                        await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+                        assetDetails = await getAssetMetadata(asset.id);
+                    }
+
+                    await db.videoMetadata.update({
+                        where: {
+                            id: videoMetadata.id
+                        },
+                        data: {
+                            duration: assetDetails.duration,
+                            status: VideoStatus.READY,
+                        }
+                    });
                 }
                 console.log("after creation");
 

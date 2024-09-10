@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage, Button, Textarea, toast } from "@repo/ui"
-import { FaUser } from "@repo/ui/icon"
+import { FaUser, ReloadIcon } from "@repo/ui/icon"
 import { Editor } from "../editor";
 import { User } from "next-auth";
 import { useState } from "react";
@@ -15,6 +15,7 @@ interface AnswerFormProps {
     handleRefetch: () => void;
     user: User
     answerRef: React.Ref<HTMLTextAreaElement>;
+    setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AnswerForm = ({
@@ -27,92 +28,62 @@ export const AnswerForm = ({
     setAnswer,
     handleRefetch,
     user,
+    setIsEdit,
     answerRef
 }: AnswerFormProps) => {
     const [visible, setVisible] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleAnswerSubmit = async () => {
-        console.log("clicked")
         if (answer === "") {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
                 description: "Answer cannot be empty."
             });
-        } else if (isEdit === true) {
-            try {
-                const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
-                    method: "PUT",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        answer: answer,
-                        answerId: answerId,
-                    }),
-                });
-                if (!response.ok) {
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: "Error while updating the Question",
-                    })
-                }
-                else {
-                    toast({
-                        variant: "success",
-                        title: "Success!!",
-                        description: "Question updated successfully",
-                    });
-                    setAnswer("");
-                    handleRefetch();
-                }
-            } catch (error) {
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "Error while updating the Question",
-                })
-            }
-        } else {
-            try {
-                const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/questions`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        answer: answer,
-                        questionId: questionId
-                    }),
-                });
-                if (!response.ok) {
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: "Error while creating the Question",
-                    })
-                }
-                else {
-                    toast({
-                        variant: "success",
-                        title: "Success!!",
-                        description: "Question added successfully",
-                    });
-                    setAnswer("");
-                    handleRefetch();
-                }
-            } catch (error) {
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "Error while creating the Question",
-                })
-            }
+            return;
         }
-    }
+        setIsSubmitting(true);
+        try {
+            const response = await fetch(`/api/courses/${courseId}/sections/${contentId}/answers`, {
+                method: isEdit ? "PUT" : "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    answer: answer,
+                    ...(isEdit ? { answerId: answerId } : { questionId: questionId })
+                }),
+            });
 
-    const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setAnswer(e.target.value);
+            if (!response.ok) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: isEdit ? "Error while updating the Answer" : "Error while creating the Answer",
+                });
+            } else {
+                toast({
+                    variant: "success",
+                    title: "Success!!",
+                    description: isEdit ? "Answer updated successfully" : "Answer added successfully",
+                });
+                setAnswer("");
+                setIsEdit(false);
+                handleRefetch();
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: isEdit ? "Error while updating the Answer" : "Error while creating the Answer",
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleAnswerChange = (value: string) => {
+        setAnswer(value);
     }
 
     return (
@@ -129,18 +100,25 @@ export const AnswerForm = ({
             <div className="w-full space-y-3 flex flex-col">
                 <div className="w-full" onFocus={() => setVisible(true)}>
                     <Editor
+                        //@ts-ignore
                         ref={answerRef}
                         placeholder="Write your question...."
-                        // className={`outline-none !ring-0 bg-transparent ml-3 border border-[#ffffff57] 825:w-full rounded w-[90%] 825:text-[18px] font-Poppins`}
                         value={answer}
-                        onChange={handleAnswerChange as any}
+                        onChange={handleAnswerChange}
                     />
                 </div>
                 {visible && <div className='flex justify-end'>
                     <Button
                         variant={"primary"}
+                        disabled={isSubmitting}
                         onClick={() => handleAnswerSubmit()}
                     >
+                        {
+                            isSubmitting &&
+                            <ReloadIcon
+                                className="size-4 animate-spin me-2"
+                            />
+                        }
                         Submit
                     </Button>
                 </div>

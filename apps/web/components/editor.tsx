@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 interface EditorProps {
     placeholder: string;
-    onChange: (value: string) => void;
+    onChange: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
     value?: string;
 }
 

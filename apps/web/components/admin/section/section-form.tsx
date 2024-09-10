@@ -30,6 +30,7 @@ import { cn } from "@repo/ui/lib/utils";
 import { ReloadIcon } from "@repo/ui/icon";
 import { ExtendContent } from "@/types";
 import { createSection } from "@/actions/sections/create-section";
+import { useRouter } from "next/navigation";
 
 interface SectionFormProps {
     sectionId: string;
@@ -44,6 +45,7 @@ export const SectionForm = ({
     section,
     sectionLength
 }: SectionFormProps) => {
+    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof SectionContentSchema>>({
         resolver: zodResolver(SectionContentSchema),
@@ -81,6 +83,7 @@ export const SectionForm = ({
                             title: "Success!!",
                             description: data?.success,
                         });
+                        router.push(`/admin/course/${courseId}/sections/${sectionId}`)
                     }
                 }).catch(() => {
                     toast({

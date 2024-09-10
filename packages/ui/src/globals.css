@@ -141,6 +141,10 @@
    animation-delay: 0.6s;
  }
 
+ .custom-quill .ql-editor{
+   padding: 0;
+ }
+
  .custom-quill .ql-editor h1 {
    font-size: 24px;
  }

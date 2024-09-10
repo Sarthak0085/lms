@@ -143,6 +143,7 @@ import {
     AlertDialogTrigger
 } from "./components/ui/alert-dialog";
 import { Switch } from "./components/ui/switch";
+import { Progress } from "./components/ui/progress"
 
 export {
     Button,
@@ -261,5 +262,6 @@ export {
     AlertDialogPortal,
     AlertDialogTitle,
     AlertDialogTrigger,
-    Switch
+    Switch,
+    Progress
 }

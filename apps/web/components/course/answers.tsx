@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button, toast } from "@repo/ui"
 import { AiOutlineDelete, BiPencil, PiArrowFatLinesDown, PiArrowFatLinesDownFill, PiArrowFatLinesUp, PiArrowFatLinesUpFill } from "@repo/ui/icon"
 import { User } from "next-auth";
 import { useState } from "react";
+import { ReadText } from "../read-text";
 
 interface AnswerCardProps {
     answer: ExtendAnswer;
@@ -120,7 +121,7 @@ export const AnswerCard = ({
                 toast({
                     variant: "success",
                     title: "Success!!",
-                    description: "Question deleted successfully",
+                    description: "Answer deleted successfully",
                 });
                 handleRefetch();
             }
@@ -134,70 +135,72 @@ export const AnswerCard = ({
     }
 
     return (
-        <div className="w-full ml-3 h-[90px] hover:bg-gray-200 flex items-center justify-between">
-            <div className="pl-3">
-                <div className="flex items-center gap-2 ">
-                    <Avatar
-                        className={"w-[50px] h-[50px] -mt-6 cursor-pointer rounded-full"}
-                    >
-                        <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
-                        <AvatarFallback className="bg-slate-600/90">
-                            <h1 className="uppercase text-black dark:text-white text-[18px]">
-                                {answer?.author?.name?.slice(0, 2)}
-                            </h1>
-                        </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col gap-1">
-                        <h5 className="uppercase font-semibold text-black dark:text-white text-[18px]">
-                            {answer?.author?.name}
-                        </h5>
-                        <p className="text-black dark:text-white">
-                            {answer?.content}
-                        </p>
-                        <small className="dark:text-[#ffffffe2] text-muted-foreground">
-                            {!answer?.createdAt ? "" : (formatDate(answer?.createdAt))} •
-                        </small>
+        <div className="ml-8">
+            <div className="w-full my-4 min-h-[90px] flex items-center justify-between">
+                <div className="pl-3">
+                    <div className="flex items-center gap-2 ">
+                        <Avatar
+                            className={"w-[50px] h-[50px] -mt-6 cursor-pointer rounded-full"}
+                        >
+                            <AvatarImage src={user?.image as string} alt={user?.name ?? "Avatar"} />
+                            <AvatarFallback className="bg-slate-600/90">
+                                <h1 className="uppercase text-black dark:text-white text-[18px]">
+                                    {answer?.author?.name?.slice(0, 2)}
+                                </h1>
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col gap-1">
+                            <h5 className="uppercase font-semibold text-black dark:text-white text-[18px]">
+                                {answer?.author?.name}
+                            </h5>
+                            <p className="text-black dark:text-white !py-0">
+                                <ReadText value={answer?.content} />
+                            </p>
+                            <small className="dark:text-[#ffffffe2] text-muted-foreground">
+                                {!answer?.createdAt ? "" : (formatDate(answer?.createdAt))} •
+                            </small>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col gap-2 pr-2 items-center justify-end">
-                {answer?.id === answer?.authorId ? <>
-                    <Button
-                        variant={"icon"}
-                        className="!p-0 !h-auto"
-                        onClick={() => handleVote("up", answer?.id)}
-                    >
-                        {upvotes?.count} {upvotes?.isUpvote ? <PiArrowFatLinesUpFill className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesUp className="size-5 ms-2  text-blue-600" />}
-                        <span className="sr-only">Vote Up</span>
-                    </Button>
-                    <Button
-                        variant={"icon"}
-                        className="!p-0 !h-auto"
-                        onClick={() => handleVote("down", answer?.id)}
-                    >
-                        {downvotes?.count} {downvotes?.isDownvote ? <PiArrowFatLinesDownFill fill="blue" className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesDown fill="blue" className="size-5 ms-2 text-blue-600" />}
-                        <span className="sr-only">Vote Down</span>
-                    </Button>
-                </> :
-                    <>
+                <div className="flex flex-col gap-2 pr-2 items-center justify-end">
+                    {answer?.id === answer?.authorId ? <>
                         <Button
                             variant={"icon"}
                             className="!p-0 !h-auto"
-                            onClick={() => handleEdit(answer?.content, answer?.id)}
+                            onClick={() => handleVote("up", answer?.id)}
                         >
-                            <BiPencil className="size-5 ms-2  text-blue-600" />
-                            <span className="sr-only">Edit Answer</span>
+                            {upvotes?.count} {upvotes?.isUpvote ? <PiArrowFatLinesUpFill className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesUp className="size-5 ms-2  text-blue-600" />}
+                            <span className="sr-only">Vote Up</span>
                         </Button>
                         <Button
                             variant={"icon"}
                             className="!p-0 !h-auto"
-                            onClick={() => deleteAnswer(answer?.id)}
+                            onClick={() => handleVote("down", answer?.id)}
                         >
-                            <AiOutlineDelete className="size-5 ms-2 text-red-600" />
-                            <span className="sr-only">Delete Answer</span>
+                            {downvotes?.count} {downvotes?.isDownvote ? <PiArrowFatLinesDownFill fill="blue" className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesDown fill="blue" className="size-5 ms-2 text-blue-600" />}
+                            <span className="sr-only">Vote Down</span>
                         </Button>
-                    </>
-                }
+                    </> :
+                        <>
+                            <Button
+                                variant={"icon"}
+                                className="!p-0 !h-auto"
+                                onClick={() => handleEdit(answer?.content, answer?.id)}
+                            >
+                                <BiPencil className="size-5 ms-2  text-blue-600" />
+                                <span className="sr-only">Edit Answer</span>
+                            </Button>
+                            <Button
+                                variant={"icon"}
+                                className="!p-0 !h-auto"
+                                onClick={() => deleteAnswer(answer?.id)}
+                            >
+                                <AiOutlineDelete className="size-5 ms-2 text-red-600" />
+                                <span className="sr-only">Delete Answer</span>
+                            </Button>
+                        </>
+                    }
+                </div>
             </div>
         </div>
     )

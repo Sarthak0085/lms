@@ -19,6 +19,9 @@ export const getQuestionsByContentId = async (contentId: string) => {
                     }
                 },
                 votes: true,
+            },
+            orderBy: {
+                createdAt: "desc",
             }
         });
 

@@ -92,12 +92,20 @@ export const SectionManager = ({ courseId, sectionId, data }: SectionManagerProp
                     </Button>
                 </div>
                 <h2 className="flex items-center justify-center text-2xl font-bold mb-4 logo-style">Section Details</h2>
-                {sections.map((section, index) => (
+                {sections.slice().reverse().map((section, index) => (
                     <div key={section.id} className='mb-8 py-6'>
+                        {open[section?.id] &&
+                            <SectionForm
+                                sectionId={sectionId}
+                                section={section?.data}
+                                courseId={courseId}
+                                sectionLength={sections.length}
+                            />
+                        }
                         <div className={cn("w-full flex items-center justify-between mt-1 mb-3 px-4 py-2 rounded-lg", !open[section?.id] && "border border-slate-500")}>
                             {!open[section?.id] && (
                                 <p className="font-Poppins mt-2 text-[18px] text-black dark:text-white">
-                                    {index + 1}. {section?.data?.title ?? "Untitled Section"}
+                                    {sections.length - index}. {section?.data?.title ?? "Untitled Section"}
                                 </p>
                             )}
                             {
@@ -121,14 +129,6 @@ export const SectionManager = ({ courseId, sectionId, data }: SectionManagerProp
                                 </div>
                             }
                         </div>
-                        {open[section?.id] &&
-                            <SectionForm
-                                sectionId={sectionId}
-                                section={section?.data}
-                                courseId={courseId}
-                                sectionLength={sections.length}
-                            />
-                        }
                     </div>
                 ))}
             </div>

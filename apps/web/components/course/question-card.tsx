@@ -7,6 +7,7 @@ import { User } from "next-auth";
 import { useRef, useState } from "react";
 import { AnswerCard } from "./answers";
 import { AnswerForm } from "./answer-form";
+import { ReadText } from "../read-text";
 
 interface QuestionCardProps {
     question: ExtendQuestion;
@@ -122,7 +123,7 @@ export const QuestionCard = ({
     return (
         <>
             <div className="mb-4">
-                <div className="w-full h-[90px] hover:bg-gray-200 flex items-center justify-between">
+                <div className="w-full h-[90px] hover:bg-gray-200 dark:hover:bg-slate-600 flex items-center justify-between">
                     <div className="pl-3">
                         <div className="flex items-center gap-2 ">
                             <Avatar
@@ -135,14 +136,14 @@ export const QuestionCard = ({
                                     </h1>
                                 </AvatarFallback>
                             </Avatar>
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-col">
                                 <h5 className="uppercase font-semibold text-black dark:text-white text-[18px]">
                                     {question?.author?.name}
                                 </h5>
-                                <p className="text-black dark:text-white"
+                                <p className="text-black cursor-pointer dark:text-white !py-0"
                                     onClick={() => setOpen(prev => ({ [question?.id]: !prev[question?.id] }))}
                                 >
-                                    {question?.content}
+                                    <ReadText value={question?.content} />
                                 </p>
                                 <small className="dark:text-[#ffffffe2] text-muted-foreground">
                                     {!question?.createdAt ? "" : (formatDate(question?.createdAt))} •
@@ -151,13 +152,18 @@ export const QuestionCard = ({
                         </div>
                     </div>
                     <div className="flex flex-col gap-2 pr-2 items-center justify-end">
-                        {user?.id === question?.authorId ? <>
+                        {user?.id !== question?.authorId ? <>
                             <Button
                                 variant={"icon"}
                                 className="!p-0 !h-auto"
                                 onClick={() => handleVote("up", question?.id)}
                             >
-                                {upvotes?.count} {upvotes?.isUpvote ? <PiArrowFatLinesUpFill className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesUp className="size-5 ms-2  text-blue-600" />}
+                                {!downvotes?.isDownvote &&
+                                    <>
+                                        {upvotes?.count}
+                                        {upvotes?.isUpvote ? <PiArrowFatLinesUpFill className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesUp className="size-5 ms-2  text-blue-600" />}
+                                    </>
+                                }
                                 <span className="sr-only">Vote Up</span>
                             </Button>
                             <Button
@@ -165,7 +171,12 @@ export const QuestionCard = ({
                                 className="!p-0 !h-auto"
                                 onClick={() => handleVote("down", question?.id)}
                             >
-                                {downvotes?.count} {downvotes?.isDownvote ? <PiArrowFatLinesDownFill fill="blue" className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesDown fill="blue" className="size-5 ms-2 text-blue-600" />}
+                                {!upvotes.isUpvote &&
+                                    <>
+                                        {downvotes?.count}
+                                        {downvotes?.isDownvote ? <PiArrowFatLinesDownFill fill="blue" className="size-5 ms-2 text-blue-600" /> : <PiArrowFatLinesDown fill="blue" className="size-5 ms-2 text-blue-600" />}
+                                    </>
+                                }
                                 <span className="sr-only">Vote Down</span>
                             </Button>
                         </> :
@@ -223,6 +234,7 @@ export const QuestionCard = ({
                         user={user}
                         courseId={courseId}
                         contentId={contentId}
+                        setIsEdit={setIsEdit}
                         handleRefetch={handleRefetch}
                     />
                 </>

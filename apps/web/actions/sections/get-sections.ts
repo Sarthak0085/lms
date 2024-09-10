@@ -109,8 +109,9 @@ export const getSectionsByCourseId = async (courseId: string) => {
             }
         });
 
+
         return {
-            data
+            data,
         }
     } catch (error) {
         if (error instanceof CustomError) {

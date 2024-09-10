@@ -1,5 +1,6 @@
 import { currentUser } from "@/lib/auth";
 import { db } from "@repo/db";
+import { VoteType } from "@repo/db/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export const PUT = async (
@@ -33,7 +34,30 @@ export const PUT = async (
                         },
                         voteType: voteType,
                     }
-                })
+                });
+                if (voteType === VoteType.UPVOTE) {
+                    await db.question.update({
+                        where: {
+                            id: questionId
+                        },
+                        data: {
+                            upvotes: {
+                                decrement: 1,
+                            }
+                        }
+                    })
+                } else {
+                    await db.question.update({
+                        where: {
+                            id: questionId
+                        },
+                        data: {
+                            downvotes: {
+                                decrement: 1,
+                            }
+                        }
+                    });
+                }
             } else {
                 await db.vote.create({
                     data: {
@@ -42,6 +66,29 @@ export const PUT = async (
                         voteType: voteType,
                     }
                 });
+                if (voteType === VoteType.UPVOTE) {
+                    await db.question.update({
+                        where: {
+                            id: questionId
+                        },
+                        data: {
+                            upvotes: {
+                                increment: 1,
+                            }
+                        }
+                    })
+                } else {
+                    await db.question.update({
+                        where: {
+                            id: questionId
+                        },
+                        data: {
+                            downvotes: {
+                                increment: 1,
+                            }
+                        }
+                    });
+                }
             }
         } else {
             const isVoteExists = await db.vote.findUnique({
@@ -63,7 +110,30 @@ export const PUT = async (
                         },
                         voteType: voteType,
                     }
-                })
+                });
+                if (voteType === VoteType.UPVOTE) {
+                    await db.answer.update({
+                        where: {
+                            id: answerId
+                        },
+                        data: {
+                            upvotes: {
+                                decrement: 1,
+                            }
+                        }
+                    })
+                } else {
+                    await db.answer.update({
+                        where: {
+                            id: answerId
+                        },
+                        data: {
+                            downvotes: {
+                                decrement: 1,
+                            }
+                        }
+                    });
+                }
             } else {
                 await db.vote.create({
                     data: {
@@ -72,6 +142,29 @@ export const PUT = async (
                         voteType: voteType,
                     }
                 });
+                if (voteType === VoteType.UPVOTE) {
+                    await db.answer.update({
+                        where: {
+                            id: answerId
+                        },
+                        data: {
+                            upvotes: {
+                                increment: 1,
+                            }
+                        }
+                    })
+                } else {
+                    await db.answer.update({
+                        where: {
+                            id: answerId
+                        },
+                        data: {
+                            downvotes: {
+                                increment: 1,
+                            }
+                        }
+                    });
+                }
             }
         }
 

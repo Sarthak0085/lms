@@ -14,6 +14,27 @@ export const formatDate = (
     }).format(new Date(date))
 }
 
+/**
+ * Formats a duration in seconds into a human-readable string.
+ * @param durationInSeconds - The duration of the video in seconds.
+ * @returns A string representing the duration in a human-readable format.
+ */
+export const formatDuration = (durationInSeconds: number): string => {
+    if (durationInSeconds === 0) {
+        return '0 min';
+    }
+
+    const seconds = Math.floor(durationInSeconds % 60);
+    const totalMinutes = Math.floor(durationInSeconds / 60);
+    const minutes = totalMinutes % 60;
+    const hours = Math.floor(totalMinutes / 60);
+
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')} hour`;
+    } else {
+        return `${minutes}:${seconds} min`;
+    }
+}
 export function getCommonPinningStyles<TData>({
     column,
     withBorder = false,

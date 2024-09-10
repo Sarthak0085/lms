@@ -41,6 +41,16 @@ export const POST = async (
             }
         });
 
+        await db.question.update({
+            where: { id: questionId },
+            data: {
+                totalanswers: {
+                    increment: 1,
+                },
+            },
+        });
+
+
         return NextResponse.json(
             { message: "Answer Created Successfully" },
             { status: 200 }
@@ -107,9 +117,26 @@ export const DELETE = async (
             return new NextResponse("UnAuthorized. Please login to access this", { status: 401 })
         }
 
+        const answer = await db.answer.findUnique({
+            where: {
+                id: answerId,
+            }
+        });
+
         await db.answer.delete({
             where: {
                 id: answerId
+            }
+        });
+
+        await db.question.update({
+            where: {
+                id: answer?.questionId,
+            },
+            data: {
+                totalanswers: {
+                    decrement: 1,
+                }
             }
         });
 
