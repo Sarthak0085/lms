@@ -99,7 +99,13 @@ export const getSectionsByCourseId = async (courseId: string) => {
                 courseId: courseId,
             },
             include: {
-                children: true,
+                children: {
+                    include: {
+                        markAsCompleted: true,
+                        videoProgress: true,
+                        VideoMetadata: true,
+                    }
+                }
             }
         });
 

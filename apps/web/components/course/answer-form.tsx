@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button, Textarea, toast } from "@r
 import { FaUser } from "@repo/ui/icon"
 import { Editor } from "../editor";
 import { User } from "next-auth";
+import { useState } from "react";
 
 interface AnswerFormProps {
     answer: string;
@@ -28,13 +29,14 @@ export const AnswerForm = ({
     user,
     answerRef
 }: AnswerFormProps) => {
+    const [visible, setVisible] = useState(false);
     const handleAnswerSubmit = async () => {
         console.log("clicked")
         if (answer === "") {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
-                description: "Question cannot be empty."
+                description: "Answer cannot be empty."
             });
         } else if (isEdit === true) {
             try {
@@ -114,7 +116,7 @@ export const AnswerForm = ({
     }
 
     return (
-        <div className='flex my-3 w-full'>
+        <div className='flex my-3 gap-2 mb-10 w-full'>
             <Avatar
                 className={
                     "w-[40px] h-[40px] ml-6 cursor-pointer rounded-full"}
@@ -124,20 +126,25 @@ export const AnswerForm = ({
                     <FaUser color="white" />
                 </AvatarFallback>
             </Avatar>
-            <Editor
-                ref={answerRef}
-                placeholder="Write your question...."
-                // className={`outline-none !ring-0 bg-transparent ml-3 border border-[#ffffff57] 825:w-full rounded w-[90%] 825:text-[18px] font-Poppins`}
-                value={answer}
-                onChange={handleAnswerChange as any}
-            />
-            <div className='absolute right-16 bottom-0'>
-                <Button
-                    variant={"primary"}
-                    onClick={() => handleAnswerSubmit()}
-                >
-                    Submit
-                </Button>
+            <div className="w-full space-y-3 flex flex-col">
+                <div className="w-full" onFocus={() => setVisible(true)}>
+                    <Editor
+                        ref={answerRef}
+                        placeholder="Write your question...."
+                        // className={`outline-none !ring-0 bg-transparent ml-3 border border-[#ffffff57] 825:w-full rounded w-[90%] 825:text-[18px] font-Poppins`}
+                        value={answer}
+                        onChange={handleAnswerChange as any}
+                    />
+                </div>
+                {visible && <div className='flex justify-end'>
+                    <Button
+                        variant={"primary"}
+                        onClick={() => handleAnswerSubmit()}
+                    >
+                        Submit
+                    </Button>
+                </div>
+                }
             </div>
         </div>
     )

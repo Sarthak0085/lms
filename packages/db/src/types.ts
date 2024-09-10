@@ -21,6 +21,9 @@ import {
     type Benefit,
     type Prerequisite,
     type Link,
+    type VideoMetadata,
+    type VideoProgress,
+    type MarkAsCompleted,
     type DemoMetadata,
 } from "@prisma/client";
 
@@ -47,5 +50,8 @@ export {
     Prerequisite,
     Prisma,
     Link,
-    DemoMetadata
+    DemoMetadata,
+    VideoMetadata,
+    VideoProgress,
+    MarkAsCompleted
 }

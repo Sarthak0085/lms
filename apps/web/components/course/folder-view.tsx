@@ -1,9 +1,10 @@
 'use client';
 
-import { Content, ContentType } from '@repo/db/types';
-import { Checkbox } from '@repo/ui';
+import { Content, ContentType, MarkAsCompleted, VideoMetadata, VideoProgress } from '@repo/db/types';
+import { Checkbox, toast } from '@repo/ui';
 import { ChevronDown, FileIcon, TvMinimalPlayIcon } from '@repo/ui/icon';
 import { cn } from '@repo/ui/lib/utils';
+import { User } from 'next-auth';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -11,9 +12,17 @@ import { useEffect, useState } from 'react';
 export const FolderView = ({
     courseContent,
     courseId,
+    user
 }: {
     courseId: string;
-    courseContent: (Content & { children: Content[] })[] | [];
+    courseContent: (Content & {
+        children: (Content & {
+            markAsCompleted: MarkAsCompleted[],
+            videoProgess: VideoProgress[],
+            videoMetadata: VideoMetadata,
+        })[];
+    })[];
+    user: User | undefined;
 }) => {
     const { sectionId } = useParams();
     console.log("Params", courseId, sectionId);
@@ -21,7 +30,7 @@ export const FolderView = ({
         courseContent
             .filter(content => content.type === ContentType.FOLDER)
             .reduce((acc, content) => {
-                acc[content?.id] = content?.children?.findIndex((con) => con.id === sectionId) !== -1 ? true : false;
+                acc[content?.id] = content?.children?.findIndex(con => con.id === sectionId) !== -1 ? true : false;
                 return acc;
             }, {} as { [key: string]: boolean })
     );
@@ -45,6 +54,25 @@ export const FolderView = ({
             </div>
         );
     }
+
+    const handleMarkAsCompleted = async (sectionId: string) => {
+
+        const response = await fetch(`/api/courses/${courseId}/sections/${sectionId}/markAsCompleted`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            console.log(response)
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "Error while updating the mark as completed",
+            })
+        }
+    }
+
     // let updatedRoute = `/courses/${courseId}`;
     // for (let i = 0; i < rest.length; i++) {
     //     updatedRoute += `/${rest[i]}`;
@@ -82,7 +110,7 @@ export const FolderView = ({
                         </div>
                         {
                             open[content?.id] &&
-                            courseContent.filter(cont => cont?.type !== ContentType.FOLDER && cont?.parentId === content?.id)
+                            content?.children.filter(cont => cont?.type !== ContentType.FOLDER && cont?.parentId === content?.id)
                                 .map((con, index) => (
                                     // <Link key={con?.id} href={`/course/${courseId}/sections/${con?.id}`} className='hover:bg-gray-500 '>
                                     <div
@@ -91,7 +119,7 @@ export const FolderView = ({
                                         onClick={() => router.push(`/course/${courseId}/sections/${con?.id}`)}
                                     >
                                         <div className='mt-[11px]'>
-                                            <Checkbox />
+                                            <Checkbox checked={con?.markAsCompleted?.some((mark) => mark?.userId === user?.id && mark.markAsCopleted === true)} onClick={() => handleMarkAsCompleted(con?.id)} />
                                         </div>
                                         <div className='w-full flex flex-col justify-center'>
                                             <h3 className='font-normal truncate'>

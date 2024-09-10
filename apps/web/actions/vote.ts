@@ -1,16 +1,15 @@
-import { currentUser } from "@/lib/auth";
-import { db } from "@repo/db";
-import { NextRequest, NextResponse } from "next/server";
+"use server";
 
-export const PUT = async (
-    req: NextRequest,
-    { params }: { params: { courseId: string; sectionId: string } }
-) => {
+import { currentUser } from "@/lib/auth";
+import CustomError from "@/lib/custom-error";
+import { db } from "@repo/db";
+import { VoteType } from "@repo/db/types";
+
+export const updateVote = async (voteType: VoteType, questionId?: string, answerId?: string) => {
     try {
-        const { questionId, voteType, answerId } = await req.json();
         const user = await currentUser();
         if (!user || !user?.id) {
-            return new NextResponse("UnAuthorized. Please login to access this", { status: 401 });
+            throw new CustomError("UnAuthorized. Please login to access this", 401);
         }
 
         if (questionId && questionId !== "") {
@@ -23,6 +22,8 @@ export const PUT = async (
                     voteType: voteType,
                 }
             });
+
+            console.log(isVoteExists);
 
             if (isVoteExists) {
                 await db.vote.delete({
@@ -47,7 +48,7 @@ export const PUT = async (
             const isVoteExists = await db.vote.findUnique({
                 where: {
                     answerId_userId: {
-                        answerId: answerId,
+                        answerId: answerId!,
                         userId: user?.id
                     },
                     voteType: voteType,
@@ -58,7 +59,7 @@ export const PUT = async (
                 await db.vote.delete({
                     where: {
                         answerId_userId: {
-                            answerId: answerId,
+                            answerId: answerId!,
                             userId: user?.id
                         },
                         voteType: voteType,
@@ -74,14 +75,17 @@ export const PUT = async (
                 });
             }
         }
-
-        return NextResponse.json(
-            { message: "Vote Submitted Successfully" },
-            { status: 200 }
-        );
-
     } catch (error) {
-        console.error(error);
-        return new NextResponse("Internal Server Error", { status: 500 });
+        console.error(error)
+        if (error instanceof CustomError) {
+            return {
+                error: error.message,
+                code: error.code,
+            };
+        }
+        return {
+            error: "An unexpected error occurred.",
+            code: 500,
+        };
     }
 }
