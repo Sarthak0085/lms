@@ -64,7 +64,8 @@ import {
     StarIcon,
     TrophyIcon,
     TvMinimalPlayIcon,
-    FileIcon
+    FileIcon,
+    CirclePlayIcon
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -184,5 +185,6 @@ export {
     PiArrowFatLinesDown,
     PiArrowFatLinesUpFill,
     PiArrowFatLinesDownFill,
-    LiaComments
+    LiaComments,
+    CirclePlayIcon
 }

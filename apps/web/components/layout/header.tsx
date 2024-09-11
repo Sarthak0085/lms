@@ -15,7 +15,7 @@ import { cn } from "@repo/ui/lib/utils";
 import { User } from "next-auth";
 
 
-export const Header = () => {
+export const Header = ({ fixed = true }: { fixed?: boolean }) => {
     const [open, setOpen] = useState(false);
     const [activeItem, setActiveItem] = useState(0);
     const [active, setActive] = useState(false);
@@ -44,7 +44,7 @@ export const Header = () => {
     return (
         <div className="w-full relative">
             <div
-                className={`${active
+                className={`${active && fixed
                     ? "dark:bg-opacity-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black fixed top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500 backdrop-blur-md"
                     : "w-full border-b dark:border-[#ffff1c]/50 h-[80px] dark:shadow-md"
                     }`}

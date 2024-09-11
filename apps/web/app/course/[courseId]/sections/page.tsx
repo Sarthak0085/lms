@@ -4,6 +4,7 @@ import { FolderView } from '@/components/course/folder-view';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/layout/header';
 import { domain } from '@/lib/domain';
+import { Content, ContentType } from '@repo/db/types';
 import { ScrollArea, ScrollBar } from '@repo/ui';
 import React from 'react'
 
@@ -20,6 +21,7 @@ const CourseSectionsPage = async ({ params: { courseId } }: CourseSectionsPagePr
     });
 
     const course = await response.json();
+    // const contents = course?.filter((c)=>c.type === ContentType.FOLDER)
     console.log("course", course);
 
     return (

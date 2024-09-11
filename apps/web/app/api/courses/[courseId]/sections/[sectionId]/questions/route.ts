@@ -88,7 +88,6 @@ export const PUT = async (
 
 export const DELETE = async (
     req: NextRequest,
-    { params }: { params: { courseId: string; sectionId: string } }
 ) => {
     try {
         const { questionId } = await req.json();

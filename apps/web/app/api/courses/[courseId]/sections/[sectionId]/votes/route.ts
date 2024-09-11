@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const PUT = async (
     req: NextRequest,
-    { params }: { params: { courseId: string; sectionId: string } }
 ) => {
     try {
         const { questionId, voteType, answerId } = await req.json();

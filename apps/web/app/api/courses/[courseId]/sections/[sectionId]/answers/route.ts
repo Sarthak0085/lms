@@ -63,7 +63,6 @@ export const POST = async (
 
 export const PUT = async (
     req: NextRequest,
-    { params }: { params: { courseId: string; sectionId: string } }
 ) => {
     try {
         const { answer, answerId } = await req.json();
@@ -108,7 +107,6 @@ export const PUT = async (
 
 export const DELETE = async (
     req: NextRequest,
-    { params }: { params: { courseId: string; sectionId: string } }
 ) => {
     try {
         const { answerId } = await req.json();
