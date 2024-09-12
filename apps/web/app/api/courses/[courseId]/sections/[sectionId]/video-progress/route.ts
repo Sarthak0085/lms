@@ -1,7 +1,6 @@
 import { currentUser } from "@/lib/auth";
 import { db } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
-import { number } from "zod";
 
 export const POST = async (
     req: NextRequest,
@@ -14,7 +13,7 @@ export const POST = async (
             return new NextResponse("User not found", { status: 404 });
         }
 
-        if (!Number(currentTimestamp)) {
+        if (typeof Number(currentTimestamp) !== "number") {
             return new NextResponse("Current timestamp is not valid", { status: 400 });
         }
 

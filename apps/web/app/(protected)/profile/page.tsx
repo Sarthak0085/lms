@@ -1,11 +1,9 @@
-"use client"
-
 import { Header } from '@/components/layout/header';
 import { Profile } from '@/components/profile/profile';
-import React, { useState } from 'react'
+import { currentUser } from '@/lib/auth';
 
-const ProfilePage = () => {
-    const user = {};
+const ProfilePage = async () => {
+    const user = await currentUser();
     return (
         <div>
             <Header />

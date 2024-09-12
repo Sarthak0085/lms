@@ -130,5 +130,30 @@ export const getCourseContents = async (id: string) => {
     }
 }
 
+export const getAllCourses = async ({ page = 1, per_page = 10 }) => {
+    try {
+        const offset = (Number(page) - 1) * Number(per_page)
+        const data = await db.course.findMany({
+            include: {
+                content: {
+                    include: {
+                        children: true,
+                    },
+                    orderBy: {
+                        createdAt: "asc"
+                    }
+                },
+            },
+            skip: offset,
+            take: per_page
+        });
 
-
+        return {
+            data
+        }
+    } catch (error) {
+        return {
+            data: null
+        }
+    }
+}

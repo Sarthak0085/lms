@@ -12,13 +12,14 @@ interface VideoPlayerProps {
     videoMetadata?: VideoMetadata | null;
     nextSection?: Content | null;
     prevSection?: Content | null;
+    playbackUrl2?: string | null;
 }
 
-export const VideoPlayer = ({ courseId, contentId, playbackUrl, videoMetadata, nextSection, prevSection }: VideoPlayerProps) => {
+export const VideoPlayer = ({ courseId, contentId, playbackUrl, videoMetadata, nextSection, prevSection, playbackUrl2 }: VideoPlayerProps) => {
     const router = useRouter();
     const [videoProgress, setVideoProgress] = useState(0);
     const [isVideoEnd, setIsVideoEnd] = useState(false);
-    const videoRef = useRef<HTMLVideoElement | null>(null); // If you need a ref to HTMLVideoElement
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     useEffect(() => {
         const fetchProgress = async () => {
@@ -30,21 +31,38 @@ export const VideoPlayer = ({ courseId, contentId, playbackUrl, videoMetadata, n
                     }
                 });
                 const data = await response.json();
-                console.log('Fetched progress:', data);
-                setVideoProgress(data?.currentTimestamp!);
+                if (data?.currentTimestamp !== videoProgress) {
+                    setVideoProgress(data?.currentTimestamp || 0);
+                }
+                console.log('Fetched progress:', data, videoProgress);
+                setIsVideoEnd(data?.currentTimestamp >= (videoMetadata?.duration!));
             } catch (error) {
                 console.error('Failed to fetch video progress:', error);
             }
         };
 
-        fetchProgress(); // Initial fetch
-    }, [contentId])
+        fetchProgress();
+    }, [contentId, courseId])
 
     useEffect(() => {
         const video = videoRef?.current;
         if (video) {
             const handledEnded = () => {
-                setIsVideoEnd(true);
+                if (isVideoEnd || video.currentTime >= videoMetadata?.duration!) {
+                    setIsVideoEnd(true);
+                    setVideoProgress(0);
+
+                    fetch(`/api/courses/${courseId}/sections/${contentId}/markAsCompleted`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(() => {
+                        console.log('Video mark as completed.');
+                    }).catch((error) => {
+                        console.error('Failed to update video progress:', error);
+                    });
+                }
             }
 
             video.addEventListener('ended', handledEnded);
@@ -53,16 +71,13 @@ export const VideoPlayer = ({ courseId, contentId, playbackUrl, videoMetadata, n
                 video.removeEventListener('ended', handledEnded);
             }
         }
-    }, [])
+    }, [isVideoEnd, courseId, contentId, videoMetadata?.duration])
 
     useEffect(() => {
         const video = videoRef.current;
 
         if (video) {
             video.currentTime = videoProgress;
-            const isVideoEnd = video.currentTime >= Number(videoMetadata?.duration);
-            setIsVideoEnd(isVideoEnd);
-
             const handleTimeUpdate = () => {
                 fetch(`/api/courses/${courseId}/sections/${contentId}/video-progress`, {
                     method: 'POST',
@@ -70,60 +85,35 @@ export const VideoPlayer = ({ courseId, contentId, playbackUrl, videoMetadata, n
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        currentTimestamp: video.currentTime
+                        currentTimestamp: video.currentTime,
                     })
                 }).then(() => {
                     console.log('Video progress updated.');
                 }).catch((error) => {
                     console.error('Failed to update video progress:', error);
                 });
-
-                console.log("Video", video.currentTime, videoMetadata?.duration);
-                if (isVideoEnd) {
-                    fetch(`/api/courses/${courseId}/sections/${contentId}/video-progress`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            currentTimestamp: 0
-                        })
-                    }).then(() => { console.log("Reset progress") }).catch(() => { console.error("Error while reset the progress") })
-                    fetch(`/api/courses/${courseId}/sections/${contentId}/markAsCompleted`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                    }).then(() => {
-                        console.log('Video completion recorded.');
-                        // if (nextSectionId !== undefined || nextSectionId !== "" || nextSectionId !== null) {
-                        //     router.push(`/course/${courseId}/sections/${nextSectionId}`);
-                        // }
-                    }).catch((error) => {
-                        console.error('Failed to record video completion:', error);
-                    });
-                }
             };
 
-            // Assuming MuxPlayer emits 'timeupdate' events
             video.addEventListener('timeupdate', handleTimeUpdate);
 
             return () => {
                 video.removeEventListener('timeupdate', handleTimeUpdate);
             };
         }
-    }, [videoProgress, contentId, videoMetadata, nextSection]);
-
-    console.log(videoProgress);
-
+    }, [videoProgress, contentId, courseId]);
 
     return (
         <div className='relative w-full mb-3 !h-[400px]'>
-            <MuxPlayer
+            {playbackUrl && <MuxPlayer
+                //@ts-ignore
                 ref={videoRef}
                 playbackId={playbackUrl}
                 className='w-full h-[400px]'
-            />
+            />}
+            {!playbackUrl && playbackUrl2 &&
+                <video autoPlay ref={videoRef} className='w-full h-[400px]'>
+                    <source src={playbackUrl2} />
+                </video>}
             {isVideoEnd && nextSection &&
                 <div className='absolute top-0 left-0  w-full h-[400px] backdrop-blur-md'>
                     <div className='flex flex-col items-center justify-center space-y-2 h-full'>

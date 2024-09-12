@@ -10,54 +10,72 @@ export const navItems: NavItem[] = [
         label: 'Dashboard'
     },
     {
-        title: 'User',
-        href: '/adim/user',
+        title: 'Users',
+        href: '/admin/users',
         icon: User,
-        label: 'user'
+        label: 'users'
     },
     {
-        title: 'Employee',
-        href: '/admin/employee',
-        icon: 'employee',
-        label: 'employee'
+        title: 'Courses',
+        href: '/admin/courses',
+        icon: User,
+        label: 'courses'
     },
+    {
+        title: 'Create Course',
+        href: '/admin/create-course',
+        icon: User,
+        label: 'create-course'
+    },
+    {
+        title: 'Categories',
+        href: '/admin/categories',
+        icon: User,
+        label: 'categories'
+    },
+    // {
+    //     title: 'Employee',
+    //     href: '/admin/employee',
+    //     icon: 'employee',
+    //     label: 'employee'
+    // },
     {
         title: 'Profile',
         href: '/admin/profile',
         icon: User2Icon,
         label: 'profile'
     },
-    {
-        title: 'Kanban',
-        href: '/admin/kanban',
-        icon: CircuitBoardIcon,
-        label: 'kanban'
-    },
+    // {
+    //     title: 'Kanban',
+    //     href: '/admin/kanban',
+    //     icon: CircuitBoardIcon,
+    //     label: 'kanban'
+    // },
     {
         title: 'Logout',
         href: '/',
         icon: LogOutIcon,
-        label: 'login'
+        label: 'logout'
     }
 ];
 
 export const userRoles = [
     {
-        value: UserRole.USER
+        value: UserRole?.USER
     },
     {
-        value: UserRole.ADMIN,
+        value: UserRole?.ADMIN,
     }
 ];
 
 export const userStatuses = [
     {
-        value: UserStatus.ACTIVE,
+        value: UserStatus?.ACTIVE,
     },
     {
-        value: UserStatus.BLOCK,
+        value: UserStatus?.BLOCK,
     },
     {
-        value: UserStatus.ARCHIEVED,
+        value: UserStatus?.ARCHIEVED,
     }
 ]

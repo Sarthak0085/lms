@@ -18,6 +18,31 @@ type Props = {
     courseId: string;
 }
 
+// if (isVideoEnd) {
+//     fetch(`/api/courses/${courseId}/sections/${contentId}/video-progress`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             currentTimestamp: 0
+//         })
+//     }).then(() => { console.log("Reset progress") }).catch(() => { console.error("Error while reset the progress") })
+//     fetch(`/api/courses/${courseId}/sections/${contentId}/markAsCompleted`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//     }).then(() => {
+//         console.log('Video completion recorded.');
+//         // if (nextSectionId !== undefined || nextSectionId !== "" || nextSectionId !== null) {
+//         //     router.push(`/course/${courseId}/sections/${nextSectionId}`);
+//         // }
+//     }).catch((error) => {
+//         console.error('Failed to record video completion:', error);
+//     });
+// }
+
 export const SectionDetails = ({ courseId, content }: Props) => {
     const { data, prevSection, nextSection } = React.use(content);
     const router = useRouter();
@@ -33,6 +58,7 @@ export const SectionDetails = ({ courseId, content }: Props) => {
                 videoMetadata={data?.VideoMetadata}
                 nextSection={nextSection}
                 prevSection={prevSection}
+                playbackUrl2={data?.videoUrl}
             />
             <h1 className='text-[25px] pt-2 font-[600] text-black dark:text-white'>
                 {data?.title}
