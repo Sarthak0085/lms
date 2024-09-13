@@ -149,7 +149,11 @@ export const getSectionByCourseIdAndSectionId = async (courseId: string, section
                 NotionMetadata: true,
                 markAsCompleted: true,
                 questions: true,
-                Course: true,
+                Course: {
+                    include: {
+                        reviews: true,
+                    }
+                },
             }
         });
 

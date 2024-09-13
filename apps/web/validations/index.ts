@@ -3,6 +3,7 @@ import {
     CourseSectionSchema,
     CreateCategorySchema,
     CreateCourseSchema,
+    createReviewSchema,
     EditUserSchema,
     LoginSchema,
     NewPasswordSchema,
@@ -90,10 +91,6 @@ export const ValidateSearchParams = (values: Record<string, number | string | st
         parsedParams.level = parsedParams.level.split(".").map((level: Level) => level.trim()) ?? [parsedParams.level]
     }
 
-    // if (parsedParams.courseStatus) {
-    //     parsedParams.courseStatus = parsedParams.courseStatus.split(".").map((courseStatus: CourseStatus) => courseStatus.trim()) ?? [parsedParams.courseStatus]
-    // }
-
     return SearchParamsSchema.parse(parsedParams);
 };
 
@@ -139,6 +136,16 @@ export const validateCreateSection = (values: z.infer<typeof CourseSectionSchema
 
 export const validateSectionContent = (values: z.infer<typeof SectionContentSchema>) => {
     const validatedFields = SectionContentSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        throw new CustomError("Invalid Fields", 400);
+    }
+
+    return validatedFields.data;
+};
+
+export const validateCreateReview = (values: z.infer<typeof createReviewSchema>) => {
+    const validatedFields = createReviewSchema.safeParse(values);
 
     if (!validatedFields.success) {
         throw new CustomError("Invalid Fields", 400);

@@ -191,3 +191,9 @@ export const UpdateCategorySchema = z.object({
     name: z.string().min(2, "Category name is required."),
     userId: z.string().min(1, "UserId is required")
 });
+
+export const createReviewSchema = z.object({
+    rating: z.number().min(0, { message: "Rating cannot be negative" }),
+    content: z.string().min(2, { message: "Content cannot be empty" }),
+    courseId: z.string().min(2, { message: "Course is required" }),
+});

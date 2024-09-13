@@ -173,7 +173,7 @@ model Review {
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([courseId])
+  @@unique([userId, courseId])
 }
 
 model Certificate {

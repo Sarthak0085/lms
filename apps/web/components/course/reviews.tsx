@@ -29,7 +29,7 @@ export const Reviews = ({ course }: ReviewsProps) => {
                                         {item?.user?.name?.slice(0, 2)}
                                     </h1>
                                 </div>
-                                <div className="hidden 800px:block pl-2">
+                                <div className="hidden 825:block pl-2">
                                     <div className="flex items-center">
                                         <h5 className="uppercase text-black dark:text-white text-[18px]">
                                             {item?.user?.name}
