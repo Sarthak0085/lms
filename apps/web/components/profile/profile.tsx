@@ -1,28 +1,21 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProfileInfo } from './profile-info';
 import { ChangePassword } from './change-password';
 import { Sidebar } from './sidebar';
 import { User } from 'next-auth';
+import { CourseLists } from './course-lists';
 
 export const Profile = ({ user }: { user?: User }) => {
-    const [scroll, setScroll] = useState(false);
     const [active, setActive] = useState(1);
+    const [scroll, setScroll] = useState(false);
 
-    const logoutHandler = async () => {
-        // await signOut();
-    }
-
-    if (typeof window !== "undefined") {
-        window.addEventListener("scroll", () => {
-            if (scrollY > 85) {
-                setScroll(true)
-            } else {
-                setScroll(false)
-            }
-        })
-    }
+    useEffect(() => {
+        if (window !== undefined && window?.scrollY > 85) {
+            setScroll(true);
+        }
+    }, []);
 
     return (
         <div className='w-[85%] min-h-[89dvh] flex mx-auto'>
@@ -41,6 +34,11 @@ export const Profile = ({ user }: { user?: User }) => {
             {active === 2 && (
                 <div className='w-full h-full bg-transparent mt-[80px]'>
                     <ChangePassword />
+                </div>
+            )}
+            {active === 3 && (
+                <div className='w-full h-full bg-transparent mt-[80px]'>
+                    <CourseLists user={user} />
                 </div>
             )}
         </div>

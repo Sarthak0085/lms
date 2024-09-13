@@ -12,6 +12,7 @@ export interface NavItem {
 
 export type ExtendContent = Content & {
     links: Link[];
+    children: Content[];
 }
 
 export type ExtendAnswer = Answer & {
@@ -35,7 +36,7 @@ export type ExtendCourse = Course & {
     reviews?: ExtendReview[];
     benefits?: Benefit[];
     prerequisites?: Prerequisite[];
-    content?: Content[];
+    content?: ExtendContent[];
     demoMetadata?: DemoMetadata;
     purchases?: Purchase[];
 }

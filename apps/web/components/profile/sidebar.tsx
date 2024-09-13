@@ -1,5 +1,6 @@
 "use client";
 
+import { logOut } from "@/actions/auth/logout";
 import {
     Avatar,
     AvatarFallback,
@@ -18,7 +19,7 @@ import React from "react";
 type Props = {
     user?: any;
     active: number;
-    setActive: (active: number) => void;
+    setActive: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const Sidebar: React.FC<Props> = ({
@@ -26,7 +27,9 @@ export const Sidebar: React.FC<Props> = ({
     setActive,
     user,
 }) => {
-    const logoutHandler = () => { };
+    const logoutHandler = async () => {
+        await logOut();
+    };
     return (
         <div className="w-full">
             <div
