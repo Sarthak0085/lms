@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY as string);
 
 export const POST = async (req: NextRequest) => {
     try {
         const { amount } = await req.json();
-
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
             currency: "inr",
@@ -12,8 +11,9 @@ export const POST = async (req: NextRequest) => {
                 enabled: true,
             },
         });
+        console.log(paymentIntent);
 
-        return NextResponse.json({ clientSecret: paymentIntent.clientSecret }, { status: 200 });
+        return NextResponse.json({ clientSecret: paymentIntent.client_secret }, { status: 200 });
     } catch (error) {
         console.error("Internal Server Error :" + error);
         return NextResponse.json(

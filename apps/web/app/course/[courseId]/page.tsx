@@ -2,6 +2,8 @@ import { getCourseById } from '@/actions/course/get-course';
 import { CourseDetails } from '@/components/course/course-details';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/layout/header';
+import { domain } from '@/lib/domain';
+import { ExtendCourse } from '@/types';
 import { loadStripe } from '@stripe/stripe-js';
 import React from 'react'
 
@@ -16,13 +18,13 @@ if (process.env.STRIPE_PUBLISHABLE_KEY === undefined) {
 const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY)
 
 const CoursePage = async ({ params: { courseId } }: CoursePageProps) => {
-    const data = await getCourseById(courseId);
+    const data = getCourseById(courseId);
 
     return (
         <div>
             <Header />
             <CourseDetails
-                data={data?.data}
+                data={data}
                 stripePromise={stripePromise}
             />
             <Footer />

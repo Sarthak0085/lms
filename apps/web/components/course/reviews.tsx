@@ -3,14 +3,14 @@ import { Ratings } from "../ratings"
 import { formatDate } from "@/lib/utils";
 
 interface ReviewsProps {
-    course: ExtendCourse;
+    course?: ExtendCourse | null;
 }
 
 export const Reviews = ({ course }: ReviewsProps) => {
     return (
         <div className="w-full">
             <div className="825:flex items-center">
-                <Ratings rating={course?.ratings} />
+                <Ratings rating={course?.ratings!} />
                 <div className="mb-2 825:mb-[unset]">
                     <h5 className="text-[25px] font-Poppins text-black dark:text-white">
                         {Number.isInteger(course?.ratings)

@@ -11,8 +11,8 @@ export interface NavItem {
 }
 
 export type ExtendContent = Content & {
-    links: Link[];
-    children: Content[];
+    links?: Link[];
+    children?: Content[];
 }
 
 export type ExtendAnswer = Answer & {

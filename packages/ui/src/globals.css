@@ -164,3 +164,16 @@
  .custom-quill .ql-editor p {
       font-size: 16px;
   }
+
+.multi-line-ellipsis {
+      display: -webkit-box;
+      /* Required for WebKit-based browsers */
+      -webkit-line-clamp: 3;
+      /* Limits the text to 3 lines */
+      -webkit-box-orient: vertical;
+      /* Specifies the box layout orientation */
+      overflow: hidden;
+      /* Hides text that overflows the container */
+      text-overflow: ellipsis;
+      /* Adds an ellipsis (...) when text overflows */
+    }

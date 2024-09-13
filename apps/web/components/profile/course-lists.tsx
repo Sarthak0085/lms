@@ -8,7 +8,7 @@ export const CourseLists = ({ user }: { user?: User }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     useEffect(() => {
         const fetchData = () => {
-            fetch(`/api/courses/${user?.id}/purchased`, {
+            fetch(`/api/${user?.id}/purchased`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

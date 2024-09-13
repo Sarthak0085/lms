@@ -11,29 +11,33 @@ import { ExtendCourse } from "@/types";
 import { ReadText } from "../read-text";
 import { Elements } from "@stripe/react-stripe-js";
 import { CheckoutForm } from "../checkout-form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Reviews } from "./reviews";
 import { LoginButton } from "../auth/login-button";
+import { getCourseById } from "@/actions/course/get-course";
 
 interface CourseDetailsProps {
-    course: ExtendCourse;
+    data: ReturnType<typeof getCourseById>;
     stripePromise: any;
-};
+}
 
 export const CourseDetails = ({
-    course,
+    data,
     stripePromise,
 }: CourseDetailsProps) => {
+    const value = React.use(data);
+    const course = value?.data;
     const router = useRouter();
     const user = useCurrentUser();
     const [open, setOpen] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
+    const [clientSecret, setClientSecret] = useState("");
     const discountedPercentage = (
-        ((Number(course?.estimatedPrice) - course?.price) / course?.price) *
+        ((Number(course?.estimatedPrice) - course?.price!) / course?.price!) *
         100
     ).toFixed(0);
 
-    const isPurchased = course.purchases?.find((pur) => pur.userId === user?.id);
+    const isPurchased = course?.purchases?.find((pur) => pur.userId === user?.id);
 
     const handleClick = () => {
         if (!user || !user?.id) {
@@ -56,7 +60,7 @@ export const CourseDetails = ({
                         </h2>
                         <div className="flex items-center justify-between pt-3">
                             <div className="flex items-center">
-                                <Ratings rating={course?.ratings} />
+                                <Ratings rating={course?.ratings as number} />
                                 <h5 className="text-black dark:text-white">
                                     {course?.reviews?.length} reviews
                                 </h5>
@@ -123,10 +127,10 @@ export const CourseDetails = ({
                         <br />
                         <div className="w-full">
                             <h1 className={"title"}>Course Details</h1>
-                            <ReadText value={course?.description} />
+                            <ReadText value={course?.description!} />
                         </div>
                         <br />
-                        <Reviews course={course} />
+                        <Reviews course={course as ExtendCourse} />
                     </div>
                     <div className="w-full 825:w-[35%] relative">
                         <div className="825:sticky top-[100px] w-full z-20 left-0">
@@ -188,7 +192,7 @@ export const CourseDetails = ({
                                     amount: course?.price,
                                     currency: "inr",
                                 }}>
-                                    <CheckoutForm data={course} stripePromise={stripePromise} amount={course?.price} estimatedPrice={course?.estimatedPrice} />
+                                    <CheckoutForm data={course!} stripePromise={stripePromise} amount={course?.price!} estimatedPrice={course?.estimatedPrice} />
                                 </Elements>
                             }
                         </div>

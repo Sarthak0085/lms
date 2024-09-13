@@ -1,6 +1,5 @@
 "use server";
 
-import CustomError from "@/lib/custom-error";
 import { SearchParamsSchema } from "@/schemas";
 import { db } from "@repo/db";
 import { Course, Prisma } from "@repo/db/types";

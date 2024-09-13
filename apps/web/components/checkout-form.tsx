@@ -20,7 +20,6 @@ interface CheckoutFormProps {
 export const CheckoutForm = ({ stripePromise, data, amount, estimatedPrice }: CheckoutFormProps) => {
     const stripe = useStripe();
     const elements = useElements();
-
     const [clientSecret, setClientSecret] = useState("");
     const [message, setMessage] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
@@ -107,15 +106,17 @@ export const CheckoutForm = ({ stripePromise, data, amount, estimatedPrice }: Ch
             .catch((error) => console.log(error))
     }, [amount]);
 
+    console.log(stripe, elements, clientSecret);
 
-    if (!stripe || !elements || !clientSecret) {
-        return (
-            <div className="flex items-center justify-center">
-                <ReloadIcon className="size-16" />
-                <span className="sr-only">Loading...</span>
-            </div>
-        )
-    }
+
+    // if (!stripe || !elements || !clientSecret) {
+    //     return (
+    //         <div className="flex items-center h-full justify-center">
+    //             <ReloadIcon className="size-16 text-blue-600 animate-spin " />
+    //             <span className="sr-only">Loading...</span>
+    //         </div>
+    //     )
+    // }
 
     return (
         <form onSubmit={handleSubmit}>

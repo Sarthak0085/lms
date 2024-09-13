@@ -93,6 +93,17 @@ export const POST = async (req: NextRequest) => {
             }
         });
 
+        await db.course.update({
+            where: {
+                id: courseId
+            },
+            data: {
+                purchased: {
+                    increment: 1
+                }
+            }
+        })
+
         return {
             success: "Course Purchased Successfully"
         }

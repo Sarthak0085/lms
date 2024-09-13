@@ -5,6 +5,7 @@ import { Ratings } from '@/components/ratings';
 import { AiOutlineUnorderedList } from '@repo/ui/icon';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui';
 import { ExtendCourse } from '@/types';
+import { ReadText } from '../read-text';
 
 interface CourseCardProps {
     item: ExtendCourse;
@@ -15,35 +16,35 @@ const CourseCard = ({ item, isProfile = false }: CourseCardProps) => {
     const folders = item.content?.filter((con) => con.type === "FOLDER" && con.hidden === false);
     return (
         <Link href={isProfile ? `/course/${item?.id}/sections` : `/course/${item?.id}`}>
-            <Card className="w-full min-h-[35px] dark:bg-slate-500 dark:bg-opacity-20 backdrop:blur border border-[#00000015] dark:border-[#ffffff16] rounded-lg shadow-sm dark:shadow-[bg-slate-300] dark:shadow-inner hover:scale-105">
+            <Card className="w-full max-h-[485px] dark:bg-slate-500 dark:bg-opacity-20 backdrop:blur border border-[#00000015] dark:border-[#ffffff16] rounded-lg shadow-sm dark:shadow-[bg-slate-300] dark:shadow-inner hover:scale-105">
                 <Image
                     src={item?.thumbnail}
                     alt='thumbnail'
                     width={500}
-                    height={300}
-                    objectFit='contain'
-                    className='rounded-lg'
+                    height={200}
+                    // objectFit='w-full min-h-[200px] max-h-[200px]'
+                    className='w-full h-[180px] rounded-lg'
                 />
                 <CardHeader>
                     <CardTitle className='font-Poppins text-[16px] text-black dark:text-white'>
                         {item?.title}
                     </CardTitle>
-                    <CardDescription className='font-poppins text-[14px] text-muted-foreground'>
-                        {item?.description}
+                    <CardDescription className='font-poppins text-[14px] text-muted-foreground truncate'>
+                        <ReadText value={item?.description} isCard={true} />
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className='flex w-full item-center justify-between'>
                         <Ratings rating={item?.ratings} />
-                        <h4 className={`text-black dark:text-white ${isProfile && "800px:inline hidden"}`}>
+                        <h4 className={`text-black dark:text-white ${isProfile && "825:inline hidden"}`}>
                             {item?.purchased} Students
                         </h4>
                     </div>
                     <div className='flex w-full item-center justify-between pt-2'>
                         <div className='flex'>
-                            <h3 className='text-blue-500'>{item?.price}</h3>
+                            <h3 className='text-blue-500'> &#8377;. {item?.price}</h3>
                             <h5 className={`pl-3 mt-[-5px] text-[crimson] opacity-80 line-through text-[14px]`}>
-                                {item?.estimatedPrice}
+                                &#8377;. {item?.estimatedPrice}
                             </h5>
                         </div>
                         <div className='flex'>
