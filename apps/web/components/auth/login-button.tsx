@@ -15,7 +15,6 @@ interface LoginButtonProps {
 export const LoginButton = ({
     children,
     mode,
-    asChild,
     open,
     setOpen
 }: LoginButtonProps) => {

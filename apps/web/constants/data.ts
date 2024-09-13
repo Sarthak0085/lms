@@ -1,6 +1,7 @@
 import { NavItem } from "@/types";
 import { UserRole, UserStatus } from "@repo/db/types";
-import { CircuitBoardIcon, LayoutDashboardIcon, LogOutIcon, User, User2Icon } from "@repo/ui/icon";
+import { BadgePlusIcon, BiCategory, CircuitBoardIcon, LayoutDashboardIcon, LogOutIcon, User, User2Icon } from "@repo/ui/icon";
+import { ListVideoIcon, PiUsersFour } from "../../../packages/ui/src/icons";
 
 export const navItems: NavItem[] = [
     {
@@ -12,25 +13,25 @@ export const navItems: NavItem[] = [
     {
         title: 'Users',
         href: '/admin/users',
-        icon: User,
+        icon: PiUsersFour,
         label: 'users'
     },
     {
         title: 'Courses',
         href: '/admin/courses',
-        icon: User,
+        icon: ListVideoIcon,
         label: 'courses'
     },
     {
         title: 'Create Course',
         href: '/admin/create-course',
-        icon: User,
+        icon: BadgePlusIcon,
         label: 'create-course'
     },
     {
         title: 'Categories',
         href: '/admin/categories',
-        icon: User,
+        icon: BiCategory,
         label: 'categories'
     },
     // {

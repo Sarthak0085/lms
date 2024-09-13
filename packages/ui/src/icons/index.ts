@@ -67,7 +67,8 @@ import {
     FileIcon,
     CirclePlayIcon,
     ListVideo,
-    ListVideoIcon
+    ListVideoIcon,
+    BadgePlusIcon
 } from "lucide-react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import {
@@ -80,13 +81,14 @@ import {
     AiOutlineDelete,
 } from "react-icons/ai";
 import { BsStarHalf, BsLink45Deg } from "react-icons/bs";
-import { BiPencil } from "react-icons/bi";
+import { BiPencil, BiCategory } from "react-icons/bi";
 import { SiCoursera } from "react-icons/si";
 import { MdOutlineEmail, MdDrafts } from "react-icons/md";
 import { IoMdNotificationsOutline, IoMdCheckmark, IoIosCheckmarkCircleOutline } from "react-icons/io"
 import { RxArrowRight, RxArrowLeft, RxCross1 } from "react-icons/rx";
 import { RiAddCircleLine } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
+import { TbCategoryPlus } from "react-icons/tb";
 import {
     PiArrowFatLinesDown,
     PiArrowFatLinesUp,
@@ -94,6 +96,7 @@ import {
     PiArrowFatLinesDownFill
 } from "react-icons/pi";
 import { LiaComments } from "react-icons/lia";
+import { PiUsersFour } from "react-icons/pi";
 
 export {
     FaGithub,
@@ -190,5 +193,9 @@ export {
     LiaComments,
     CirclePlayIcon,
     ListVideo,
-    ListVideoIcon
+    ListVideoIcon,
+    BiCategory,
+    PiUsersFour,
+    TbCategoryPlus,
+    BadgePlusIcon
 }

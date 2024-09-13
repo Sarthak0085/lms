@@ -25,6 +25,7 @@ import {
     type VideoProgress,
     type MarkAsCompleted,
     type DemoMetadata,
+    type Purchase
 } from "@prisma/client";
 
 export {
@@ -53,5 +54,6 @@ export {
     DemoMetadata,
     VideoMetadata,
     VideoProgress,
-    MarkAsCompleted
+    MarkAsCompleted,
+    Purchase
 }

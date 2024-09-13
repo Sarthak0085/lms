@@ -36,6 +36,7 @@ model User {
   videoProgress         VideoProgress[]
   markAsCompleted       MarkAsCompleted[]
   Review                Review[]
+  purchases             Purchase[]
 }
 
 model Account {
@@ -141,6 +142,7 @@ model Course {
   prerequisites  Prerequisite[]
   reviews        Review[]
   certificate    Certificate[]
+  purchases      Purchase[]
 
   @@map("courses")
 }
@@ -219,6 +221,21 @@ model Link {
 
   contentId String
   content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+model Purchase {
+  id         String   @id @default(cuid())
+  userId     String
+  courseId   String
+  amount     Float
+  discount   Float?
+  finalPrice Float
+  createdAt  DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
 }
 
 model MarkAsCompleted {

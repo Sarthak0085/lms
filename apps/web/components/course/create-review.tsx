@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from "@repo/ui"
 import { AiFillStar, AiOutlineStar } from "@repo/ui/icon"
 import { useState } from "react"
 
-export const Review = ({ courseId, user }) => {
+export const CreateReview = ({ courseId, user }) => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
     return (

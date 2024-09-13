@@ -79,6 +79,13 @@ export const getCourseById = async (id: string) => {
             include: {
                 benefits: true,
                 prerequisites: true,
+                reviews: {
+                    include: {
+                        user: true,
+                    }
+                },
+                purchases: true,
+                demoMetadata: true,
             }
         });
 
@@ -86,16 +93,6 @@ export const getCourseById = async (id: string) => {
             data
         }
     } catch (error) {
-        // if (error instanceof CustomError) {
-        //     return {
-        //         error: error.message,
-        //         code: error.code,
-        //     };
-        // }
-        // return {
-        //     error: "An unexpected error occurred.",
-        //     code: 500,
-        // };
         return {
             data: null
         }
