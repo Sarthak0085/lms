@@ -70,7 +70,7 @@ import {
     ListVideoIcon,
     BadgePlusIcon
 } from "lucide-react";
-import { RiLockPasswordLine } from "react-icons/ri";
+import { RiLockPasswordLine, RiQuestionAnswerLine, RiQuestionnaireLine } from "react-icons/ri";
 import {
     AiOutlineLogout,
     AiOutlineCamera,
@@ -197,5 +197,7 @@ export {
     BiCategory,
     PiUsersFour,
     TbCategoryPlus,
-    BadgePlusIcon
+    BadgePlusIcon,
+    RiQuestionAnswerLine,
+    RiQuestionnaireLine
 }

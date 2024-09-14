@@ -4,12 +4,11 @@ import * as React from "react"
 import { type ColumnDef } from "@tanstack/react-table"
 import { Avatar, AvatarFallback, AvatarImage, Checkbox } from "@repo/ui"
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header"
-import { Content, Question, User } from "@repo/db/types"
+import { Answer, Question, User } from "@repo/db/types"
 import { formatDate } from "@/lib/utils"
-import { QuestionsTableRowActions } from "./question-table-row-actions"
-import Image from "next/image"
+import { AnswersTableRowActions } from "./answer-table-row-actions"
 
-export const getColumns = (): ColumnDef<Question>[] => {
+export const getColumns = (): ColumnDef<Answer>[] => {
     return [
         {
             id: "select",
@@ -38,7 +37,7 @@ export const getColumns = (): ColumnDef<Question>[] => {
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Question Id" />
+                <DataTableColumnHeader column={column} title="Answer Id" />
             ),
             cell: ({ row }) => <div className="w-20">{(row.getValue("id") as string).slice(0, 10)}</div>,
             enableSorting: false,
@@ -87,23 +86,16 @@ export const getColumns = (): ColumnDef<Question>[] => {
             enableSorting: false,
         },
         {
-            accessorKey: "onContent",
+            accessorKey: "question",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Section" />
+                <DataTableColumnHeader column={column} title="Question" />
             ),
             cell: ({ row }) => {
-                const section = row?.getValue("onContent") as Content;
+                const question = row?.getValue("question") as Question;
                 return (
                     <div className="flex items-center space-x-2">
-                        <Image
-                            src={section?.thumbnail ?? ""}
-                            alt="Thumbnail"
-                            width={30}
-                            height={30}
-                            className="w-[30px] h-[30px] rounded-full"
-                        />
                         <span className="max-w-[31.25rem] truncate font-medium">
-                            {section?.title}
+                            {question?.content}
                         </span>
                     </div>
                 )
@@ -166,7 +158,7 @@ export const getColumns = (): ColumnDef<Question>[] => {
             id: "actions",
             cell: ({ row }) => (
                 <div className="flex items-center justify-center">
-                    <QuestionsTableRowActions row={row} />
+                    <AnswersTableRowActions row={row} />
                 </div>
             ),
             size: 40,

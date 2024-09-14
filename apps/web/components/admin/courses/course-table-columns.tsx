@@ -38,7 +38,7 @@ export const getColumns = (): ColumnDef<Course>[] => {
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="User Id" />
+                <DataTableColumnHeader column={column} title="Course Id" />
             ),
             cell: ({ row }) => <div className="w-20">{(row.getValue("id") as string).slice(0, 10)}</div>,
             enableSorting: false,
