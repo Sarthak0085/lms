@@ -1,3 +1,4 @@
+import { domain } from "@/lib/domain";
 import { Course } from "@repo/db/types";
 import { Button, toast } from "@repo/ui";
 import { ReloadIcon } from "@repo/ui/icon";
@@ -11,7 +12,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface CheckoutFormProps {
-    stripePromise: string;
+    stripePromise?: string;
     data: Course;
     amount: number;
     estimatedPrice?: number | null;
@@ -73,11 +74,15 @@ export const CheckoutForm = ({ stripePromise, data, amount, estimatedPrice }: Ch
         }
 
         setIsLoading(true);
+        elements.submit();
 
         const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             clientSecret,
-            redirect: "if_required"
+            redirect: "if_required",
+            confirmParams: {
+                return_url: `${domain}/confirmation`
+            }
         });
 
         if (error?.type === "card_error" || error?.type === "validation_error") {
@@ -109,21 +114,22 @@ export const CheckoutForm = ({ stripePromise, data, amount, estimatedPrice }: Ch
     console.log(stripe, elements, clientSecret);
 
 
-    // if (!stripe || !elements || !clientSecret) {
-    //     return (
-    //         <div className="flex items-center h-full justify-center">
-    //             <ReloadIcon className="size-16 text-blue-600 animate-spin " />
-    //             <span className="sr-only">Loading...</span>
-    //         </div>
-    //     )
-    // }
+    if (!stripe || !elements || !clientSecret) {
+        return (
+            <div className="flex items-center h-full justify-center">
+                <ReloadIcon className="size-16 text-blue-600 animate-spin " />
+                <span className="sr-only">Loading...</span>
+            </div>
+        )
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className=" w-full h-full flex flex-col items-center justify-center" onSubmit={handleSubmit}>
             {clientSecret && <PaymentElement />}
             <Button
                 type="submit"
                 variant={"primary"}
+                className="mt-4"
                 disabled={!stripe || !elements || isLoading}
             >
                 {isLoading ?
@@ -133,7 +139,7 @@ export const CheckoutForm = ({ stripePromise, data, amount, estimatedPrice }: Ch
                         />
                         Paying...
                     </>
-                    : `Pay ₹.${amount}`
+                    : `Pay ₹. ${amount}`
                 }
             </Button>
             {message &&

@@ -2,33 +2,42 @@
 
 import * as React from "react"
 import { type Row } from "@tanstack/react-table"
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, toast } from "@repo/ui"
-import { User } from "@repo/db/types"
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+    Button,
+    toast
+} from "@repo/ui"
+import { Question } from "@repo/db/types"
 import { ReloadIcon, TrashIcon } from "@repo/ui/icon"
-import { deleteUsers } from "@/actions/user/delete-user"
+import { Icons } from "@/components/icons"
+import { deleteQuestions } from "@/actions/questions/delete-questions"
 
-
-interface DeleteUsersDialogProps
-    extends React.ComponentPropsWithoutRef<typeof Dialog> {
-    users: Row<User>["original"][]
+interface DeleteQuestionsDialogProps
+    extends React.ComponentPropsWithoutRef<typeof AlertDialog> {
+    questions: Row<Question>["original"][]
     showTrigger?: boolean
     onSuccess?: () => void
 }
 
-export const DeleteUsersDialog = ({
-    users,
+export const DeleteQuestionsDialog = ({
+    questions,
     showTrigger = true,
     onSuccess,
     ...props
-}: DeleteUsersDialogProps) => {
+}: DeleteQuestionsDialogProps) => {
     const [isPending, startTransition] = React.useTransition()
 
     const onDelete = () => {
-        console.log({ ids: users.map((user) => user.id) });
-        onSuccess?.();
         startTransition(async () => {
-            deleteUsers({
-                ids: users.map((user) => user.id),
+            deleteQuestions({
+                ids: questions.map((question) => question.id),
             }).then((data) => {
                 if (data.error) {
                     toast({
@@ -51,35 +60,35 @@ export const DeleteUsersDialog = ({
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with deleting the user.",
+                    description: "There was a problem with deleting the question.",
                 });
             })
         })
     }
 
     return (
-        <Dialog {...props}>
+        <AlertDialog {...props}>
             {showTrigger ? (
-                <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
+                <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="sm">
                         <TrashIcon className="mr-2 size-4" aria-hidden="true" />
-                        Delete ({users.length})
+                        Delete ({questions.length})
                     </Button>
-                </DialogTrigger>
+                </AlertDialogTrigger>
             ) : null}
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently delete your{" "}
-                        <span className="font-medium">{users.length}</span>
-                        {users.length === 1 ? " user" : " users"} from our servers.
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="gap-2 sm:space-x-0">
-                    <DialogClose asChild>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete {" "}
+                        <span className="font-medium">{questions.length}</span>
+                        {questions.length === 1 ? " question" : " questions"} from our servers.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="gap-2 sm:space-x-0">
+                    <AlertDialogCancel asChild>
                         <Button variant="outline">Cancel</Button>
-                    </DialogClose>
+                    </AlertDialogCancel>
                     <Button
                         aria-label="Delete selected rows"
                         variant="destructive"
@@ -94,8 +103,8 @@ export const DeleteUsersDialog = ({
                         )}
                         Delete
                     </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
-}
+};

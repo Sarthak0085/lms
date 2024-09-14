@@ -4,21 +4,20 @@
 import * as React from "react"
 import { type DataTableFilterField } from "@/types"
 import { useDataTable } from "@/hooks/use-data-table"
-import { getColumns } from "./user-table-columns"
-import { User, UserRole, UserStatus } from "@repo/db/types"
+import { Question } from "@repo/db/types"
 import { DataTable } from "@/components/table/data-table"
 import { DataTableToolbar } from "@/components/table/data-table-toolbar"
-import { UsersTableToolbarActions } from "./users-table-toolbar-actions"
-import { getRoleIcon, getStatusIcon } from "@/lib/utils"
-import { getUsers } from "@/actions/user/get-users"
+import { getColumns } from "./question-table-columns"
+import { QuestionsTableToolbarActions } from "./questions-table-toolbar-actions"
+import { getQuestions } from "@/actions/questions/get-questions"
 
-interface UsersTableProps {
-    usersPromise: ReturnType<typeof getUsers>
+interface QuestionsTableProps {
+    questionsPromise: ReturnType<typeof getQuestions>
 }
 
-export const UsersTable = ({ usersPromise }: UsersTableProps) => {
+export const QuestionsTable = ({ questionsPromise }: QuestionsTableProps) => {
 
-    const { data, pageCount } = React.use(usersPromise)
+    const { data, pageCount } = React.use(questionsPromise);
 
     // Memoize the columns so they don't re-render on every render
     const columns = React.useMemo(() => getColumns(), [])
@@ -34,31 +33,11 @@ export const UsersTable = ({ usersPromise }: UsersTableProps) => {
      * @prop {React.ReactNode} [icon] - An optional icon to display next to the label.
      * @prop {boolean} [withCount] - An optional boolean to display the count of the filter option.
      */
-    const filterFields: DataTableFilterField<User>[] = [
+    const filterFields: DataTableFilterField<Question>[] = [
         {
-            label: "Name",
-            value: "name",
-            placeholder: "Filter names...",
-        },
-        {
-            label: "Status",
-            value: "status",
-            options: Object.values(UserStatus).map((status: UserStatus) => ({
-                label: status?.toUpperCase(),
-                value: status,
-                icon: getStatusIcon(status),
-                withCount: true,
-            })),
-        },
-        {
-            label: "Role",
-            value: "role",
-            options: Object.values(UserRole).map((role: UserRole) => ({
-                label: role,
-                value: role,
-                icon: getRoleIcon(role),
-                withCount: true,
-            })),
+            label: "Content",
+            value: "content",
+            placeholder: "Filter content...",
         },
     ]
 
@@ -81,7 +60,7 @@ export const UsersTable = ({ usersPromise }: UsersTableProps) => {
             table={table}
         >
             <DataTableToolbar table={table} filterFields={filterFields}>
-                <UsersTableToolbarActions table={table} />
+                <QuestionsTableToolbarActions table={table} />
             </DataTableToolbar>
         </DataTable>
     )

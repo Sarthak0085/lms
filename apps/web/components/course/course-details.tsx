@@ -15,15 +15,24 @@ import { useRouter } from "next/navigation";
 import { Reviews } from "./reviews";
 import { LoginButton } from "../auth/login-button";
 import { getCourseById } from "@/actions/course/get-course";
+import { loadStripe } from "@stripe/stripe-js";
 
 interface CourseDetailsProps {
     data: ReturnType<typeof getCourseById>;
     stripePromise: any;
 }
 
+// if (process.env.STRIPE_PUBLISHABLE_KEY === undefined) {
+//     throw new Error("Stripe Publishable Key is not defined");
+// }
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
+console.log('Stripe Publishable Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+
 export const CourseDetails = ({
     data,
-    stripePromise,
+    // stripePromise,
 }: CourseDetailsProps) => {
     const value = React.use(data);
     const course = value?.data;
@@ -31,7 +40,6 @@ export const CourseDetails = ({
     const user = useCurrentUser();
     const [open, setOpen] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
-    const [clientSecret, setClientSecret] = useState("");
     const discountedPercentage = (
         ((Number(course?.estimatedPrice) - course?.price!) / course?.price!) *
         100
@@ -46,6 +54,7 @@ export const CourseDetails = ({
             setOpen(true);
         }
     };
+    console.log(stripePromise);
 
     return (
         <div>
@@ -192,7 +201,7 @@ export const CourseDetails = ({
                                     amount: course?.price,
                                     currency: "inr",
                                 }}>
-                                    <CheckoutForm data={course!} stripePromise={stripePromise} amount={course?.price!} estimatedPrice={course?.estimatedPrice} />
+                                    <CheckoutForm data={course!} amount={course?.price!} estimatedPrice={course?.estimatedPrice} />
                                 </Elements>
                             }
                         </div>

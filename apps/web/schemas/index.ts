@@ -168,6 +168,7 @@ export const SearchParamsSchema = z.object({
     sort: z.string().optional(),
     name: z.string().optional(),
     title: z.string().optional(),
+    content: z.string().optional(),
     slug: z.string().optional(),
     category: z.string().optional(),
     price: z.number().optional(),

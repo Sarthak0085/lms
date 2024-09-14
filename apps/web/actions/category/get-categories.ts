@@ -53,7 +53,7 @@ export const getCategories = async (input: z.infer<typeof SearchParamsSchema>) =
                     user: true,
                 }
             }),
-            db.user.count({ where: cleanedFilters }),
+            db.category.count({ where: cleanedFilters }),
         ]);
 
         const pageCount = Math.ceil(total / per_page)

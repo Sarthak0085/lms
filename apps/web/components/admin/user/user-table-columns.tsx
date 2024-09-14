@@ -3,7 +3,7 @@
 import * as React from "react"
 import { type ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@repo/ui"
-import { DataTableColumnHeader } from "@/components/admin/table/data-table-column-header"
+import { DataTableColumnHeader } from "@/components/table/data-table-column-header"
 import { User, UserRole, UserStatus } from "@repo/db/types"
 import { formatDate, getRoleIcon, getStatusIcon } from "@/lib/utils"
 import { cn } from "@repo/ui/lib/utils"

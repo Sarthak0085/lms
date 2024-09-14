@@ -3,11 +3,11 @@
 import * as React from "react"
 import type { DataTableFilterField } from "@/types"
 import type { Table } from "@tanstack/react-table"
-import { DataTableViewOptions } from "@/components/admin/table/data-table-view-options"
+import { DataTableViewOptions } from "@/components/table/data-table-view-options"
 import { cn } from "@repo/ui/lib/utils"
 import { Button, Input } from "@repo/ui"
 import { Cross2Icon } from "@repo/ui/icon"
-import { DataTableFacetedFilter } from "@/components/admin/table/data-table-faceted-filter";
+import { DataTableFacetedFilter } from "@/components/table/data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData>
     extends React.HTMLAttributes<HTMLDivElement> {
