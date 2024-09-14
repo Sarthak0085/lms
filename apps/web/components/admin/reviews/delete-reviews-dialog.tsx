@@ -14,29 +14,29 @@ import {
     Button,
     toast
 } from "@repo/ui"
-import { Answer } from "@repo/db/types"
+import { Review } from "@repo/db/types"
 import { ReloadIcon, TrashIcon } from "@repo/ui/icon"
-import { deleteAnswers } from "@/actions/answers/delete-answers"
+import { deleteQuestions } from "@/actions/questions/delete-questions"
 
-interface DeleteAnswersDialogProps
+interface DeleteReviewsDialogProps
     extends React.ComponentPropsWithoutRef<typeof AlertDialog> {
-    answers: Row<Answer>["original"][]
+    reviews: Row<Review>["original"][]
     showTrigger?: boolean
     onSuccess?: () => void
 }
 
-export const DeleteAnswersDialog = ({
-    answers,
+export const DeleteReviewsDialog = ({
+    reviews,
     showTrigger = true,
     onSuccess,
     ...props
-}: DeleteAnswersDialogProps) => {
+}: DeleteReviewsDialogProps) => {
     const [isPending, startTransition] = React.useTransition()
 
     const onDelete = () => {
         startTransition(async () => {
-            deleteAnswers({
-                ids: answers.map((answer) => answer.id),
+            deleteQuestions({
+                ids: reviews.map((review) => review.id),
             }).then((data) => {
                 if (data.error) {
                     toast({
@@ -59,7 +59,7 @@ export const DeleteAnswersDialog = ({
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
-                    description: "There was a problem with deleting the question.",
+                    description: "There was a problem with deleting the review.",
                 });
             })
         })
@@ -71,7 +71,7 @@ export const DeleteAnswersDialog = ({
                 <AlertDialogTrigger asChild>
                     <Button variant="destructive" size="sm">
                         <TrashIcon className="mr-2 size-4" aria-hidden="true" />
-                        Delete ({answers.length})
+                        Delete ({reviews.length})
                     </Button>
                 </AlertDialogTrigger>
             ) : null}
@@ -80,8 +80,8 @@ export const DeleteAnswersDialog = ({
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently delete {" "}
-                        <span className="font-medium">{answers.length}</span>
-                        {answers.length === 1 ? " answer" : " answers"} from our servers.
+                        <span className="font-medium">{reviews.length}</span>
+                        {reviews.length === 1 ? " review" : " reviews"} from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="gap-2 sm:space-x-0">

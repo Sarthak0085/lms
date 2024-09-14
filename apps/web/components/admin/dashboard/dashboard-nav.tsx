@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 import { cn } from '@repo/ui/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@repo/ui';
+import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@repo/ui';
 
 interface DashboardNavProps {
     items: NavItem[];
@@ -21,6 +21,7 @@ export const DashboardNav = ({
     isMobileNav = false
 }: DashboardNavProps) => {
     const path = usePathname();
+    const router = useRouter();
 
     if (!items?.length) {
         return null;
@@ -37,25 +38,27 @@ export const DashboardNav = ({
                         item.href && (
                             <Tooltip key={index}>
                                 <TooltipTrigger asChild>
-                                    <Link
-                                        href={item.disabled ? '/' : item.href}
+                                    <Button
+                                        variant={path === item.href ? "primary" : "ghost"}
+                                        // href={item.disabled ? '/' : item.href}
                                         className={cn(
-                                            'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
+                                            'flex !items-center !justify-start gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
                                             path === item.href ? 'bg-accent' : 'transparent',
                                             item.disabled && 'cursor-not-allowed opacity-80'
                                         )}
                                         onClick={() => {
                                             if (setOpen) setOpen(false);
+                                            router.push(item?.href!)
                                         }}
                                     >
-                                        <item.icon className={`ml-3 size-5 flex-none`} />
+                                        <item.icon className={`size-5 flex-none`} />
 
                                         {isMobileNav || (!isMinimized && !isMobileNav) ? (
                                             <span className="mr-2 truncate">{item.title}</span>
                                         ) : (
                                             ''
                                         )}
-                                    </Link>
+                                    </Button>
                                 </TooltipTrigger>
                                 <TooltipContent
                                     align="center"

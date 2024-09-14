@@ -1,6 +1,6 @@
 import { NavItem } from "@/types";
 import { UserRole, UserStatus } from "@repo/db/types";
-import { BadgePlusIcon, BiCategory, CircuitBoardIcon, LayoutDashboardIcon, LogOutIcon, RiQuestionAnswerLine, RiQuestionnaireLine, User, User2Icon } from "@repo/ui/icon";
+import { BadgePlusIcon, BiCategory, CircuitBoardIcon, LayoutDashboardIcon, LogOutIcon, MdOutlineReviews, RiQuestionAnswerLine, RiQuestionnaireLine, User, User2Icon } from "@repo/ui/icon";
 import { ListVideoIcon, PiUsersFour } from "../../../packages/ui/src/icons";
 
 export const navItems: NavItem[] = [
@@ -45,6 +45,12 @@ export const navItems: NavItem[] = [
         href: '/admin/profile',
         icon: User2Icon,
         label: 'profile'
+    },
+    {
+        title: 'Reviews',
+        href: '/admin/reviews',
+        icon: MdOutlineReviews,
+        label: 'reviews'
     },
     {
         title: 'Questions',
